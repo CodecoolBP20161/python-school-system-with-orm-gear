@@ -3,7 +3,7 @@ from peewee import *
 # Configure your database connection here
 # database name = should be your username on your laptop
 # database user = should be your username on your laptop
-db = PostgresqlDatabase('6_teamwork_week', user='kakacsu')
+db = PostgresqlDatabase('6_teamwork_week', **{'port': 5432, 'password': '753951', 'user': 'szilard', 'host': 'localhost'})
 
 
 class BaseModel(Model):
@@ -13,17 +13,26 @@ class BaseModel(Model):
 
 
 class Person(BaseModel):
-        first_name = CharField()
-        last_name = CharField()
-        school = CharField(default=' ', null=True)
-
-
-class Applicant(Person):
-        code = CharField(default=' ', null=True)
-        city = TextField()
-        status = default = 0
+    first_name = CharField()
+    last_name = CharField()
+    school = CharField(default=' ', null=True)
 
 
 class City(BaseModel):
-        applicant_city = TextField()
-        school = TextField()
+    applicant_city = TextField()
+    school = TextField()
+
+
+class Applicant(Person):
+    code = CharField(default=' ', null=True)
+    city = TextField()
+    status = CharField(default='new')
+
+
+    def update_school(self):
+        school_get = City.get(City.applicant_city == self.city).school
+        update_query = Applicant.update(school=school_get).where(Applicant.id == self.id)
+        update_query.execute()
+
+
+

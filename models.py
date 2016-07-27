@@ -1,4 +1,5 @@
 from peewee import *
+import random
 
 # Configure your database connection here
 # database name = should be your username on your laptop
@@ -15,7 +16,7 @@ class BaseModel(Model):
 class Person(BaseModel):
     first_name = CharField()
     last_name = CharField()
-    school = CharField(default=' ', null=True)
+    school = CharField(default='', null=True)
 
 
 class City(BaseModel):
@@ -24,14 +25,19 @@ class City(BaseModel):
 
 
 class Applicant(Person):
-    code = CharField(default=' ', null=True)
+    code = CharField(default=None, null=True)
     city = TextField()
     status = CharField(default='new')
-
 
     def update_school(self):
         school_get = City.get(City.applicant_city == self.city).school
         update_query = Applicant.update(school=school_get).where(Applicant.id == self.id)
+        update_query.execute()
+
+    def generate_code(self):
+        # get_codes = Applicant.select().where(~(Applicant.code >> None)).code
+        new_code = "".join([self.first_name[:2], self.last_name[:2], str(random.randint(100, 1000)), self.city[:2].upper()])
+        update_query = Applicant.update(code=new_code, status="processing").where(Applicant.id == self.id)
         update_query.execute()
 
 

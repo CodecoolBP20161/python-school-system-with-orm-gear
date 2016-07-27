@@ -22,16 +22,4 @@ class Code():
                     code_generated += str(j)
                 if code_generated not in list_of_codes:
                     break
-
-# def gen_code(l):
-#     while True:
-#         code_generated = "bp"
-#         for i in range(1):
-#             j = random.randrange(0, 10)
-#             code_generated += str(j)
-#         if code_generated not in l:
-#             break
-#     return code_generated
-#
-# l = ['bp1', 'bp2', 'bp3', 'bp4', 'bp5', 'bp6', 'bp7']
-# print(gen_code(l))
+            applicant.code = code_generated

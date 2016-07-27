@@ -27,6 +27,3 @@ class Applicant(Person):
 class City(BaseModel):
         applicant_city = TextField()
         school = TextField()
-
-        class Meta:
-            database = db

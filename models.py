@@ -15,11 +15,11 @@ class BaseModel(Model):
 class Person(BaseModel):
         first_name = CharField()
         last_name = CharField()
-        school = default = (), 0 = True
+        school = CharField(default=' ', null=True)
 
 
 class Applicant(Person):
-        code = default = (), 0 = True
+        code = CharField(default=' ', null=True)
         city = TextField()
         status = default = 0
 

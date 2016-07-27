@@ -3,7 +3,18 @@ from peewee import *
 # Configure your database connection here
 # database name = should be your username on your laptop
 # database user = should be your username on your laptop
-db = PostgresqlDatabase('6_teamwork_week', user='kakacsu')
+
+
+def read_from_txt():
+    import os.path
+    scriptpath = os.path.dirname(__file__)
+    filename = os.path.join(scriptpath, 'user.txt')
+    with open(filename) as f:
+        data = f.read()
+        data = data.strip("\n")
+        return data
+
+db = PostgresqlDatabase('6_teamwork_week', user=read_from_txt())
 
 
 class BaseModel(Model):

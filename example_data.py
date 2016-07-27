@@ -11,7 +11,7 @@ applicant_dict = [{"first_name": "Janos", "last_name": "Kiss", "city": "Eger"},
 
 city_dict = [{"applicant_city": "Szentendre", "school": "Budapest"},
              {"applicant_city": "Eger", "school": "Miskolc"},
-             {"applicant_city": "Ostrava", "school": "Warsaw"},
+             {"applicant_city": "Ostrava", "school": "Krakow"},
              {"applicant_city": "Budapest", "school": "Budapest"}
              ]
 

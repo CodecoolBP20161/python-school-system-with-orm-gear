@@ -3,7 +3,7 @@ from peewee import *
 # Configure your database connection here
 # database name = should be your username on your laptop
 # database user = should be your username on your laptop
-db = PostgresqlDatabase('6_teamwork_weak', user='USER')
+db = PostgresqlDatabase('6_teamwork_week', user='kakacsu')
 
 
 class BaseModel(Model):
@@ -15,13 +15,13 @@ class BaseModel(Model):
 class Person(BaseModel):
         first_name = CharField()
         last_name = CharField()
-        school = CharField()
+        school = default = (), 0 = True
 
 
 class Applicant(Person):
-        code = CharField()
+        code = default = (), 0 = True
         city = TextField()
-        status = TextField()
+        status = default = 0
 
 
 class City(BaseModel):

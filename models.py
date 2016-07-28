@@ -1,6 +1,7 @@
 from peewee import *
 import random
 
+
 # Configure your database connection here
 # database name = should be your username on your laptop
 # database user = should be your username on your laptop
@@ -14,12 +15,15 @@ def read_from_txt():
         data = data.strip("\n")
         return data
 
-db = PostgresqlDatabase('6_teamwork_week', user=read_from_txt())
 
+# db = PostgresqlDatabase('6_teamwork_week', user=read_from_txt())
+db = PostgresqlDatabase('6_teamwork_week',
+                        **{'user': read_from_txt(), 'host': 'localhost', 'port': 5432, 'password': '753951'})
 
 
 class BaseModel(Model):
     """A base model that will use our Postgresql database"""
+
     class Meta:
         database = db
 
@@ -64,6 +68,6 @@ class Mentor(Person):
 
 class InterviewSlot(BaseModel):
     mentor = ForeignKeyField(Mentor, related_name='mentor_datas')
-    applicant = ForeignKeyField(Applicant, related_name='applicant_datas', default='', null=True)
-    detail = CharField(default='', null=True)
+    applicant = ForeignKeyField(Applicant, related_name='applicant_datas', default=None, null=True)
+    detail = CharField(default=None, null=True)
     time = DateTimeField()

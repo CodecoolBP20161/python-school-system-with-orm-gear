@@ -46,10 +46,10 @@ class Applicant(Person):
         update_query.execute()
 
     def generate_code(self):
-        # get_codes = Applicant.select().where(~(Applicant.code >> None)).code
-        new_code = "".join([self.first_name[:2], self.last_name[:2], str(random.randint(100, 1000)), self.city[:2].upper()])
+        get_codes = Applicant.select().where(~(Applicant.code >> None)).code
+        while True:
+            new_code = "".join([self.city[:2].upper(), str(random.randint(1000, 10000))])
+            if new_code not in get_codes:
+                break
         update_query = Applicant.update(code=new_code, status="processing").where(Applicant.id == self.id)
         update_query.execute()
-
-
-

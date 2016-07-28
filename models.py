@@ -65,8 +65,4 @@ class Mentor(Person):
 class InterviewSlot(BaseModel):
     mentor = ForeignKeyField(Mentor, related_name='mentor_datas')
     applicant = ForeignKeyField(Applicant, related_name='applicant_datas', default='', null=True)
-
-
-class Interview(BaseModel):
     detail = CharField(default='', null=True)
-    interview_slot = ForeignKeyField(InterviewSlot, related_name='interview_datas')

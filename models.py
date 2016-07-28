@@ -16,9 +16,9 @@ def read_from_txt():
         return data
 
 
-# db = PostgresqlDatabase('6_teamwork_week', user=read_from_txt())
-db = PostgresqlDatabase('6_teamwork_week',
-                        **{'user': read_from_txt(), 'host': 'localhost', 'port': 5432, 'password': '753951'})
+db = PostgresqlDatabase('6_teamwork_week', user=read_from_txt())
+# db = PostgresqlDatabase('6_teamwork_week',
+#                         **{'user': read_from_txt(), 'host': 'localhost', 'port': 5432, 'password': '753951'})
 
 
 class BaseModel(Model):
@@ -43,6 +43,10 @@ class Applicant(Person):
     code = CharField(default=None, null=True, unique=True)
     city = TextField()
     status = CharField(default='new')
+
+    @classmethod
+    def new_applicant(cls):
+        return Applicant.select().where(Applicant.status == "new")
 
     def update_school(self):
         school_get = City.get(City.applicant_city == self.city).school
@@ -71,3 +75,17 @@ class InterviewSlot(BaseModel):
     applicant = ForeignKeyField(Applicant, related_name='applicant_datas', default=None, null=True)
     detail = CharField(default=None, null=True)
     time = DateTimeField()
+
+    @classmethod
+    def get_free_slots(cls):
+        return InterviewSlot.select().where(cls.applicant >> None).order_by(cls.time)
+
+    def interviews(self, applicant):
+        if applicant.school == self.mentor.school and applicant.status == "new":
+            self.applicant = applicant
+            self.save()
+            applicant.status = "processing"
+            applicant.save()
+            print(self.time, "1", self.mentor.school, self.applicant.first_name, applicant.first_name)
+
+

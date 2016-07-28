@@ -16,6 +16,13 @@ class Main:
             for applicant in get_applicant:
                 applicant.generate_code()
 
+    @staticmethod
+    def interview():
+        for a in Applicant.new_applicant():
+            for i in InterviewSlot.get_free_slots():
+                i.interviews(a)
+
 Main.register()
+Main.interview()
 
 

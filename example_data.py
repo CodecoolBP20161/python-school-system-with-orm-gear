@@ -28,13 +28,6 @@ mentor_dict = [{"first_name": "Tamás", "last_name": "Tompa", "school": "Budapes
                {"first_name": "Mateus", "last_name": "Ostafil", "school": "Krakow"}
                ]
 
-# mentor1 = Mentor.create(first_name="Tamás", last_name="Tompa", school="Budapest")
-# mentor2 = Mentor.create(first_name="Dániel", last_name="Salamon", school="Budapest")
-# mentor3 = Mentor.create(first_name="Miklós", last_name="Beöthy", school="Budapest")
-# mentor4 = Mentor.create(first_name="Attila", last_name="Molnár", school="Miskolc")
-# mentor5 = Mentor.create(first_name="Mateus", last_name="Ostafil", school="Krakow")
-
-
 with db.atomic():
     Mentor.insert_many(mentor_dict).execute()
 

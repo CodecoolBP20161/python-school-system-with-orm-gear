@@ -14,7 +14,7 @@ def read_from_txt():
         data = data.strip("\n")
         return data
 
-db = PostgresqlDatabase('6_teamwork_week', user=read_from_txt())
+db = PostgresqlDatabase('6_teamwork_week', user=read_from_txt(), password='753951', host='localhost', port='5432')
 
 
 
@@ -36,20 +36,24 @@ class City(BaseModel):
 
 
 class Applicant(Person):
-    code = CharField(default=None, null=True)
+    code = CharField(default=None, null=True, unique=True)
     city = TextField()
     status = CharField(default='new')
 
     def update_school(self):
         school_get = City.get(City.applicant_city == self.city).school
-        update_query = Applicant.update(school=school_get).where(Applicant.id == self.id)
-        update_query.execute()
+        self.school = school_get
+        self.save()
 
     def generate_code(self):
-        get_codes = Applicant.select().where(~(Applicant.code >> None)).code
-        while True:
-            new_code = "".join([self.city[:2].upper(), str(random.randint(1000, 10000))])
-            if new_code not in get_codes:
-                break
-        update_query = Applicant.update(code=new_code, status="processing").where(Applicant.id == self.id)
-        update_query.execute()
+        get_codes = Applicant.select().where(~(Applicant.code >> None))
+        if get_codes:
+            not_unique = True
+            while not_unique is True:
+                new_code = "".join([self.city[:2].upper(), str(random.randint(1000, 10000))])
+                for code in get_codes:
+                    if new_code not in code.code:
+                        not_unique = False
+            self.code = new_code
+            self.save()
+

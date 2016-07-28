@@ -1,5 +1,9 @@
 from models import *
 from peewee import *
+import logging
+logger = logging.getLogger('peewee')
+logger.setLevel(logging.DEBUG)
+logger.addHandler(logging.StreamHandler())
 
 
 class Main:
@@ -18,9 +22,9 @@ class Main:
 
     @staticmethod
     def interview():
-        for a in Applicant.new_applicant():
+        for new in Applicant.new_applicant():
             for i in InterviewSlot.get_free_slots():
-                i.interviews(a)
+                i.interviews(new)
 
 Main.register()
 Main.interview()

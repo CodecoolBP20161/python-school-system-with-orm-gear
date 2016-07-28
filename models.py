@@ -1,24 +1,10 @@
 from peewee import *
 import random
+from read_from_text import *
 
-
-# Configure your database connection here
-# database name = should be your username on your laptop
-# database user = should be your username on your laptop
-
-def read_from_txt():
-    import os.path
-    scriptpath = os.path.dirname(__file__)
-    filename = os.path.join(scriptpath, 'user.txt')
-    with open(filename) as f:
-        data = f.read()
-        data = data.strip("\n")
-        return data
-
-
-db = PostgresqlDatabase('6_teamwork_week', user=read_from_txt())
-# db = PostgresqlDatabase('6_teamwork_week',
-#                         **{'user': read_from_txt(), 'host': 'localhost', 'port': 5432, 'password': '753951'})
+# db = PostgresqlDatabase('6_teamwork_week', user=Read_from_text.connect_data())
+db = PostgresqlDatabase('6_teamwork_week',
+                        **{'user': Read_from_text.connect_data(), 'host': 'localhost', 'port': 5432, 'password': '753951'})
 
 
 class BaseModel(Model):
@@ -86,6 +72,4 @@ class InterviewSlot(BaseModel):
             self.save()
             applicant.status = "processing"
             applicant.save()
-            print(self.time, "1", self.mentor.school, self.applicant.first_name, applicant.first_name)
-
 

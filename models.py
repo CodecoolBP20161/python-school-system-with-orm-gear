@@ -66,3 +66,4 @@ class InterviewSlot(BaseModel):
     mentor = ForeignKeyField(Mentor, related_name='mentor_datas')
     applicant = ForeignKeyField(Applicant, related_name='applicant_datas', default='', null=True)
     detail = CharField(default='', null=True)
+    time = DateTimeField()

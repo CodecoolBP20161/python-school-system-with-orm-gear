@@ -14,7 +14,7 @@ def read_from_txt():
         data = data.strip("\n")
         return data
 
-db = PostgresqlDatabase('6_teamwork_week', user=read_from_txt(), password='753951', host='localhost', port='5432')
+db = PostgresqlDatabase('6_teamwork_week', user=read_from_txt())
 
 
 
@@ -57,3 +57,16 @@ class Applicant(Person):
             self.code = new_code
             self.save()
 
+
+class Mentor(Person):
+    pass
+
+
+class InterviewSlot(BaseModel):
+    mentor = ForeignKeyField(Mentor, related_name='mentor_datas')
+    applicant = ForeignKeyField(Applicant, related_name='applicant_datas', default='', null=True)
+
+
+class Interview(BaseModel):
+    detail = CharField(default='', null=True)
+    interview_slot = ForeignKeyField(InterviewSlot, related_name='interview_datas')

@@ -41,9 +41,13 @@ class Example_data:
     def insert(cls):
         with db.atomic():
             Applicant.insert_many(cls.applicant_dict).execute()
+            print("Applicants created")
             City.insert_many(cls.city_dict).execute()
+            print("Cities created")
             Mentor.insert_many(cls.mentor_dict).execute()
+            print("Mentors created")
             InterviewSlot.insert_many(cls.interview_slot()).execute()
+            print("Interview slots created")
 
 
-Example_data.insert()
+# Example_data.insert()

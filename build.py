@@ -9,4 +9,8 @@ class Build:
     db.drop_tables([Person, Applicant, City, Mentor, InterviewSlot], safe=True)
     db.create_tables([Person, Applicant, City, Mentor, InterviewSlot], safe=True)
 
-Build()
+    # @staticmethod
+
+    print("Building tables...")
+
+# Build()

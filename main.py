@@ -1,10 +1,10 @@
 from models import *
 from build import *
 from example_data import *
-import logging
-logger = logging.getLogger('peewee')
-logger.setLevel(logging.DEBUG)
-logger.addHandler(logging.StreamHandler())
+# import logging
+# logger = logging.getLogger('peewee')
+# logger.setLevel(logging.DEBUG)
+# logger.addHandler(logging.StreamHandler())
 
 
 class Main:
@@ -20,6 +20,7 @@ class Main:
         if get_applicant:
             for applicant in get_applicant:
                 applicant.generate_code()
+                print(applicant.code, applicant.first_name, applicant.last_name, applicant.city, applicant.school, applicant.status)
 
     @staticmethod
     def interview():
@@ -27,9 +28,9 @@ class Main:
             for i in InterviewSlot.get_free_slots():
                 i.interviews(new)
 
+
+
 # Build()
 # Example_data.insert()
-Main.register()
-Main.interview()
-
-
+# Main.register()
+# Main.interview()

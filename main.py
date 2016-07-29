@@ -11,7 +11,7 @@ class Main:
 
     @staticmethod
     def register():
-        new_applicant = Applicant.select().where(Applicant.status == "new")
+        new_applicant = Applicant.new_applicant()
         if new_applicant:
             for applicant in new_applicant:
                 applicant.update_school()

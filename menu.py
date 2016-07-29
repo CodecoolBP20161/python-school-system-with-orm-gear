@@ -9,7 +9,7 @@ class Menu():
 
     @staticmethod
     def select_option():
-        available_choices = ['(1) Generate New Database', '(2) Display applicants', '(3) Application Details', '(4) Interview Details', '(0) Exit']
+        available_choices = ['(1) Generate New Database', '(2) Display Applicants', '(3) Application Details', '(4) Interview Details', '(0) Exit']
         menu_choice = None
         while menu_choice != '0':
             print('_______________________________________')

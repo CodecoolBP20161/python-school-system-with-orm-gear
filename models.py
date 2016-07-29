@@ -32,7 +32,7 @@ class Applicant(Person):
 
     @classmethod
     def new_applicant(cls):
-        return Applicant.select().where(Applicant.status == "new")
+        return cls.select().where(cls.status == "new")
 
     def update_school(self):
         school_get = City.get(City.applicant_city == self.city).school
@@ -50,6 +50,10 @@ class Applicant(Person):
                         not_unique = False
             self.code = new_code
             self.save()
+        else:
+            new_code = "".join([self.city[:2].upper(), str(random.randint(1000, 10000))])
+            self.code = new_code
+            self.save()
 
 
 class Mentor(Person):
@@ -64,7 +68,7 @@ class InterviewSlot(BaseModel):
 
     @classmethod
     def get_free_slots(cls):
-        return InterviewSlot.select().where(cls.applicant >> None).order_by(cls.time)
+        return cls.select().where(cls.applicant >> None).order_by(cls.time)
 
     def interviews(self, applicant):
         if applicant.school == self.mentor.school and applicant.status == "new":

@@ -1,5 +1,6 @@
 from models import *
-from peewee import *
+from build import *
+from example_data import *
 import logging
 logger = logging.getLogger('peewee')
 logger.setLevel(logging.DEBUG)
@@ -26,6 +27,8 @@ class Main:
             for i in InterviewSlot.get_free_slots():
                 i.interviews(new)
 
+# Build()
+# Example_data.insert()
 Main.register()
 Main.interview()
 

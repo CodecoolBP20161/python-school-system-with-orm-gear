@@ -48,7 +48,7 @@ class Example_data:
             print("Mentors created")
             InterviewSlot.insert_many(cls.interview_slot()).execute()
             print("Interview slots created")
-            print('_______________________________________')
+            print('_______________________________________\n')
 
 
 # Example_data.insert()

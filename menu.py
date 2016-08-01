@@ -7,6 +7,8 @@ from peewee import *
 
 class Menu():
 
+
+# too much information in one method let's separate it, and use only print functions move queries to models or main.py
     @staticmethod
     def select_option():
         available_choices = ['(1) Generate New Database', '(2) Display Applicants', '(3) Application Details', '(4) Interview Details', '(5) Update', '(0) Exit']

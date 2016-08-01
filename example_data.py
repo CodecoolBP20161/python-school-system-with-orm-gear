@@ -2,9 +2,9 @@
 
 from models import *
 from peewee import *
-from main import *
+# from main import *
 
-
+# lets make some more datas to get exceptions
 class Example_data:
     applicant_dict = [{"first_name": "Zita", "last_name": "Para", "city": "Eger"},
                       {"first_name": "Elek", "last_name": "Remek", "city": "Budapest"},

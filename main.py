@@ -3,8 +3,12 @@ from build import *
 from example_data import *
 import logging
 logger = logging.getLogger('peewee')
+hdlr = logging.FileHandler('app.log', mode='w')
+formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+hdlr.setFormatter(formatter)
+logger.addHandler(hdlr)
 logger.setLevel(logging.DEBUG)
-logger.addHandler(logging.StreamHandler())
+# logger.addHandler(logging.StreamHandler())
 
 # check logs for optimize and not to use querys here only on models
 # make experiments with related name and join queries
@@ -24,9 +28,7 @@ class Main:
 
     @staticmethod
     def interview():
-        for new in Applicant.new_applicant():
-            for i in InterviewSlot.get_free_slots():
-                i.interviews(new)
+        InterviewSlot.interviews()
 
 # Build()
 # Example_data.insert()

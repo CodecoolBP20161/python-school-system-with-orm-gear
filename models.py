@@ -72,9 +72,12 @@ class InterviewSlot(BaseModel):
     def get_free_slots(cls):
         return cls.select().where(cls.applicant >> None).order_by(cls.time)
 
-    def interviews(self, applicant):
-        if applicant.school == self.mentor.school and applicant.status == "new":
-            self.applicant = applicant
-            self.save()
-            applicant.status = "in progress"
-            applicant.save()
+    @classmethod
+    def interviews(cls):
+        for new in Applicant.new_applicant():
+            for i in cls.get_free_slots():
+                if new.school == i.mentor.school and new.status == "new":
+                    i.applicant = new
+                    i.save()
+                    new.status = "in progress"
+                    new.save()

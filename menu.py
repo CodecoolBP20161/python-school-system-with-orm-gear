@@ -9,8 +9,8 @@ class Menu():
 
 
 # too much information in one method let's separate it, and use only print functions move queries to models or main.py
-    @staticmethod
-    def select_option():
+    @classmethod
+    def select_option(cls):
         available_choices = ['(1) Generate New Database', '(2) Display Applicants', '(3) Application Details', '(4) Interview Details', '(5) Update', '(0) Exit']
         menu_choice = None
         while menu_choice != '0':
@@ -32,6 +32,8 @@ class Menu():
                 applicants = Applicant.select()
                 for applicant in applicants:
                     print(applicant.code, applicant.first_name, applicant.last_name, applicant.city, applicant.school, applicant.status)
+                cls.proba()
+
             if menu_choice == '3':
                 application_code = input('Please enter your Application Code: ')
                 try:
@@ -53,5 +55,23 @@ class Menu():
                 print('_______________________________________\n')
                 Main.register()
                 Main.interview()
+
+    @staticmethod
+    def proba():
+        mentor = Mentor.get(Mentor.first_name == "Tamás")
+        app = Applicant.select(Applicant, Mentor).join(Mentor, on=Applicant.school == Mentor.school).order_by()
+        apps = Applicant.select().where(Applicant.status == "in progress")
+        interview = InterviewSlot.get(InterviewSlot.mentor == mentor)
+        join = InterviewSlot.select(InterviewSlot, Applicant).join(Applicant).where(Applicant.status == "in progress")
+        for j in join:
+            print(j.applicant.school, j.applicant.first_name, j.time, j.mentor.first_name)
+        for m in mentor.mentor_datas:
+            print(m.time, m.mentor.first_name)
+        for a in app:
+            print(a.first_name, a.school.first_name)
+        for ai in apps:
+            for ad in ai.applicant_datas:
+                print(ad.time, ad.mentor.first_name)
+
 
 Menu.select_option()

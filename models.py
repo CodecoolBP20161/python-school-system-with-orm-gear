@@ -2,10 +2,12 @@ from peewee import *
 import random
 from read_from_text import *
 
-db = PostgresqlDatabase('6_teamwork_week', user=Read_from_text.connect_data())
-# db = PostgresqlDatabase('6_teamwork_week',
-#                         **{'user': Read_from_text.connect_data(), 'host': 'localhost', 'port': 5432, 'password': '753951'})
+# db = PostgresqlDatabase('6_teamwork_week', user=Read_from_text.connect_data())
+db = PostgresqlDatabase('6_teamwork_week',
+                        **{'user': Read_from_text.connect_data(), 'host': 'localhost', 'port': 5432, 'password': '753951'})
 
+# every query must be here and let's separate to classes to files
+# exception handling
 
 class BaseModel(Model):
     """A base model that will use our Postgresql database"""
@@ -70,9 +72,12 @@ class InterviewSlot(BaseModel):
     def get_free_slots(cls):
         return cls.select().where(cls.applicant >> None).order_by(cls.time)
 
-    def interviews(self, applicant):
-        if applicant.school == self.mentor.school and applicant.status == "new":
-            self.applicant = applicant
-            self.save()
-            applicant.status = "processing"
-            applicant.save()
+    @classmethod
+    def interviews(cls):
+        for new in Applicant.new_applicant():
+            for i in cls.get_free_slots():
+                if new.school == i.mentor.school and new.status == "new":
+                    i.applicant = new
+                    i.save()
+                    new.status = "in progress"
+                    new.save()

@@ -10,4 +10,5 @@ class Message:
         message_dict = {"subject": subject,
                         "body": message
                         }
+                      
         return message_dict

@@ -22,6 +22,9 @@ from emails import *
 
 
 class Main:
+
+    user_data = {}
+
     @staticmethod
     def register():
         new_applicant = Applicant.new_applicant()
@@ -36,23 +39,22 @@ class Main:
                 print(applicant.code, applicant.first_name, applicant.last_name, applicant.city, applicant.school,
                       applicant.status, applicant.email)
 
-    @staticmethod
-    def send_mail():
-        email_to_applicants = Applicant.get_assigned_applicants()
-        user_data = User.create_file()
-        for applicant in email_to_applicants:
-            message_dict = Message.new_applicant(applicant.first_name, applicant.code, applicant.school)
-            Email.send_email(applicant.email, **user_data, **message_dict)
+    @classmethod
+    def get_user_email_data(cls):
+        cls.user_data = User.create_file()
 
-    @staticmethod
-    def send_email_interview():
-        interviews = InterviewSlot.get_interview_times()
-        user_data = User.create_file()
-        for interview in interviews:
+    @classmethod
+    def send_mail(cls):
+        for applicant in Applicant.get_assigned_applicants():
+            message_dict = Message.new_applicant(applicant.first_name, applicant.code, applicant.school)
+            Email.send_email(applicant.email, **cls.user_data, **message_dict)
+
+    @classmethod
+    def send_email_interview(cls):
+        for interview in InterviewSlot.get_interview_times():
             message_dict = Message.applicant_interview(interview.applicant.first_name, interview.time,
                                                        interview.mentor.first_name, interview.mentor.last_name)
-
-            Email.send_email(interview.applicant.email, **user_data, **message_dict)
+            Email.send_email(interview.applicant.email, **cls.user_data, **message_dict)
 
     @staticmethod
     def interview():

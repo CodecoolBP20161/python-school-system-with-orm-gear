@@ -24,6 +24,7 @@ class Menu():
                 Build.create()
                 Example_data.insert()
                 Main.register()
+                Main.get_user_email_data()
                 Main.send_mail()
                 Main.interview()
                 Main.send_email_interview()

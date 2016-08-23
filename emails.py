@@ -1,13 +1,13 @@
 class Email():
 
     @classmethod
-    def send_email(cls, user, pwd, subject, body):
+    def send_email(cls, recipient, user, pwd, subject, body):
         import smtplib
 
         gmail_user = user
         gmail_pwd = pwd
         FROM = user
-        TO = [cls.email]
+        TO = [recipient]
         SUBJECT = subject
         TEXT = body
 

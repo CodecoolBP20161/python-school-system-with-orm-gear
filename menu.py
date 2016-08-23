@@ -24,6 +24,7 @@ class Menu():
                 Build.create()
                 Example_data.insert()
                 Main.register()
+                Main.send_mail()
                 Main.interview()
             if menu_choice == '2':
                 print('_______________________________________\n')

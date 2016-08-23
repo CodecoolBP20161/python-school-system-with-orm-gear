@@ -22,7 +22,7 @@ class Message:
         message = """Dear {0},
 
                      Your interview time slot is: {1}
-                     Your mentor is: {2} {3}
+                     Your mentor's name is: {2} {3}
                      Best Regards,
                      Codecool   """.format(first_name, time, mentor_first_name, mentor_last_name)
 
@@ -38,7 +38,7 @@ class Message:
         message = """Dear {0},
 
                          Your interview time slot is: {1}
-                         Your mentor is: {2} {3}
+                         Your applicant's name is: {2} {3}
                          Best Regards,
                          Codecool   """.format(first_name, time, applicant_first_name, applicant_last_name)
 

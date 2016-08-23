@@ -4,6 +4,8 @@ from example_data import *
 from message import *
 from user import *
 from emails import *
+
+
 # import logging
 # logger = logging.getLogger('peewee')
 # logger.setLevel(logging.DEBUG)
@@ -11,7 +13,6 @@ from emails import *
 
 
 class Main:
-
     @staticmethod
     def register():
         new_applicant = Applicant.new_applicant()
@@ -41,6 +42,7 @@ class Main:
         for interview in interviews:
             message_dict = Message.applicant_interview(interview.applicant.first_name, interview.time,
                                                        interview.mentor.first_name, interview.mentor.last_name)
+
             Email.send_email(interview.applicant.email, **user_data, **message_dict)
 
     @staticmethod
@@ -48,8 +50,6 @@ class Main:
         for new in Applicant.new_applicant():
             for i in InterviewSlot.get_free_slots():
                 i.interviews(new)
-
-
 
 # Build()
 # Example_data.insert()

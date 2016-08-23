@@ -1,51 +1,42 @@
 class Message:
-
+    subject = ""
+    message = ""
+    message_dict = {"subject": subject,
+                    "body": message
+                    }
     @classmethod
     def new_applicant(cls, first_name, code, school):
-        subject = "Codecool application process"
-        message = """Dear {0},
+        cls.subject = "Codecool application process"
+        cls.message = """Dear {0},
 
                      Your application code is: {1}
                      Your school is: {2}
                      Best Regards,
                      CodeCool   """.format(first_name, code, school)
-
-        message_dict = {"subject": subject,
-                        "body": message
-                        }
-                      
-        return message_dict
+        return cls.message_dict
 
     @classmethod
     def applicant_interview(cls, first_name, time, mentor_first_name, mentor_last_name):
-        subject = "Codecool interview information"
-        message = """Dear {0},
+        cls.subject = "Codecool interview information"
+        cls.message = """Dear {0},
 
                      Your interview time slot is: {1}
                      Your mentor's name is: {2} {3}
                      Best Regards,
                      Codecool   """.format(first_name, time, mentor_first_name, mentor_last_name)
 
-        message_dict = {"subject": subject,
-                        "body": message
-                        }
-
-        return message_dict
+        return cls.message_dict
 
     @classmethod
     def mentor_interview(cls, first_name, time, applicant_first_name, applicant_last_name):
-        subject = "Codecool interview information"
-        message = """Dear {0},
+        cls.subject = "Codecool interview information"
+        cls.message = """Dear {0},
 
                          Your interview time slot is: {1}
                          Your applicant's name is: {2} {3}
                          Best Regards,
                          Codecool   """.format(first_name, time, applicant_first_name, applicant_last_name)
 
-        message_dict = {"subject": subject,
-                        "body": message
-                        }
-
-        return message_dict
+        return cls.message_dict
 
 

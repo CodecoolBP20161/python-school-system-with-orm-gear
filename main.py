@@ -5,11 +5,20 @@ from message import *
 from user import *
 from emails import *
 
-
 # import logging
 # logger = logging.getLogger('peewee')
+# hdlr = logging.FileHandler('app.log', mode='w')
+# formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+# hdlr.setFormatter(formatter)
+# logger.addHandler(hdlr)
 # logger.setLevel(logging.DEBUG)
+
+
 # logger.addHandler(logging.StreamHandler())
+
+# check logs for optimize and not to use querys here only on models
+# make experiments with related name and join queries
+
 
 
 class Main:

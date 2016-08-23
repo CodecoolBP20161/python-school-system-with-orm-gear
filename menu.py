@@ -26,6 +26,7 @@ class Menu():
                 Main.register()
                 Main.send_mail()
                 Main.interview()
+                Main.send_email_interview()
             if menu_choice == '2':
                 print('_______________________________________\n')
                 applicants = Applicant.select()

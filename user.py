@@ -5,6 +5,7 @@ import getpass
 
 # Create a dictionary (a key-value-pair structure in Python)
 
+
 class User:
 
     exist = os.path.isfile("user.json")
@@ -20,25 +21,19 @@ class User:
               'pwd': pwd
             }
 
-
             with open('user.json', 'w') as outfile:
                 json.dump(my_dict, outfile)
 
-            return my_dict
-
         else:
-            cls.get_file()
+            my_dict = cls.get_file()
+
+        return my_dict
 
     @classmethod
     def get_file(cls):
-
         if cls.exist:
 
             with open('user.json') as json_data:
                 user_data = json.load(json_data)
 
-            return user_data
-
-
-
-User.create_file()
+        return user_data

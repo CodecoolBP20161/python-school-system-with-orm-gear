@@ -35,6 +35,15 @@ class Main:
             Email.send_email(applicant.email, **user_data, **message_dict)
 
     @staticmethod
+    def send_email_interview():
+        interviews = InterviewSlot.get_interview_times()
+        user_data = User.create_file()
+        for interview in interviews:
+            message_dict = Message.applicant_interview(interview.applicant.first_name, interview.time,
+                                                       interview.mentor.first_name, interview.mentor.last_name)
+            Email.send_email(interview.applicant.email, **user_data, **message_dict)
+
+    @staticmethod
     def interview():
         for new in Applicant.new_applicant():
             for i in InterviewSlot.get_free_slots():

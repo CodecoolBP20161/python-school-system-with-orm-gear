@@ -18,6 +18,7 @@ class Person(BaseModel):
     first_name = CharField()
     last_name = CharField()
     school = CharField(default='', null=True)
+    email = CharField()
 
 
 class City(BaseModel):

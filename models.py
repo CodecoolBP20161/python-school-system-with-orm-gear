@@ -56,6 +56,10 @@ class Applicant(Person):
             self.code = new_code
             self.save()
 
+    @classmethod
+    def get_assigned_applicants(cls):
+        return cls.select().where(~(cls.code >> None), ~(cls.school >> None))
+
 
 class Mentor(Person):
     pass

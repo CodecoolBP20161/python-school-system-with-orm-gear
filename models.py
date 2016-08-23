@@ -58,7 +58,7 @@ class Applicant(Person):
 
     @classmethod
     def get_assigned_applicants(cls):
-        return cls.select().where(~(cls.code >> None), ~(cls.school >> None))
+        return cls.select().where(~(cls.code >> None), ~(cls.school >> None), cls.status == "new")
 
 
 class Mentor(Person):

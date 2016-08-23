@@ -1,6 +1,9 @@
 from models import *
 from build import *
 from example_data import *
+from message import *
+from user import *
+from emails import *
 # import logging
 # logger = logging.getLogger('peewee')
 # logger.setLevel(logging.DEBUG)
@@ -22,6 +25,14 @@ class Main:
                 applicant.generate_code()
                 print(applicant.code, applicant.first_name, applicant.last_name, applicant.city, applicant.school,
                       applicant.status, applicant.email)
+
+    @staticmethod
+    def send_mail():
+        email_to_applicants = Applicant.get_assigned_applicants()
+        user_data = User.create_file()
+        for applicant in email_to_applicants:
+            message_dict = Message.new_applicant(applicant.first_name, applicant.code, applicant.school)
+            Email.send_email(applicant.email, **user_data, **message_dict)
 
     @staticmethod
     def interview():

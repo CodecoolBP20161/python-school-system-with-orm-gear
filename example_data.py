@@ -6,23 +6,23 @@ from main import *
 
 
 class Example_data:
-    applicant_dict = [{"first_name": "Zita", "last_name": "Para", "city": "Eger"},
-                      {"first_name": "Elek", "last_name": "Remek", "city": "Budapest"},
-                      {"first_name": "Elek", "last_name": "Beviz", "city": "Szentendre"},
-                      {"first_name": "Viola", "last_name": "Ultra", "city": "Budapest"},
-                      {"first_name": "Áron", "last_name": "Git", "school": "Krakow", "code": "KR2345",
-                       "city": "Ostrava", "status": "accepted"}
+    applicant_dict = [{"first_name": "Zita", "last_name": "Para", "email": "girhes.cc.2016@gmail.com", "city": "Eger"},
+                      {"first_name": "Elek", "last_name": "Remek", "email": "remekelek@gmail.com", "city": "Budapest"},
+                      {"first_name": "Elek", "last_name": "Beviz", "email": "bevize@gmail.com", "city": "Szentendre"},
+                      {"first_name": "Viola", "last_name": "Ultra", "email": "ultrav@gmail.com", "city": "Budapest"},
+                      {"first_name": "Áron", "last_name": "Git", "school": "Krakow",
+                       "email": "gitaron@gmail.com", "code": "KR2345", "city": "Ostrava", "status": "accepted"}
                       ]
     city_dict = [{"applicant_city": "Szentendre", "school": "Budapest"},
                  {"applicant_city": "Eger", "school": "Miskolc"},
                  {"applicant_city": "Ostrava", "school": "Krakow"},
                  {"applicant_city": "Budapest", "school": "Budapest"}
                  ]
-    mentor_dict = [{"first_name": "Tamás", "last_name": "Tompa", "school": "Budapest"},
-                   {"first_name": "Dániel", "last_name": "Salamon", "school": "Budapest"},
-                   {"first_name": "Miklós", "last_name": "Beöthy", "school": "Budapest"},
-                   {"first_name": "Attila", "last_name": "Molnár", "school": "Miskolc"},
-                   {"first_name": "Mateus", "last_name": "Ostafil", "school": "Krakow"}
+    mentor_dict = [{"first_name": "Tamás", "last_name": "Tompa", "school": "Budapest", "email": "tompat@gmail.com"},
+                   {"first_name": "Dániel", "last_name": "Salamon", "school": "Budapest", "email": "salad@gmail.com"},
+                   {"first_name": "Miklós", "last_name": "Beöthy", "school": "Budapest", "email": "beothym@gmail.com"},
+                   {"first_name": "Attila", "last_name": "Molnár", "school": "Miskolc", "email": "molnara@gmail.com"},
+                   {"first_name": "Mateus", "last_name": "Ostafil", "school": "Krakow", "email": "ostafilm@gmail.com"}
                    ]
 
     @staticmethod

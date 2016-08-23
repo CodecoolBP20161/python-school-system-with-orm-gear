@@ -18,6 +18,7 @@ class Person(BaseModel):
     first_name = CharField()
     last_name = CharField()
     school = CharField(default='', null=True)
+    email = CharField()
 
 
 class City(BaseModel):
@@ -54,6 +55,10 @@ class Applicant(Person):
             new_code = "".join([self.city[:2].upper(), str(random.randint(1000, 10000))])
             self.code = new_code
             self.save()
+
+    @classmethod
+    def get_assigned_applicants(cls):
+        return cls.select().where(~(cls.code >> None), ~(cls.school >> None))
 
 
 class Mentor(Person):

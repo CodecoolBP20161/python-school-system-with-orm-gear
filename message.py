@@ -12,3 +12,7 @@ class Message:
                         }
                       
         return message_dict
+
+    @classmethod
+    def apllicant_interview(cls):
+        pass

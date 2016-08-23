@@ -29,7 +29,8 @@ class Menu():
                 print('_______________________________________\n')
                 applicants = Applicant.select()
                 for applicant in applicants:
-                    print(applicant.code, applicant.first_name, applicant.last_name, applicant.city, applicant.school, applicant.status)
+                    print(applicant.code, applicant.first_name, applicant.last_name, applicant.city, applicant.school,
+                          applicant.status, applicant.email)
             if menu_choice == '3':
                 application_code = input('Please enter your Application Code: ')
                 try:

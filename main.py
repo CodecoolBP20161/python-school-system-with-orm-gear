@@ -20,7 +20,8 @@ class Main:
         if get_applicant:
             for applicant in get_applicant:
                 applicant.generate_code()
-                print(applicant.code, applicant.first_name, applicant.last_name, applicant.city, applicant.school, applicant.status)
+                print(applicant.code, applicant.first_name, applicant.last_name, applicant.city, applicant.school,
+                      applicant.status, applicant.email)
 
     @staticmethod
     def interview():

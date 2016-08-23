@@ -24,6 +24,8 @@ class User:
             with open('user.json', 'w') as outfile:
                 json.dump(my_dict, outfile)
 
+            return my_dict
+
         else:
             cls.get_file()
 

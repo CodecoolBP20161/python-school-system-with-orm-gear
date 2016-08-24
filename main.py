@@ -56,6 +56,13 @@ class Main:
                                                        interview.mentor.first_name, interview.mentor.last_name)
             Email.send_email(interview.applicant.email, **cls.user_data, **message_dict)
 
+    @classmethod
+    def send_email_interview_mentors(cls):
+        for interview in InterviewSlot.get_interview_times():
+            message_dict = Message.mentor_interview(interview.mentor.first_name, interview.time,
+                                                    interview.applicant.first_name, interview.applicant.last_name)
+            Email.send_email(interview.applicant.email, **cls.user_data, **message_dict)
+
     @staticmethod
     def interview():
         for new in Applicant.new_applicant():

@@ -26,8 +26,10 @@ class Menu():
                 Main.register()
                 Main.get_user_email_data()
                 Main.send_mail()
+                print('_______________________________________\n')
                 Main.interview()
                 Main.send_email_interview()
+                print('_______________________________________\n')
                 Main.send_email_interview_mentors()
             if menu_choice == '2':
                 print('_______________________________________\n')

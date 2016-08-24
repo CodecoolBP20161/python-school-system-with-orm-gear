@@ -18,11 +18,11 @@ class Example_data:
                  {"applicant_city": "Ostrava", "school": "Krakow"},
                  {"applicant_city": "Budapest", "school": "Budapest"}
                  ]
-    mentor_dict = [{"first_name": "Tamás", "last_name": "Tompa", "school": "Budapest", "email": "tompat@gmail.com"},
-                   {"first_name": "Dániel", "last_name": "Salamon", "school": "Budapest", "email": "salad@gmail.com"},
-                   {"first_name": "Miklós", "last_name": "Beöthy", "school": "Budapest", "email": "beothym@gmail.com"},
-                   {"first_name": "Attila", "last_name": "Molnár", "school": "Miskolc", "email": "molnara@gmail.com"},
-                   {"first_name": "Mateus", "last_name": "Ostafil", "school": "Krakow", "email": "ostafilm@gmail.com"}
+    mentor_dict = [{"first_name": "Tamás", "last_name": "Tompa", "school": "Budapest", "email": "girhes.cc.2016@gmail.com"},
+                   {"first_name": "Dániel", "last_name": "Salamon", "school": "Budapest", "email": "girhes.cc.2016@gmail.com"},
+                   {"first_name": "Miklós", "last_name": "Beöthy", "school": "Budapest", "email": "girhes.cc.2016@gmail.com"},
+                   {"first_name": "Attila", "last_name": "Molnár", "school": "Miskolc", "email": "girhes.cc.2016@gmail.com"},
+                   {"first_name": "Mateus", "last_name": "Ostafil", "school": "Krakow", "email": "girhes.cc.2016@gmail.com"}
                    ]
 
     @staticmethod

@@ -4,7 +4,14 @@ class Message:
         return {"subject": subject, "body": message}
 
     @classmethod
+    def strip_accents(cls, word):
+        import unicodedata
+        return ''.join(c for c in unicodedata.normalize('NFD', word) if unicodedata.category(c) != 'Mn')
+
+    @classmethod
     def new_applicant(cls, first_name, code, school):
+        first_name = cls.strip_accents(first_name)
+        school = cls.strip_accents(school)
         subject = "Codecool application process"
         message = """Dear {0},
 
@@ -17,6 +24,9 @@ class Message:
 
     @classmethod
     def applicant_interview(cls, first_name, time, mentor_first_name, mentor_last_name):
+        first_name = cls.strip_accents(first_name)
+        mentor_first_name = cls.strip_accents(mentor_first_name)
+        mentor_last_name = cls.strip_accents(mentor_last_name)
         subject = "Codecool"
         message = """Dear {0},
 
@@ -29,6 +39,9 @@ class Message:
 
     @classmethod
     def mentor_interview(cls, first_name, time, applicant_first_name, applicant_last_name):
+        first_name = cls.strip_accents(first_name)
+        applicant_first_name = cls.strip_accents(applicant_first_name)
+        applicant_last_name = cls.strip_accents(applicant_last_name)
         subject = "Codecool interview information"
         message = """Dear {0},
 

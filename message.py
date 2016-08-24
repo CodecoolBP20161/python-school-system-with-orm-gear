@@ -1,42 +1,53 @@
 class Message:
-    subject = ""
-    message = ""
-    message_dict = {"subject": subject,
-                    "body": message
-                    }
+    @staticmethod
+    def message_dict(subject, message):
+        return {"subject": subject, "body": message}
+
+    @classmethod
+    def strip_accents(cls, word):
+        import unicodedata
+        return ''.join(c for c in unicodedata.normalize('NFD', word) if unicodedata.category(c) != 'Mn')
+
     @classmethod
     def new_applicant(cls, first_name, code, school):
-        cls.subject = "Codecool application process"
-        cls.message = """Dear {0},
+        first_name = cls.strip_accents(first_name)
+        school = cls.strip_accents(school)
+        subject = "Codecool application process"
+        message = """Dear {0},
 
                      Your application code is: {1}
                      Your school is: {2}
                      Best Regards,
                      CodeCool   """.format(first_name, code, school)
-        return cls.message_dict
+
+        return cls.message_dict(subject, message)
 
     @classmethod
     def applicant_interview(cls, first_name, time, mentor_first_name, mentor_last_name):
-        cls.subject = "Codecool interview information"
-        cls.message = """Dear {0},
+        first_name = cls.strip_accents(first_name)
+        mentor_first_name = cls.strip_accents(mentor_first_name)
+        mentor_last_name = cls.strip_accents(mentor_last_name)
+        subject = "Codecool"
+        message = """Dear {0},
 
                      Your interview time slot is: {1}
                      Your mentor's name is: {2} {3}
                      Best Regards,
                      Codecool   """.format(first_name, time, mentor_first_name, mentor_last_name)
 
-        return cls.message_dict
+        return cls.message_dict(subject, message)
 
     @classmethod
     def mentor_interview(cls, first_name, time, applicant_first_name, applicant_last_name):
-        cls.subject = "Codecool interview information"
-        cls.message = """Dear {0},
+        first_name = cls.strip_accents(first_name)
+        applicant_first_name = cls.strip_accents(applicant_first_name)
+        applicant_last_name = cls.strip_accents(applicant_last_name)
+        subject = "Codecool interview information"
+        message = """Dear {0},
 
                          Your interview time slot is: {1}
                          Your applicant's name is: {2} {3}
                          Best Regards,
                          Codecool   """.format(first_name, time, applicant_first_name, applicant_last_name)
 
-        return cls.message_dict
-
-
+        return cls.message_dict(subject, message)

@@ -20,10 +20,8 @@ class Email():
             server.ehlo()
             server.starttls()
             server.login(gmail_user, gmail_pwd)
-            print("-----------", FROM, TO, "------------")
             server.sendmail(FROM, TO, message)
-
             server.close()
-            print('successfully sent the mail')
+            print('E-mail sent successfully TO: {0}'.format(recipient))
         except:
-            print("failed to send mail")
+            print("Failed to send e-mail.")

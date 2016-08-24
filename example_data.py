@@ -36,7 +36,7 @@ class Example_data:
                                {"mentor": Mentor.get(Mentor.first_name == "Tamás"), "time": '2016-08-27 10:00:00'},
                                {"mentor": Mentor.get(Mentor.first_name == "Tamás"), "time": '2016-08-27 11:00:00'},
                                {"mentor": Mentor.get(Mentor.first_name == "Dániel"), "time": '2016-08-29 10:00:00'},
-                               {"mentor": Mentor.get(Mentor.first_name == "Dániel"), "time": '2016-08-30 11:00:00'},
+                               {"mentor": Mentor.get(Mentor.first_name == "Dániel"), "time": '2016-08-26 11:00:00'},
                                {"mentor": Mentor.get(Mentor.first_name == "Dániel"), "time": '2016-08-28 10:00:00'},
                                {"mentor": Mentor.get(Mentor.first_name == "Dániel"), "time": '2016-08-27 11:00:00'},
                                {"mentor": Mentor.get(Mentor.first_name == "Mateus"), "time": '2016-08-27 09:00:00'},

@@ -53,9 +53,9 @@ class Menu():
                 application_code = input('Please enter your Application Code: ')
                 try:
                     existed_applicant = Applicant.get(Applicant.code == application_code)
-                    interview = InterviewSlot.get(InterviewSlot.applicant == existed_applicant)
-                    print('_______________________________________\n')
-                    print('Date: {0}\nSchool: {1}\nMentor: {2} {3}'.format(interview.time, existed_applicant.school, interview.mentor.first_name, interview.mentor.last_name))
+                    for interview in InterviewSlot.select(InterviewSlot.applicant == existed_applicant):
+                        print('_______________________________________\n')
+                        print('Date: {0}\nSchool: {1}\nMentor: {2} {3}'.format(interview.time, existed_applicant.school, interview.mentor.first_name, interview.mentor.last_name))
                 except Applicant.DoesNotExist:
                     print("Unavaible Application Code")
             if menu_choice == '5':

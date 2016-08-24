@@ -68,6 +68,10 @@ class Main:
         for new in Applicant.new_applicant():
             for i in InterviewSlot.get_free_slots():
                 i.interviews(new)
+            for i in InterviewSlot.get_free_slots():
+                i.secound_interviews(new)
+            print(len(new.applicant_datas))
+
 
 # Build()
 # Example_data.insert()

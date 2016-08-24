@@ -25,11 +25,15 @@ class Menu():
                 Example_data.insert()
                 Main.register()
                 Main.get_user_email_data()
+                print('_______________________________________\n')
+                print("Sending out e-mails to new applicants.\n")
                 Main.send_mail()
-
+                print('_______________________________________\n')
+                print('Sending out e-mails to applicants who were assigned to an interview.\n')
                 Main.interview()
                 Main.send_email_interview()
-
+                print('_______________________________________\n')
+                print('Sending out e-mails to mentors who were assigned to an interview.\n')
                 Main.send_email_interview_mentors()
             if menu_choice == '2':
                 print('_______________________________________\n')

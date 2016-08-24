@@ -4,7 +4,7 @@ from read_from_text import *
 
 db = PostgresqlDatabase('6_teamwork_week', user=Read_from_text.connect_data())
 # db = PostgresqlDatabase('6_teamwork_week',
-#                          **{'user': Read_from_text.connect_data(), 'host': 'localhost', 'port': 5432, 'password': '753951'})
+#                           **{'user': Read_from_text.connect_data(), 'host': 'localhost', 'port': 5432, 'password': '753951'})
 
 
 class BaseModel(Model):
@@ -66,21 +66,33 @@ class Mentor(Person):
 
 
 class InterviewSlot(BaseModel):
-    mentor = ForeignKeyField(Mentor, related_name='mentor_datas')
+    mentor = ForeignKeyField(Mentor, related_name='mentor_datas', default=None, null=True)
+    mentor2 = ForeignKeyField(Mentor, related_name='mentor2_datas', default=None, null=True)
+    school = TextField()
     applicant = ForeignKeyField(Applicant, related_name='applicant_datas', default=None, null=True)
     detail = CharField(default=None, null=True)
     time = DateTimeField()
 
     @classmethod
-    def get_free_slots(cls):
-        return cls.select().where(cls.applicant >> None).order_by(cls.time)
+    def get_free_slots(cls, applicant):
+        return cls.select().where(cls.mentor >> None, cls.applicant >> None, cls.school == applicant.school).order_by(cls.time)
 
     def interviews(self, applicant):
-        if applicant.school == self.mentor.school and applicant.status == "new":
+        if applicant.status == "new":
             self.applicant = applicant
             self.save()
+            mentor1 = Mentor.select().where(self.school == Mentor.school)
+            self.mentor = random.choice(mentor1)
+            self.save()
+            for mentor in mentor1:
+                if mentor != self.mentor:
+                    self.mentor2 = mentor
+                    self.save()
+
             applicant.status = "processing"
             applicant.save()
+
+
 
     @classmethod
     def get_interview_times(cls):

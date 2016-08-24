@@ -25,11 +25,15 @@ class Menu():
                 Example_data.insert()
                 Main.register()
                 Main.get_user_email_data()
+                print('_______________________________________\n')
+                print("Sending out e-mails to new applicants.\n")
                 Main.send_mail()
                 print('_______________________________________\n')
+                print('Sending out e-mails to applicants who were assigned to an interview.\n')
                 Main.interview()
                 Main.send_email_interview()
                 print('_______________________________________\n')
+                print('Sending out e-mails to mentors who were assigned to an interview.\n')
                 Main.send_email_interview_mentors()
             if menu_choice == '2':
                 print('_______________________________________\n')
@@ -51,7 +55,8 @@ class Menu():
                     existed_applicant = Applicant.get(Applicant.code == application_code)
                     interview = InterviewSlot.get(InterviewSlot.applicant == existed_applicant)
                     print('_______________________________________\n')
-                    print('Date: {0}\nSchool: {1}\nMentor: {2} {3}'.format(interview.time, existed_applicant.school, interview.mentor.first_name, interview.mentor.last_name))
+
+                    print('Date: {0}\nSchool: {1}\nMentors: {2} {3}, {4} {5}'.format(interview.time, existed_applicant.school,interview.mentor.first_name, interview.mentor.last_name, interview.mentor2.first_name, interview.mentor2.last_name))
                 except Applicant.DoesNotExist:
                     print("Unavaible Application Code")
             if menu_choice == '5':

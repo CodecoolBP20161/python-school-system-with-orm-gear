@@ -88,6 +88,7 @@ class InterviewSlot(BaseModel):
                 if mentor != self.mentor:
                     self.mentor2 = mentor
                     self.save()
+                    break
 
             applicant.status = "processing"
             applicant.save()

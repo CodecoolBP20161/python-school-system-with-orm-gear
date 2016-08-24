@@ -26,10 +26,10 @@ class Menu():
                 Main.register()
                 Main.get_user_email_data()
                 Main.send_mail()
-                print('_______________________________________\n')
+
                 Main.interview()
                 Main.send_email_interview()
-                print('_______________________________________\n')
+
                 Main.send_email_interview_mentors()
             if menu_choice == '2':
                 print('_______________________________________\n')
@@ -49,9 +49,10 @@ class Menu():
                 application_code = input('Please enter your Application Code: ')
                 try:
                     existed_applicant = Applicant.get(Applicant.code == application_code)
-                    for interview in InterviewSlot.select(InterviewSlot.applicant == existed_applicant):
-                        print('_______________________________________\n')
-                        print('Date: {0}\nSchool: {1}\nMentor: {2} {3}'.format(interview.time, existed_applicant.school, interview.mentor.first_name, interview.mentor.last_name))
+                    interview = InterviewSlot.get(InterviewSlot.applicant == existed_applicant)
+                    print('_______________________________________\n')
+
+                    print('Date: {0}\nSchool: {1}\nMentors: {2} {3}, {4} {5}'.format(interview.time, existed_applicant.school,interview.mentor.first_name, interview.mentor.last_name, interview.mentor2.first_name, interview.mentor2.last_name))
                 except Applicant.DoesNotExist:
                     print("Unavaible Application Code")
             if menu_choice == '5':

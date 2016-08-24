@@ -69,11 +69,10 @@ class Main:
     @staticmethod
     def interview():
         for new in Applicant.new_applicant():
-            for i in InterviewSlot.get_free_slots():
+            for i in InterviewSlot.get_free_slots(new):
                 i.interviews(new)
-            for i in InterviewSlot.get_free_slots():
-                i.secound_interviews(new)
-            print(len(new.applicant_datas))
+
+
 
 
 # Build()

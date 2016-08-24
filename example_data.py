@@ -31,25 +31,25 @@ class Example_data:
 
     @staticmethod
     def interview_slot():
-        interview_slot_dict = [{"mentor": Mentor.get(Mentor.first_name == "Tamás"), "time": '2016-08-28 10:00:00'},
-                               {"mentor": Mentor.get(Mentor.first_name == "Tamás"), "time": '2016-08-28 11:00:00'},
-                               {"mentor": Mentor.get(Mentor.first_name == "Tamás"), "time": '2016-08-27 10:00:00'},
-                               {"mentor": Mentor.get(Mentor.first_name == "Tamás"), "time": '2016-08-27 11:00:00'},
-                               {"mentor": Mentor.get(Mentor.first_name == "Dániel"), "time": '2016-08-29 10:00:00'},
-                               {"mentor": Mentor.get(Mentor.first_name == "Dániel"), "time": '2016-08-26 11:00:00'},
-                               {"mentor": Mentor.get(Mentor.first_name == "Dániel"), "time": '2016-08-28 10:00:00'},
-                               {"mentor": Mentor.get(Mentor.first_name == "Dániel"), "time": '2016-08-27 11:00:00'},
-                               {"mentor": Mentor.get(Mentor.first_name == "Mateus"), "time": '2016-08-27 09:00:00'},
-                               {"mentor": Mentor.get(Mentor.first_name == "Mateus"), "time": '2016-08-28 09:00:00'},
-                               {"mentor": Mentor.get(Mentor.first_name == "Mateus"), "time": '2016-08-29 09:00:00'},
-                               {"mentor": Mentor.get(Mentor.first_name == "Attila"), "time": '2016-08-27 09:00:00'},
-                               {"mentor": Mentor.get(Mentor.first_name == "Attila"), "time": '2016-08-27 10:00:00'},
-                               {"mentor": Mentor.get(Mentor.first_name == "Attila"), "time": '2016-08-28 09:00:00'},
-                               {"mentor": Mentor.get(Mentor.first_name == "Attila"), "time": '2016-08-28 10:00:00'},
-                               {"mentor": Mentor.get(Mentor.first_name == "Károly"), "time": '2016-08-27 09:00:00'},
-                               {"mentor": Mentor.get(Mentor.first_name == "Károly"), "time": '2016-08-27 10:00:00'},
-                               {"mentor": Mentor.get(Mentor.first_name == "James"), "time": '2016-08-28 09:00:00'},
-                               {"mentor": Mentor.get(Mentor.first_name == "James"), "time": '2016-08-28 10:00:00'}
+        interview_slot_dict = [{"school": "Budapest", "time": '2016-08-28 10:00:00'},
+                               {"school": "Budapest", "time": '2016-08-28 11:00:00'},
+                               {"school": "Budapest", "time": '2016-08-27 10:00:00'},
+                               {"school": "Budapest", "time": '2016-08-27 11:00:00'},
+                               {"school": "Budapest", "time": '2016-08-29 10:00:00'},
+                               {"school": "Budapest", "time": '2016-08-26 11:00:00'},
+                               {"school": "Budapest", "time": '2016-08-28 10:00:00'},
+                               {"school": "Budapest", "time": '2016-08-27 11:00:00'},
+                               {"school": "Krakow", "time": '2016-08-27 09:00:00'},
+                               {"school": "Krakow", "time": '2016-08-28 09:00:00'},
+                               {"school": "Krakow", "time": '2016-08-29 09:00:00'},
+                               {"school": "Miskolc", "time": '2016-08-27 09:00:00'},
+                               {"school": "Miskolc", "time": '2016-08-27 10:00:00'},
+                               {"school": "Miskolc", "time": '2016-08-28 09:00:00'},
+                               {"school": "Miskolc", "time": '2016-08-28 10:00:00'},
+                               {"school": "Miskolc", "time": '2016-08-27 09:00:00'},
+                               {"school": "Miskolc", "time": '2016-08-27 10:00:00'},
+                               {"school": "Krakow", "time": '2016-08-28 09:00:00'},
+                               {"school": "Krakow", "time": '2016-08-28 10:00:00'}
                                ]
         return interview_slot_dict
 

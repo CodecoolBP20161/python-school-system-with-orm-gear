@@ -81,3 +81,26 @@ class InterviewSlot(BaseModel):
             self.save()
             applicant.status = "processing"
             applicant.save()
+
+    @classmethod
+    def get_interview_times(cls):
+        return cls.select().join(Mentor).switch(InterviewSlot).join(Applicant)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#

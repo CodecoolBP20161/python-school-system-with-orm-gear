@@ -2,9 +2,11 @@ from peewee import *
 import random
 from read_from_text import *
 
-db = PostgresqlDatabase('6_teamwork_week', user=Read_from_text.connect_data())
-# db = PostgresqlDatabase('6_teamwork_week',
-#                         **{'user': Read_from_text.connect_data(), 'host': 'localhost', 'port': 5432, 'password': '753951'})
+# db = PostgresqlDatabase('6_teamwork_week', user=Read_from_text.connect_data())
+
+
+db = PostgresqlDatabase('6_teamwork_week',
+                        **{'user': Read_from_text.connect_data(), 'host': 'localhost', 'port': 5432, 'password': '753951'})
 
 
 class BaseModel(Model):
@@ -62,7 +64,8 @@ class Applicant(Person):
 
 
 class Mentor(Person):
-    pass
+    def mentor_students(self):
+        return Applicant.select().join(City, on=Applicant.city == City.applicant_city).join(Mentor, on=Mentor.school == City.school).where(self.id == Mentor.id)
 
 
 class InterviewSlot(BaseModel):

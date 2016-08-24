@@ -61,7 +61,7 @@ class Main:
         for interview in InterviewSlot.get_interview_times():
             message_dict = Message.mentor_interview(interview.mentor.first_name, interview.time,
                                                     interview.applicant.first_name, interview.applicant.last_name)
-            Email.send_email(interview.applicant.email, **cls.user_data, **message_dict)
+            Email.send_email(interview.mentor.email, **cls.user_data, **message_dict)
 
     @staticmethod
     def interview():

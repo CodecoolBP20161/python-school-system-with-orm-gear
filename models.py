@@ -2,9 +2,9 @@ from peewee import *
 import random
 from read_from_text import *
 
-db = PostgresqlDatabase('6_teamwork_week', user=Read_from_text.connect_data())
-# db = PostgresqlDatabase('6_teamwork_week',
-#                           **{'user': Read_from_text.connect_data(), 'host': 'localhost', 'port': 5432, 'password': '753951'})
+# db = PostgresqlDatabase('6_teamwork_week', user=Read_from_text.connect_data())
+db = PostgresqlDatabase('6_teamwork_week',
+                          **{'user': Read_from_text.connect_data(), 'host': 'localhost', 'port': 5432, 'password': '753951'})
 
 
 class BaseModel(Model):
@@ -64,6 +64,10 @@ class Applicant(Person):
 class Mentor(Person):
     pass
 
+
+class InterviewSlotMentor(BaseModel):
+    mentor = ForeignKeyField(Mentor, related_name='mentor_datas', default=None, null=True)
+    interviewSlot = ForeignKeyField(InterviewSlot, related_name='mentor_datas', default=None, null=True)
 
 class InterviewSlot(BaseModel):
     mentor = ForeignKeyField(Mentor, related_name='mentor_datas', default=None, null=True)

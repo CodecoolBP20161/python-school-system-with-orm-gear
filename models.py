@@ -65,13 +65,10 @@ class Mentor(Person):
     pass
 
 
-class InterviewSlotMentor(BaseModel):
-    mentor = ForeignKeyField(Mentor, related_name='mentor_datas', default=None, null=True)
-    interviewSlot = ForeignKeyField(InterviewSlot, related_name='mentor_datas', default=None, null=True)
+
 
 class InterviewSlot(BaseModel):
     mentor = ForeignKeyField(Mentor, related_name='mentor_datas', default=None, null=True)
-    mentor2 = ForeignKeyField(Mentor, related_name='mentor2_datas', default=None, null=True)
     school = TextField()
     applicant = ForeignKeyField(Applicant, related_name='applicant_datas', default=None, null=True)
     detail = CharField(default=None, null=True)
@@ -97,13 +94,14 @@ class InterviewSlot(BaseModel):
             applicant.status = "processing"
             applicant.save()
 
-
-
     @classmethod
     def get_interview_times(cls):
         return cls.select().join(Mentor).switch(InterviewSlot).join(Applicant)
 
 
+class InterviewSlotMentor(BaseModel):
+    mentor = ForeignKeyField(Mentor)
+    interview = ForeignKeyField(InterviewSlot)
 
 
 

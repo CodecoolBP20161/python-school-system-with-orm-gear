@@ -3,6 +3,7 @@
 from models import *
 from peewee import *
 from main import *
+import random
 
 
 class Example_data:
@@ -18,16 +19,17 @@ class Example_data:
                  {"applicant_city": "Ostrava", "school": "Krakow"},
                  {"applicant_city": "Budapest", "school": "Budapest"}
                  ]
-    mentor_dict = [{"first_name": "Tamás", "last_name": "Tompa", "school": "Budapest", "email": "girhes.cc.2016@gmail.com"},
-                   {"first_name": "Dániel", "last_name": "Salamon", "school": "Budapest", "email": "girhes.cc.2016@gmail.com"},
-                   {"first_name": "Miklós", "last_name": "Beöthy", "school": "Budapest", "email": "girhes.cc.2016@gmail.com"},
-                   {"first_name": "Attila", "last_name": "Molnár", "school": "Miskolc", "email": "girhes.cc.2016@gmail.com"},
-                   {"first_name": "Mateus", "last_name": "Ostafil", "school": "Krakow", "email": "girhes.cc.2016@gmail.com"},
-                   {"first_name": "Károly", "last_name": "Nagy", "school": "Miskolc",
-                    "email": "girhes.cc.2016@gmail.com"},
-                   {"first_name": "James", "last_name": "Brown", "school": "Krakow",
-                    "email": "girhes.cc.2016@gmail.com"}
-                   ]
+    mentor_dict = [
+        {"first_name": "Tamás", "last_name": "Tompa", "school": "Budapest", "email": "girhes.cc.2016@gmail.com"},
+        {"first_name": "Dániel", "last_name": "Salamon", "school": "Budapest", "email": "girhes.cc.2016@gmail.com"},
+        {"first_name": "Miklós", "last_name": "Beöthy", "school": "Budapest", "email": "girhes.cc.2016@gmail.com"},
+        {"first_name": "Attila", "last_name": "Molnár", "school": "Miskolc", "email": "girhes.cc.2016@gmail.com"},
+        {"first_name": "Mateus", "last_name": "Ostafil", "school": "Krakow", "email": "girhes.cc.2016@gmail.com"},
+        {"first_name": "Károly", "last_name": "Nagy", "school": "Miskolc",
+         "email": "girhes.cc.2016@gmail.com"},
+        {"first_name": "James", "last_name": "Brown", "school": "Krakow",
+         "email": "girhes.cc.2016@gmail.com"}
+        ]
 
     @staticmethod
     def interview_slot():
@@ -53,6 +55,23 @@ class Example_data:
                                ]
         return interview_slot_dict
 
+    @staticmethod
+    def interview_slot_mentor():
+        interview = InterviewSlot.select()
+        interview_list = []
+        for interviews in interview:
+            mentors = Mentor.select().where(interviews.school == Mentor.school)
+            mentors1 = random.choice(mentors)
+            for i in range(10):
+                mentors2 = random.choice(mentors)
+                if mentors2.first_name != mentors1.first_name:
+                    break
+
+            interview_list.append({"mentor": mentors1, "interview": interviews})
+            interview_list.append({"mentor": mentors2, "interview": interviews})
+        return interview_list
+
+
     @classmethod
     def insert(cls):
         with db.atomic():
@@ -64,7 +83,7 @@ class Example_data:
             print("Mentors created")
             InterviewSlot.insert_many(cls.interview_slot()).execute()
             print("Interview slots created")
+            InterviewSlotMentor.insert_many(cls.interview_slot_mentor()).execute()
             print('_______________________________________\n')
-
 
 # Example_data.insert()

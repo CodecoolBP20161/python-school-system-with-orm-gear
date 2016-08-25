@@ -5,6 +5,7 @@ from message import *
 from user import *
 from emails import *
 
+
 # import logging
 # logger = logging.getLogger('peewee')
 # hdlr = logging.FileHandler('app.log', mode='w')
@@ -22,7 +23,6 @@ from emails import *
 
 
 class Main:
-
     user_data = {}
 
     @staticmethod
@@ -51,21 +51,20 @@ class Main:
 
     @classmethod
     def send_email_interview(cls):
-        for interview in InterviewSlot.get_interview_times():
-            message_dict = Message.applicant_interview(interview.applicant.first_name, interview.time,
-                                                       interview.mentor.first_name, interview.mentor.last_name,
-                                                       interview.mentor2.first_name, interview.mentor2.last_name)
-            Email.send_email(interview.applicant.email, **cls.user_data, **message_dict)
+        for applicant in Applicant.get_interviewed_applicant():
+            mentors = applicant.get_mentors_for_interview("mentors")
+            message_dict = Message.applicant_interview(applicant.first_name, applicant.get_mentors_for_interview("time"),
+                                                       *mentors)
+            Email.send_email(applicant.email, **cls.user_data, **message_dict)
 
     @classmethod
     def send_email_interview_mentors(cls):
-        for interview in InterviewSlot.get_interview_times():
-            message_dict = Message.mentor_interview(interview.mentor.first_name, interview.time,
-                                                    interview.applicant.first_name, interview.applicant.last_name)
-            message_dict2 = Message.mentor_interview(interview.mentor2.first_name, interview.time,
-                                                    interview.applicant.first_name, interview.applicant.last_name)
+        for interview in InterviewSlotMentor.email_to_mentors():
+            message_dict = Message.mentor_interview(interview.mentor.first_name, interview.interview.time,
+                                                    interview.interview.applicant.first_name, interview.interview.applicant.last_name)
+
             Email.send_email(interview.mentor.email, **cls.user_data, **message_dict)
-            Email.send_email(interview.mentor2.email, **cls.user_data, **message_dict2)
+
 
     @staticmethod
     def interview():
@@ -80,3 +79,4 @@ class Main:
 # Example_data.insert()
 # Main.register()
 # Main.interview()
+print("Please start with menu.py")

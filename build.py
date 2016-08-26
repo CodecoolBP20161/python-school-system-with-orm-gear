@@ -16,12 +16,12 @@ class Build:
 
     @staticmethod
     def drop():
-        db.drop_tables([Person, Applicant, City, Mentor, InterviewSlot], safe=True)
+        db.drop_tables([Person, Applicant, City, Mentor, InterviewSlot, InterviewSlotMentor], safe=True)
         print('Deleted tables')
 
     @staticmethod
     def create():
-        db.create_tables([Person, Applicant, City, Mentor, InterviewSlot], safe=True)
+        db.create_tables([Person, Applicant, City, Mentor, InterviewSlot, InterviewSlotMentor], safe=True)
         print("Created tables\n")
 
 # Build()

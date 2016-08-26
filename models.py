@@ -14,7 +14,7 @@ class BaseModel(Model):
     class Meta:
         database = db
 
-
+# todo: first to do try
 class Person(BaseModel):
     first_name = CharField()
     last_name = CharField()
@@ -65,9 +65,9 @@ class Applicant(Person):
     def get_interviewed_applicant(cls):
         return cls.select().where(cls.status == "processing")
 
+
     def get_mentors_for_interview(self, query):
         mentors = []
-
         for applicant in self.applicant_datas:
             if query == "time":
                 return applicant.time
@@ -115,4 +115,4 @@ class InterviewSlotMentor(BaseModel):
 
     @classmethod
     def email_to_mentors(cls):
-        return InterviewSlotMentor.select().join(InterviewSlot).where(~(InterviewSlot.applicant >> None)).order_by(InterviewSlot.id)
+        return InterviewSlotMentor.select().join(InterviewSlot).where(~(InterviewSlot.applicant >> None), InterviewSlot.detail >> None).order_by(InterviewSlot.id)

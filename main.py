@@ -25,8 +25,8 @@ from emails import *
 class Main:
     user_data = {}
 
-    @staticmethod
-    def register():
+    @classmethod
+    def register(cls):
         new_applicant = Applicant.new_applicant()
         if new_applicant:
             for applicant in new_applicant:
@@ -38,6 +38,9 @@ class Main:
                 applicant.generate_code()
                 print(applicant.code, applicant.first_name, applicant.last_name, applicant.city, applicant.school,
                       applicant.status, applicant.email)
+        print('_______________________________________\n')
+        print("Sending out e-mails to new applicants.\n")
+        cls.send_mail()
 
     @classmethod
     def get_user_email_data(cls):
@@ -52,10 +55,12 @@ class Main:
     @classmethod
     def send_email_interview(cls):
         for applicant in Applicant.get_interviewed_applicant():
-            mentors = applicant.get_mentors_for_interview("mentors")
-            message_dict = Message.applicant_interview(applicant.first_name, applicant.get_mentors_for_interview("time"),
-                                                       *mentors)
-            Email.send_email(applicant.email, **cls.user_data, **message_dict)
+            for applic in applicant.applicant_datas:
+                if applic.detail is None:
+                    mentors = applicant.get_mentors_for_interview("mentors")
+                    message_dict = Message.applicant_interview(applicant.first_name, applicant.get_mentors_for_interview("time"),
+                                                               *mentors)
+                    Email.send_email(applicant.email, **cls.user_data, **message_dict)
 
     @classmethod
     def send_email_interview_mentors(cls):
@@ -64,13 +69,21 @@ class Main:
                                                     interview.interview.applicant.first_name, interview.interview.applicant.last_name)
 
             Email.send_email(interview.mentor.email, **cls.user_data, **message_dict)
+            interview.interview.detail = "email sent"
+            interview.interview.save()
 
 
-    @staticmethod
-    def interview():
+    @classmethod
+    def interview(cls):
         for new in Applicant.new_applicant():
             for i in InterviewSlot.get_free_slots(new):
                 i.interviews(new)
+        print('_______________________________________\n')
+        print('Sending out e-mails to applicants who were assigned to an interview.\n')
+        cls.send_email_interview()
+        print('_______________________________________\n')
+        print('Sending out e-mails to mentors who were assigned to an interview.\n')
+        cls.send_email_interview_mentors()
 
 
 

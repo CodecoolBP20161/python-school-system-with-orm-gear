@@ -39,8 +39,6 @@ class Example_data:
                                {"school": "Budapest", "time": '2016-08-27 11:00:00'},
                                {"school": "Budapest", "time": '2016-08-29 10:00:00'},
                                {"school": "Budapest", "time": '2016-08-26 11:00:00'},
-                               {"school": "Budapest", "time": '2016-08-28 10:00:00'},
-                               {"school": "Budapest", "time": '2016-08-27 11:00:00'},
                                {"school": "Krakow", "time": '2016-08-27 09:00:00'},
                                {"school": "Krakow", "time": '2016-08-28 09:00:00'},
                                {"school": "Krakow", "time": '2016-08-29 09:00:00'},
@@ -48,19 +46,17 @@ class Example_data:
                                {"school": "Miskolc", "time": '2016-08-27 10:00:00'},
                                {"school": "Miskolc", "time": '2016-08-28 09:00:00'},
                                {"school": "Miskolc", "time": '2016-08-28 10:00:00'},
-                               {"school": "Miskolc", "time": '2016-08-27 09:00:00'},
-                               {"school": "Miskolc", "time": '2016-08-27 10:00:00'},
-                               {"school": "Krakow", "time": '2016-08-28 09:00:00'},
                                {"school": "Krakow", "time": '2016-08-28 10:00:00'}
                                ]
         return interview_slot_dict
 
     @staticmethod
     def interview_slot_mentor():
-        interview = InterviewSlot.select()
+        interview = InterviewSlot.select().order_by(InterviewSlot.time)
         interview_list = []
         for interviews in interview:
             mentors = Mentor.select().where(interviews.school == Mentor.school)
+
             mentors1 = random.choice(mentors)
             for i in range(10):
                 mentors2 = random.choice(mentors)
@@ -69,6 +65,7 @@ class Example_data:
 
             interview_list.append({"mentor": mentors1, "interview": interviews})
             interview_list.append({"mentor": mentors2, "interview": interviews})
+
         return interview_list
 
 
@@ -85,5 +82,6 @@ class Example_data:
             print("Interview slots created")
             InterviewSlotMentor.insert_many(cls.interview_slot_mentor()).execute()
             print('_______________________________________\n')
+        cls.interview_slot_mentor()
 
 # Example_data.insert()

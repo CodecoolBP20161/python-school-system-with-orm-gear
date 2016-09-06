@@ -47,5 +47,5 @@ def email_log():
     return render_template('email_table.html', email=email)
 
 if __name__ == '__main__':
-    app.run()
-    # app.run(debug=True)
+    # app.run()
+    app.run(debug=True)

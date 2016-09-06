@@ -4,6 +4,7 @@ from example_data import *
 from message import *
 from user import *
 from emails import *
+from datetime import *
 
 
 # import logging
@@ -51,6 +52,9 @@ class Main:
         for applicant in Applicant.get_assigned_applicants():
             message_dict = Message.new_applicant(applicant.first_name, applicant.code, applicant.school)
             Email.send_email(applicant.email, **cls.user_data, **message_dict)
+            # print(message_dict.get('subject'))
+            print(message_dict['subject'])
+
 
     @classmethod
     def send_email_interview(cls):
@@ -62,6 +66,7 @@ class Main:
                                                                *mentors)
                     Email.send_email(applicant.email, **cls.user_data, **message_dict)
 
+
     @classmethod
     def send_email_interview_mentors(cls):
         for interview in InterviewSlotMentor.email_to_mentors():
@@ -69,8 +74,11 @@ class Main:
                                                     interview.interview.applicant.first_name, interview.interview.applicant.last_name)
 
             Email.send_email(interview.mentor.email, **cls.user_data, **message_dict)
+
+
             interview.interview.detail = "email sent"
             interview.interview.save()
+
 
 
     @classmethod

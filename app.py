@@ -41,6 +41,10 @@ def register():
         flash('Invalid first name')
     return redirect('/registration')
 
+@app.route('/admin/e-mail-log')
+def email_log():
+    email = Email_log.select()
+    return render_template('email_table.html', email=email)
 
 if __name__ == '__main__':
     app.run()

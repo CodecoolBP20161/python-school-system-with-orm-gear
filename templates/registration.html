@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <title>Registration form</title>
+	</head>
+
+		<body>
+
+            <h3>Registration form</h3>
+            {% for message in get_flashed_messages() %}
+            <div class=flash>{{ message }}</div>
+            {% endfor %}
+			<form action="/registration" method="post">
+
+				<p>First name:
+				<br><input required name='first_name'>{{applicant.first_name}}</input></p>
+
+				<p>Last name:
+				<br><input required name='last_name'>{{applicant.last_name}}</input></p>
+
+				<p>E-mail address:
+				<br><input required type='email'  name='email'>{{applicant.email}}</input></p>
+
+				<p>City:<br>
+				<select name = 'city'>
+			        <option value="Budapest">Budapest</option>
+				    <option value="Eger">Eger</option>
+                    <option value="Szentendre">Szentendre</option>
+				    <option value="Ostrava">Ostrava</option>
+				</select></p>
+				<br><button type='submit'>Register</button>
+
+			</form>
+		</body>
+</html>

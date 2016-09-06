@@ -15,7 +15,7 @@ PASSWORD = 'default'
 
 @app.route('/')
 def index():
-    return 'Hello flask!'
+    return render_template('index.html')
 
 @app.route('/registration', methods=['GET'])
 def registration_form():

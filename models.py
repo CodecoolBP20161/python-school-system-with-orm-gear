@@ -2,10 +2,10 @@ from peewee import *
 import random
 from read_from_text import *
 
-db = PostgresqlDatabase('6_teamwork_week', user=Read_from_text.connect_data())
-# db = PostgresqlDatabase('6_teamwork_week',
-#                         **{'user': Read_from_text.connect_data(), 'host': 'localhost', 'port': 5432,
-#                            'password': '753951'})
+# db = PostgresqlDatabase('6_teamwork_week', user=Read_from_text.connect_data())
+db = PostgresqlDatabase('6_teamwork_week',
+                        **{'user': Read_from_text.connect_data(), 'host': 'localhost', 'port': 5432,
+                           'password': '753951'})
 
 
 class BaseModel(Model):
@@ -116,3 +116,12 @@ class InterviewSlotMentor(BaseModel):
     @classmethod
     def email_to_mentors(cls):
         return InterviewSlotMentor.select().join(InterviewSlot).where(~(InterviewSlot.applicant >> None), InterviewSlot.detail >> None).order_by(InterviewSlot.id)
+
+
+class Email_log(BaseModel):
+    subject = CharField()
+    message = CharField()
+    type = CharField()
+    date = DateTimeField()
+    full_name = CharField()
+    email = CharField()

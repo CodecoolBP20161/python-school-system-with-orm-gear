@@ -30,14 +30,16 @@ class Validation:
                 return False
         return True
 
-    def e_mail_validation(self):
-        if "@" not in self.e_mail:
-            return False
-        elif "." not in self.e_mail:
-            return False
-        else:
-            return True
+    def e_mail_exist(self):
+        try:
+            e_mail_database = Applicant.get(Applicant.email == self.e_mail)
+            if e_mail_database:
+                return False
+        except:
+            print("Email is valid")
+        return True
 
 
 
-
+probae = Validation("sasa", "adda", "girh.cc.2016@gmail.com")
+print(probae.e_mail_exist())

@@ -54,6 +54,12 @@ class Main:
             Email.send_email(applicant.email, **cls.user_data, **message_dict)
             # print(message_dict.get('subject'))
             print(message_dict['subject'])
+            data = Email_log.create(subject=message_dict['subject'],
+                                    message=message_dict['body'],
+                                    type="new applicant",
+                                    date=datetime.utcnow(),
+                                    full_name="{0} {1}".format(applicant.first_name, applicant.last_name),
+                                    email=applicant.email)
 
 
     @classmethod
@@ -65,7 +71,12 @@ class Main:
                     message_dict = Message.applicant_interview(applicant.first_name, applicant.get_mentors_for_interview("time"),
                                                                *mentors)
                     Email.send_email(applicant.email, **cls.user_data, **message_dict)
-
+                    data = Email_log.create(subject=message_dict['subject'],
+                                            message=message_dict['body'],
+                                            type="applicant's interview",
+                                            date=datetime.utcnow(),
+                                            full_name="{0} {1}".format(applicant.first_name, applicant.last_name),
+                                            email=applicant.email)
 
     @classmethod
     def send_email_interview_mentors(cls):
@@ -78,6 +89,12 @@ class Main:
 
             interview.interview.detail = "email sent"
             interview.interview.save()
+            data = Email_log.create(subject=message_dict['subject'],
+                                   message=message_dict['body'],
+                                   type="mentors's interview",
+                                   date=datetime.utcnow(),
+                                   full_name="{0} {1}".format(interview.mentor.first_name, interview.mentor.last_name),
+                                   email=interview.mentor.email)
 
 
 

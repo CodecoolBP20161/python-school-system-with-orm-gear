@@ -2,8 +2,6 @@ from models import *
 import re
 
 
-#
-
 class Validation:
     """ validate first_name last_name are contains numbers and validation for e-mail is not contain @ or .
         the instance methods will return True if the validation is OK or False if it is not valid
@@ -38,8 +36,3 @@ class Validation:
         except:
             print("Email is valid")
         return True
-
-
-
-probae = Validation("sasa", "adda", "girh.cc.2016@gmail.com")
-print(probae.e_mail_exist())

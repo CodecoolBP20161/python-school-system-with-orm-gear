@@ -7,8 +7,6 @@ db.connect()
 
 
 
-# HOST = 'http://localhost:5000/'
-
 secret = os.urandom(24)
 DEBUG = True
 app.secret_key = secret
@@ -26,17 +24,24 @@ def registration_form():
 
 @app.route('/registration', methods=['POST'])
 def register():
-    # first_name = request.form['first_name']
-    # last_name = request.form['last_name']
-    # email = request.form['email']
-
-    data = Applicant.create(first_name=request.form['first_name'],
-                            last_name=request.form['last_name'],
-                            email=request.form['email'],
-                            city=request.form['city'])
-    flash('Thanks for your registration')
+    test = Validation(request.form['first_name'], request.form['last_name'], request.form['email'])
+    if Validation.first_name_validation(test) is True:
+        if Validation.last_name_validation(test) is True:
+            if Validation.e_mail_exist(test) is True:
+                data = Applicant.create(first_name=request.form['first_name'],
+                                        last_name=request.form['last_name'],
+                                        email=request.form['email'],
+                                        city=request.form['city'])
+                flash('Thanks for your registration')
+            else:
+                flash('E-mail already in use')
+        else:
+            flash('Invalid last name')
+    else:
+        flash('Invalid first name')
     return redirect('/registration')
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
+    # app.run(debug=True)

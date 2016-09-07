@@ -6,7 +6,7 @@ from models import *
 class Build:
     # db.connect()
     # List the tables here what you want to create...
-    # db.drop_tables([Person, Applicant, City, Mentor, InterviewSlot], safe=True)
+    # db.drop_tables([Person, Applicant, City, Mentor, InterviewSlot, safe=True)
     # db.create_tables([Person, Applicant, City, Mentor, InterviewSlot], safe=True)
 
     @staticmethod
@@ -16,12 +16,12 @@ class Build:
 
     @staticmethod
     def drop():
-        db.drop_tables([Person, Applicant, City, Mentor, InterviewSlot, InterviewSlotMentor], safe=True)
+        db.drop_tables([Person, Applicant, City, Mentor, InterviewSlot, InterviewSlotMentor, Email_log], safe=True)
         print('Deleted tables')
 
     @staticmethod
     def create():
-        db.create_tables([Person, Applicant, City, Mentor, InterviewSlot, InterviewSlotMentor], safe=True)
+        db.create_tables([Person, Applicant, City, Mentor, InterviewSlot, InterviewSlotMentor, Email_log], safe=True)
         print("Created tables\n")
 
 # Build()

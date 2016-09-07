@@ -35,6 +35,15 @@ def registration_form():
     return render_template('registration.html', applicant=applicant)
 
 
+<<<<<<< HEAD
+=======
+
+@app.route('/admin/e-mail-log')
+def email_log():
+    email = Email_log.select()
+    return render_template('email_table.html', email=email)
+
+>>>>>>> development
 if __name__ == '__main__':
     app.run()
     # app.run(debug=True)

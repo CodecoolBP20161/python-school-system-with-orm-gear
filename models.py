@@ -130,7 +130,8 @@ class InterviewSlotMentor(BaseModel):
 
     @classmethod
     def email_to_mentors(cls):
-        return InterviewSlotMentor.select().join(InterviewSlot).where(~(InterviewSlot.applicant >> None), InterviewSlot.detail >> None).order_by(InterviewSlot.id)
+        return InterviewSlotMentor.select().join(InterviewSlot).where(~(InterviewSlot.applicant >> None),
+                                                                        InterviewSlot.detail >> None).order_by(InterviewSlot.id)
 
 
 class Email_log(BaseModel):

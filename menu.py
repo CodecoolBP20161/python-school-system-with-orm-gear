@@ -49,8 +49,10 @@ class Menu():
                     print('_______________________________________\n')
                     mentors = existed_applicant.get_mentors_for_interview("mentors")
 
-                    print('Date: {0}\nSchool: {1}\nMentors: {2} {3}, {4} {5}'.format(interview.time, existed_applicant.school,
-                                                                             mentors[0], mentors[1],mentors[2], mentors[3]))
+                    print('Date: {0}\nSchool: {1}\nMentors: {2} {3}, {4} {5}'.format(interview.time,
+                                                                                     existed_applicant.school,
+                                                                                     mentors[0], mentors[1],
+                                                                                     mentors[2], mentors[3]))
                 except Applicant.DoesNotExist:
                     print("Unavaible Application Code")
             if menu_choice == '5':

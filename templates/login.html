@@ -7,10 +7,10 @@
 		<body>
 
             <h3>Registration form</h3>
-            {% for message in get_flashed_messages() %}
-            <div class=flash>{{ message }}</div>
+            {% for m in get_flashed_messages() %}
+            <div class=flash>{{ m }}</div>
             {% endfor %}
-			<form action="/registration" method="post">
+			<form action="/admin" method="post">
 
 				<p>User name:
 				<br><input required name='username'></p>

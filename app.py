@@ -5,17 +5,17 @@ import os
 app = Flask(__name__)
 db.connect()
 
-
-
 secret = os.urandom(24)
 DEBUG = True
 app.secret_key = secret
 USERNAME = 'admin'
 PASSWORD = 'default'
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/registration', methods=['GET', 'POST'])
 def registration_form():
@@ -35,15 +35,12 @@ def registration_form():
     return render_template('registration.html', applicant=applicant)
 
 
-<<<<<<< HEAD
-=======
-
 @app.route('/admin/e-mail-log')
 def email_log():
     email = Email_log.select()
     return render_template('email_table.html', email=email)
 
->>>>>>> development
+
 if __name__ == '__main__':
     app.run()
     # app.run(debug=True)

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <title>Admin Login form</title>
+	</head>
+
+		<body>
+
+            <h3>Registration form</h3>
+            {% for m in get_flashed_messages() %}
+            <div class=flash>{{ m }}</div>
+            {% endfor %}
+			<form action="/admin" method="post">
+
+				<p>User name:
+				<br><input required name='username'></p>
+
+				<p>Passworld name:
+				<br><input type="password" required name='password'></p>
+
+
+				<br><button type='submit'>Submit</button>
+
+			</form>
+		</body>
+</html>

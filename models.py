@@ -1,7 +1,6 @@
 from peewee import *
 import random
 from read_from_text import *
-# from validation import Validation
 
 db = PostgresqlDatabase('6_teamwork_week', user=Read_from_text.connect_data())
 # db = PostgresqlDatabase('6_teamwork_week',
@@ -96,6 +95,7 @@ class Applicant(Person):
         if Validation.email_exists(self.email):
             errors['email'] = 'E-mail already in use'
         return errors
+
 
 class Mentor(Person):
     pass

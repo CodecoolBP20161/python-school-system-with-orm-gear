@@ -27,5 +27,16 @@ class Validation:
         return False
 
     @staticmethod
+<<<<<<< HEAD
     def email_exists(email):
         return Applicant.select().where(Applicant.email == email).exists()
+=======
+    def email_validation(email):
+        try:
+            email_from_database = Applicant.get(Applicant.email == email)
+            print(email_from_database.email)
+            return email == email_from_database.email
+        except:
+            print('Email is valid')
+            return False
+>>>>>>> 016d8a643aa1819940374e5c7349163b9601604d

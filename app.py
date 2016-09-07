@@ -33,33 +33,7 @@ def registration_form():
                 flash(values)
     return render_template('registration.html', applicant=applicant)
 
-# @app.route('/registration', methods=['POST', 'GET'])
-# def register():
-#     applicant = Applicant.create_from_form(request.form)
-#     if Validation.first_name_validation(applicant) is True:
-#         if Validation.last_name_validation(applicant) is True:
-#             if Validation.e_mail_exist(applicant) is True:
-#                 applicant = Applicant.create(first_name=request.form['first_name'],
-#                                              last_name=request.form['last_name'],
-#                                              email=request.form['email'],
-#                                              city=request.form['city'])
-#                 flash('Thanks for your registration')
-#             else:
-#                 flash('E-mail already in use')
-#         else:
-#             flash('Invalid last name')
-#     else:
-#         flash('Invalid first name')
-#         data = Applicant(first_name=request.form['first_name'],
-#                          last_name=request.form['last_name'],
-#                          email=request.form['email'],
-#                          city=request.form['city'])
-#         return redirect(get_url('/registration',
-#                                 request.form['first_name'],
-#                                 request.form['last_name'],
-#                                 request.form['email'],
-#                                 request.form['city']))
-#     return redirect('/registration')
+
 
 
 if __name__ == '__main__':

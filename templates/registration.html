@@ -8,18 +8,18 @@
 
             <h3>Registration form</h3>
             {% for message in get_flashed_messages() %}
-            <div class=flash>{{ message }}</div>
+            <h4><div class=flash>{{ message }}</div></h4>
             {% endfor %}
 			<form action="/registration" method="post">
 
 				<p>First name:
-				<br><input required name='first_name'>{{applicant.first_name}}</input></p>
+				<br><input required value='{{applicant.first_name}}' name='first_name'></input></p>
 
 				<p>Last name:
-				<br><input required name='last_name'>{{applicant.last_name}}</input></p>
+				<br><input required value='{{applicant.last_name}}' name='last_name'></input></p>
 
 				<p>E-mail address:
-				<br><input required type='email'  name='email'>{{applicant.email}}</input></p>
+				<br><input required type='email' value='{{applicant.email}}' name='email'></input></p>
 
 				<p>City:<br>
 				<select name = 'city'>

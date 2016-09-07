@@ -65,7 +65,6 @@ class Applicant(Person):
     def get_interviewed_applicant(cls):
         return cls.select().where(cls.status == "processing")
 
-
     def get_mentors_for_interview(self, query):
         mentors = []
         for applicant in self.applicant_datas:
@@ -79,7 +78,23 @@ class Applicant(Person):
         if query == "mentors":
             return mentors
 
+    @classmethod
+    def create_from_form(cls, request_form):
+        return Applicant(first_name=request_form['first_name'],
+                         last_name=request_form['last_name'],
+                         email=request_form['email'],
+                         city=request_form['city'])
 
+    def valid(self):
+        from validation import Validation
+        errors = {}
+        if Validation.first_name_validation(self.first_name):
+            errors['first_name'] = 'Invalid first name'
+        if Validation.last_name_validation(self.last_name):
+            errors['last_name'] = 'Invalid last name'
+        if Validation.email_exists(self.email):
+            errors['email'] = 'E-mail already in use'
+        return errors
 
 
 class Mentor(Person):

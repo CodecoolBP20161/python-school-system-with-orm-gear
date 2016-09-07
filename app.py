@@ -17,29 +17,26 @@ PASSWORD = 'default'
 def index():
     return render_template('index.html')
 
-@app.route('/registration', methods=['GET'])
+@app.route('/registration', methods=['GET', 'POST'])
 def registration_form():
-    empty_object = Applicant(first_name="", last_name="", email="", city="")
-    return render_template('registration.html', applicant=empty_object)
+    try:
+        applicant = Applicant.create_from_form(request.form)
+    except:
+        applicant = Applicant(first_name="", last_name="", email="", city="")
 
-@app.route('/registration', methods=['POST'])
-def register():
-    test = Validation(request.form['first_name'], request.form['last_name'], request.form['email'])
-    if Validation.first_name_validation(test) is True:
-        if Validation.last_name_validation(test) is True:
-            if Validation.e_mail_exist(test) is True:
-                data = Applicant.create(first_name=request.form['first_name'],
-                                        last_name=request.form['last_name'],
-                                        email=request.form['email'],
-                                        city=request.form['city'])
-                flash('Thanks for your registration')
-            else:
-                flash('E-mail already in use')
+    if request.method == "POST":
+        validation_result = applicant.valid()
+        if(len(validation_result) == 0):
+            applicant.save()
+            render_template('index.html')
+            flash("Thanks for your registration :)")
+            return
         else:
-            flash('Invalid last name')
-    else:
-        flash('Invalid first name')
-    return redirect('/registration')
+            for key, values in validation_result.items():
+                flash(values)
+    return render_template('registration.html', applicant=applicant)
+
+
 
 @app.route('/admin/e-mail-log')
 def email_log():

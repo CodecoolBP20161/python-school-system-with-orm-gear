@@ -99,8 +99,13 @@ class Applicant(Person):
     #this is only moved here to test things:
     @staticmethod
     def email_validation(email):
-        email_from_database = Applicant.select('email').where(Applicant.email == email)
-        return email == email_from_database
+        try:
+            email_from_database = Applicant.get(Applicant.email == email)
+            print(email_from_database.email)
+            return email == email_from_database.email
+        except:
+            print('Email is valid')
+            return False
 
 class Mentor(Person):
     pass

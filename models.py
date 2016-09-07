@@ -1,7 +1,7 @@
 from peewee import *
 import random
 from read_from_text import *
-from validation import Validation
+from validation import *
 
 db = PostgresqlDatabase('6_teamwork_week', user=Read_from_text.connect_data())
 # db = PostgresqlDatabase('6_teamwork_week',
@@ -96,7 +96,7 @@ class Applicant(Person):
             errors['email'] = 'E-mail already in use'
         return errors
 
-    #this is only moved here to test things:
+    # this is only moved here to test things:
     @staticmethod
     def email_validation(email):
         try:

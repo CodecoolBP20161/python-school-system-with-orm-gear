@@ -1,6 +1,6 @@
 from flask import *
 from models import *
-from validation import Validation
+from validation import *
 import os
 app = Flask(__name__)
 db.connect()
@@ -28,6 +28,7 @@ def registration_form():
         validation_result = applicant.valid()
         if(len(validation_result) == 0):
             applicant.save()
+            return redirect(url_for('index'))
         else:
             for key, values in validation_result.items():
                 flash(values)

@@ -39,16 +39,3 @@ class Validation:
         except:
             print('Email is valid')
             return False
-
-    # def email_validation(applicant, email):
-    #     row = applicant.select().where(applicant.email == email)
-    #     print(row)
-    #     try:
-    #         extracted_email = row.get(email)
-    #         print(extracted_email)
-    #         if extracted_email == email:
-    #             return False
-    #         else:
-    #             return True
-    #     except:
-    #         print("No matching row is found")

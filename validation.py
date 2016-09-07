@@ -11,28 +11,39 @@ class Validation:
         print(email.last_name_validation())
         print(email.e_mail_validation())"""
 
-    def __init__(self, first_name, last_name, e_mail):
-        self.first_name = first_name
-        self.last_name = last_name
-        self.e_mail = e_mail
+    # def __init__(self, first_name, last_name, e_mail):
+    #     self.first_name = first_name
+    #     self.last_name = last_name
+    #     self.e_mail = e_mail
 
-    def first_name_validation(self):
-        for letter in self.first_name:
+    @staticmethod
+    def first_name_validation(first_name):
+        for letter in first_name:
             if letter.isdigit():
-                return False
-        return True
+                return True
+        return False
 
-    def last_name_validation(self):
-        for letter in self.last_name:
+    @staticmethod
+    def last_name_validation(last_name):
+        for letter in last_name:
             if letter.isdigit():
-                return False
-        return True
+                return True
+        return False
 
-    def e_mail_exist(self):
-        try:
-            e_mail_database = Applicant.get(Applicant.email == self.e_mail)
-            if e_mail_database:
-                return False
-        except:
-            print("Email is valid")
-        return True
+    @staticmethod
+    def email_validation(email):
+        email_from_database = Applicant.select('email').where(Applicant.email == email)
+        return email == email_from_database
+
+    # def email_validation(applicant, email):
+    #     row = applicant.select().where(applicant.email == email)
+    #     print(row)
+    #     try:
+    #         extracted_email = row.get(email)
+    #         print(extracted_email)
+    #         if extracted_email == email:
+    #             return False
+    #         else:
+    #             return True
+    #     except:
+    #         print("No matching row is found")

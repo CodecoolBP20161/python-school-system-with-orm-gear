@@ -1,6 +1,7 @@
 from peewee import *
 import random
 from read_from_text import *
+from validation import Validation
 
 db = PostgresqlDatabase('6_teamwork_week', user=Read_from_text.connect_data())
 # db = PostgresqlDatabase('6_teamwork_week',
@@ -65,7 +66,6 @@ class Applicant(Person):
     def get_interviewed_applicant(cls):
         return cls.select().where(cls.status == "processing")
 
-
     def get_mentors_for_interview(self, query):
         mentors = []
         for applicant in self.applicant_datas:
@@ -79,8 +79,28 @@ class Applicant(Person):
         if query == "mentors":
             return mentors
 
+    @classmethod
+    def create_from_form(cls, request_form):
+        return Applicant(first_name=request_form['first_name'],
+                         last_name=request_form['last_name'],
+                         email=request_form['email'],
+                         city=request_form['city'])
 
+    def valid(self):
+        errors = {}
+        if Validation.first_name_validation(self.first_name):
+            errors['first_name'] = 'Invalid first name'
+        if Validation.last_name_validation(self.last_name):
+            errors['last_name'] = 'Invalid last name'
+        if Applicant.email_validation(self.email):  # Applicant should be replaced with Validation after testing
+            errors['email'] = 'E-mail already in use'
+        return errors
 
+    #this is only moved here to test things:
+    @staticmethod
+    def email_validation(email):
+        email_from_database = Applicant.select('email').where(Applicant.email == email)
+        return email == email_from_database
 
 class Mentor(Person):
     pass

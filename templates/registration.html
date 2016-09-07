@@ -8,7 +8,7 @@
 
             <h3>Registration form</h3>
             {% for message in get_flashed_messages() %}
-            <div class=flash>{{ message }}</div>
+            <h4><div class=flash>{{ message }}</div></h4>
             {% endfor %}
 			<form action="/registration" method="post">
 

@@ -28,6 +28,9 @@ def registration_form():
         validation_result = applicant.valid()
         if(len(validation_result) == 0):
             applicant.save()
+            render_template('index.html')
+            flash("Thanks for your registration :)")
+            return
         else:
             for key, values in validation_result.items():
                 flash(values)

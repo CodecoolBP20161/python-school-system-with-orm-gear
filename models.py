@@ -1,6 +1,7 @@
 from peewee import *
 import random
 from read_from_text import *
+from datetime import *
 
 db = PostgresqlDatabase('6_teamwork_week', user=Read_from_text.connect_data())
 # db = PostgresqlDatabase('6_teamwork_week',
@@ -21,6 +22,10 @@ class Person(BaseModel):
     school = CharField(default='', null=True)
     email = CharField()
 
+    @property
+    def full_name(self):
+        return ' '.join([self.first_name, self.last_name])
+
 
 class City(BaseModel):
     applicant_city = TextField()
@@ -31,6 +36,7 @@ class Applicant(Person):
     code = CharField(default=None, null=True, unique=True)
     city = TextField()
     status = CharField(default='new')
+    registration_time = DateTimeField(default=datetime.utcnow())
 
     @classmethod
     def new_applicant(cls):

@@ -11,10 +11,6 @@ class Validation:
         print(email.last_name_validation())
         print(email.e_mail_validation())"""
 
-    # def __init__(self, first_name, last_name, e_mail):
-    #     self.first_name = first_name
-    #     self.last_name = last_name
-    #     self.e_mail = e_mail
 
     @staticmethod
     def first_name_validation(first_name):
@@ -31,19 +27,5 @@ class Validation:
         return False
 
     @staticmethod
-    def email_validation(email):
-        email_from_database = Applicant.select('email').where(Applicant.email == email)
-        return email == email_from_database
-
-    # def email_validation(applicant, email):
-    #     row = applicant.select().where(applicant.email == email)
-    #     print(row)
-    #     try:
-    #         extracted_email = row.get(email)
-    #         print(extracted_email)
-    #         if extracted_email == email:
-    #             return False
-    #         else:
-    #             return True
-    #     except:
-    #         print("No matching row is found")
+    def email_exists(email):
+        return Applicant.select().where(Applicant.email == email).exists()

@@ -1,7 +1,7 @@
 from peewee import *
 import random
 from read_from_text import *
-from validation import Validation
+# from validation import Validation
 
 db = PostgresqlDatabase('6_teamwork_week', user=Read_from_text.connect_data())
 # db = PostgresqlDatabase('6_teamwork_week',
@@ -87,20 +87,15 @@ class Applicant(Person):
                          city=request_form['city'])
 
     def valid(self):
+        from validation import Validation
         errors = {}
         if Validation.first_name_validation(self.first_name):
             errors['first_name'] = 'Invalid first name'
         if Validation.last_name_validation(self.last_name):
             errors['last_name'] = 'Invalid last name'
-        if Applicant.email_validation(self.email):  # Applicant should be replaced with Validation after testing
+        if Validation.email_exists(self.email):
             errors['email'] = 'E-mail already in use'
         return errors
-
-    #this is only moved here to test things:
-    @staticmethod
-    def email_validation(email):
-        email_from_database = Applicant.select('email').where(Applicant.email == email)
-        return email == email_from_database
 
 class Mentor(Person):
     pass

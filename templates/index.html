@@ -3,10 +3,12 @@
 	<head>
 	    <title>Codecool</title>
 	</head>
+	<body>
+        {% if message %}
+        <h3 align="center">{{message}}</h3>
+        {% endif %}
 
-		<body>
-            <p><div class=flash>{{ message }}</div></p>
-            <p align="center"><img src="static/codecool.jpg" width="550" height="550" alt="Codecool"></p>
-            <h1><p align="center"><a href="http://localhost:5000/registration">Register here</a></p></h1>
-		</body>
+        <p align="center"><img src="static/codecool.jpg" width="500" height="500" alt="Codecool"></p>
+        <h1><p align="center"><a href="http://localhost:5000/registration">Register here</a></p></h1>
+	</body>
 </html>

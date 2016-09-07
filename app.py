@@ -28,15 +28,11 @@ def registration_form():
         validation_result = applicant.valid()
         if(len(validation_result) == 0):
             applicant.save()
-            render_template('index.html')
-            flash("Thanks for your registration :)")
-            return
+            return render_template('index.html', message="Thanks for your registration :)")
+
         else:
-            for key, values in validation_result.items():
-                flash(values)
+            return render_template('registration.html', applicant=applicant, errors=validation_result)
     return render_template('registration.html', applicant=applicant)
-
-
 
 
 if __name__ == '__main__':

@@ -22,7 +22,6 @@ from datetime import *
 # make experiments with related name and join queries
 
 
-
 class Main:
     user_data = {}
 
@@ -61,14 +60,14 @@ class Main:
                                     full_name="{0} {1}".format(applicant.first_name, applicant.last_name),
                                     email=applicant.email)
 
-
     @classmethod
     def send_email_interview(cls):
         for applicant in Applicant.get_interviewed_applicant():
             for applic in applicant.applicant_datas:
                 if applic.detail is None:
                     mentors = applicant.get_mentors_for_interview("mentors")
-                    message_dict = Message.applicant_interview(applicant.first_name, applicant.get_mentors_for_interview("time"),
+                    message_dict = Message.applicant_interview(applicant.first_name,
+                                                               applicant.get_mentors_for_interview("time"),
                                                                *mentors)
                     Email.send_email(applicant.email, **cls.user_data, **message_dict)
                     data = Email_log.create(subject=message_dict['subject'],
@@ -81,22 +80,21 @@ class Main:
     @classmethod
     def send_email_interview_mentors(cls):
         for interview in InterviewSlotMentor.email_to_mentors():
-            message_dict = Message.mentor_interview(interview.mentor.first_name, interview.interview.time,
-                                                    interview.interview.applicant.first_name, interview.interview.applicant.last_name)
+            message_dict = Message.mentor_interview(interview.mentor.first_name,
+                                                    interview.interview.time,
+                                                    interview.interview.applicant.first_name,
+                                                    interview.interview.applicant.last_name)
 
             Email.send_email(interview.mentor.email, **cls.user_data, **message_dict)
-
 
             interview.interview.detail = "email sent"
             interview.interview.save()
             data = Email_log.create(subject=message_dict['subject'],
-                                   message=message_dict['body'],
-                                   type="mentors's interview",
-                                   date=datetime.utcnow(),
-                                   full_name="{0} {1}".format(interview.mentor.first_name, interview.mentor.last_name),
-                                   email=interview.mentor.email)
-
-
+                                    message=message_dict['body'],
+                                    type="mentors's interview",
+                                    date=datetime.utcnow(),
+                                    full_name="{0} {1}".format(interview.mentor.first_name, interview.mentor.last_name),
+                                    email=interview.mentor.email)
 
     @classmethod
     def interview(cls):
@@ -109,8 +107,6 @@ class Main:
         print('_______________________________________\n')
         print('Sending out e-mails to mentors who were assigned to an interview.\n')
         cls.send_email_interview_mentors()
-
-
 
 
 # Build()

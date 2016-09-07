@@ -7,13 +7,12 @@ import os
 app = Flask(__name__)
 db.connect()
 
-
-
 secret = os.urandom(24)
 DEBUG = True
 app.secret_key = secret
 USERNAME = 'admin'
 PASSWORD = 'default'
+
 
 def login_required(f):
     @wraps(f)
@@ -24,9 +23,11 @@ def login_required(f):
 
     return decorated_function
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/registration', methods=['GET', 'POST'])
 
@@ -40,12 +41,10 @@ def registration_form():
         validation_result = applicant.valid()
         if(len(validation_result) == 0):
             applicant.save()
-            render_template('index.html')
-            flash("Thanks for your registration :)")
-            return
+            return render_template('index.html', message="Thanks for your registration :)")
+
         else:
-            for key, values in validation_result.items():
-                flash(values)
+            return render_template('registration.html', applicant=applicant, errors=validation_result)
     return render_template('registration.html', applicant=applicant)
 
 @app.route('/admin', methods=['GET', 'POST'])
@@ -76,13 +75,13 @@ def logout():
     return 'You were logged out'
 
 
-
 @app.route('/admin/e-mail-log')
 @login_required
 def email_log():
     email = Email_log.select()
     return render_template('email_table.html', email=email)
 
+
 if __name__ == '__main__':
-    # app.run()
-    app.run(debug=True)
+    app.run()
+    # app.run(debug=True)

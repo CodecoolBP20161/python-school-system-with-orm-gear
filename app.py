@@ -1,7 +1,6 @@
 from flask import *
 from models import *
 import json
-from validation import Validation
 from functools import *
 import os
 

@@ -11,6 +11,7 @@
             <h4 align="center">{{message}}</h4>
         {% endif %}
         {% block greeter %}
+
     	    {% if session.get('username') %}
                 <h4 align="right">Welcome, {{session.get('username')}}
                 <br><a type="logout" href="http://localhost:5000/logout">Logout</a></h4>
@@ -47,8 +48,12 @@
 
 
         {% block body %}
-        <p align="center"><img src="static/codecool.jpg" width="500" height="500" alt="Codecool"></p>
-
+        <p align="center"><img src="static/codecool.jpg" width="400" height="400" alt="Codecool"></p>
+				<p align="center">
+				<audio controls align="center">
+					<source src="/static/War - Low Rider (HQ Audio).mp3" type="audio/ogg">
+					</audio>
+				</p>
         {% endblock %}
 	</body>
 </html>

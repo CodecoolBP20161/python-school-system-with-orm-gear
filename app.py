@@ -27,6 +27,13 @@ def login_required(f):
 
 @app.route('/')
 def index():
+    applicant_filter = InterviewSlot.select(InterviewSlot, InterviewSlotMentor, Mentor, Applicant).join(
+        InterviewSlotMentor).join(
+        Mentor).switch(InterviewSlot).join(Applicant).where(~(InterviewSlot.applicant >> None))
+
+    for i in applicant_filter:
+        print(i.time, i.detail, i.applicant.first_name)
+
     return render_template('index.html')
 
 
@@ -46,8 +53,6 @@ def registration_form():
         else:
             return render_template('registration.html', applicant=applicant, errors=validation_result)
     return render_template('registration.html', applicant=applicant)
-
-
 
 
 @app.route('/admin', methods=['GET', 'POST'])
@@ -78,6 +83,7 @@ def logout():
     # flash('You were logged out')
     return 'You were logged out'
 
+
 @app.route('/admin/applicant_list', methods=['GET', 'POST'])
 @login_required
 def admin_filter():
@@ -94,7 +100,6 @@ def admin_filter():
 
         if forms.get('mentor') and len(forms.get('mentor')) > 0:
             full_name = forms.get('mentor').split(" ")
-            print(full_name)
             applicant_filter = Applicant.select(Applicant, InterviewSlot, InterviewSlotMentor, Mentor).join(
                 InterviewSlot).join(
                 InterviewSlotMentor).join(Mentor).where(Mentor.first_name.contains(full_name[0]),
@@ -110,8 +115,51 @@ def admin_filter():
                 applicant_filter = applicant_filter.where(
                     getattr(Applicant, key).contains(value))
 
-        return render_template('applicant.html', applicant_filter=applicant_filter, schools=schools, statuses=statuses, cities=cities, mentors=mentors)
+        return render_template('applicant.html', applicant_filter=applicant_filter, schools=schools, statuses=statuses,
+                               cities=cities, mentors=mentors)
     return render_template('applicant.html', schools=schools, statuses=statuses, cities=cities, mentors=mentors)
+
+
+@app.route('/admin/interview_list', methods=['GET', 'POST'])
+# @login_required
+def admin_filter_interviews():
+    forms = request.form.to_dict()
+
+    schools = InterviewSlot.select(InterviewSlot.school).group_by(InterviewSlot.school)
+    mentors = Mentor.select(Mentor.first_name, Mentor.last_name).group_by(Mentor.first_name, Mentor.last_name)
+
+    if request.method == 'POST':
+        # if forms.get('school') and len(forms.get('school')) > 0:
+        #     interview_filter = InterviewSlot.select(InterviewSlot, InterviewSlotMentor, Mentor, Applicant).join(
+        #         InterviewSlotMentor).join(Mentor).switch(InterviewSlot).join(Applicant)
+        #     for i in interview_filter:
+        #         print(i.interviewslotmentor.mentor.first_name)
+
+        interview_filter = InterviewSlot.select(InterviewSlot, InterviewSlotMentor, Mentor, Applicant).join(
+                InterviewSlotMentor).join(
+                Mentor).switch(InterviewSlot).join(Applicant)
+
+        if forms.get('mentor') and len(forms.get('mentor')) > 0:
+            full_name = forms.get('mentor').split(" ")
+            interview_filter = interview_filter.where(~(InterviewSlot.applicant >> None),
+                                                                    Mentor.first_name.contains(full_name[0]),
+                                                                    Mentor.last_name.contains(full_name[1]))
+
+        if forms.get('time_to') and forms.get('time_from'):
+            interview_filter = interview_filter.where(
+                InterviewSlot.time > datetime.strptime(forms.get('time_from'), "%Y-%m-%d"),
+                InterviewSlot.time < datetime.strptime(forms.get('time_to'), "%Y-%m-%d"))
+
+        if forms.get('code') and len(forms.get('code')) > 0:
+            interview_filter = interview_filter.where(
+                Applicant.code.contains((forms.get('code'))))
+
+        if forms.get("school") and len(forms.get("school")) > 0:
+            interview_filter = interview_filter.where(InterviewSlot.school == forms.get("school"))
+
+        return render_template('interview.html', interview_filter=interview_filter, schools=schools, mentors=mentors)
+
+    return render_template('interview.html', schools=schools, mentors=mentors)
 
 
 @app.route('/admin/e-mail-log')

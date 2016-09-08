@@ -1,39 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Admin</title>
-</head>
-<body>
-<p><h2>E-mail log</h2></p>
-
-<!--<p><form action="/story" method="get"><button>Add a new User Story</button></form></p>-->
-
-<table style="border:1px solid black;" width="90%">
-    <tr>
-        <th width="5%" align="center" style="border:1px solid black;">Subject</th>
-        <th width="15%" align="center" style="border:1px solid black;">Message</th>
-        <th width="25%" align="center" style="border:1px solid black;">Email Type</th>
-        <th width="25%" align="center" style="border:1px solid black;">Date Time</th>
-        <th width="10%" align="center" style="border:1px solid black;">Name</th>
-        <th width="10%" align="center" style="border:1px solid black;">Email</th>
+{% extends "base.html" %}
+    {% block title %}
+        - E-mails
+    {% endblock %}
+    {% block greeter %}
+        {{ super() }}
+    {% endblock %}
+    {% block menu %}
+        {{ super() }}
+    {% endblock %}
+    {% block body %}
+    <h1 align="center">E-mail log</h1>
 
 
-            {% for n in email %}
-            <tr>
-                <td align="center" style="border:1px solid black;">{{n.subject}}</td>
-                <td align="center" style="border:1px solid black;">{{n.message | truncate(140, True)}}</td>
-                <td align="center" style="border:1px solid black;">{{n.type}}</td>
-                <td align="center" style="border:1px solid black;">{{n.date.strftime('%Y-%m-%d %H:%M')}}</td>
-                <td align="center" style="border:1px solid black;">{{n.full_name}}</td>
-                <td align="center" style="border:1px solid black;">{{n.email}}</td>
+    <table align="center"style="border:1px solid black;" type="email" width="90%">
+        <tr>
+            <th type="email" width="5%" align="center">Subject</th>
+            <th type="email"  width="15%" align="center">Message</th>
+            <th type="email"  width="10%" align="center">Email Type</th>
+            <th type="email"  width="8%" align="center">Date Time</th>
+            <th type="email"  width="10%" align="center">Name</th>
+            <th type="email"  width="8%" align="center">Email</th>
 
 
-            </tr>
-            {% endfor %}
-    </tr>
+                {% for n in email %}
+                <tr>
+                    <td type="email"  align="center">{{n.subject}}</td>
+                    <td type="email"  align="center">{{n.message | truncate(140, True)}}</td>
+                    <td type="email"  align="center">{{n.type}}</td>
+                    <td type="email"  align="center">{{n.date.strftime('%Y-%m-%d %H:%M')}}</td>
+                    <td type="email"  align="center">{{n.full_name}}</td>
+                    <td type="email"  align="center">{{n.email}}</td>
 
-</table>
 
-</body>
-</html>
+                </tr>
+                {% endfor %}
+        </tr>
+
+    </table>
+    {% endblock %}

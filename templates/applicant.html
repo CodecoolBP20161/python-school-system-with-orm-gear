@@ -1,63 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Admin</title>
-</head>
-<body>
-<p><h2>Application filter</h2></p>
+{% extends "base.html" %}
+    {% block title %}
+        - E-mails
+    {% endblock %}
+    {% block greeter %}
+        {{ super() }}
+    {% endblock %}
+    {% block menu %}
+        {{ super() }}
+    {% endblock %}
+    {% block body %}
+<p><h1 align="center">Application filter</h1></p>
 
 <!--<p><form action="/story" method="get"><button>Add a new User Story</button></form></p>-->
-            <form method="post">
-                Filters:<br>
-                <tr>
-	           <td width ="20%" align="right"><label for="status">Status</label></td>
-                    <th width ="20%" align="right"><select id="status" name = 'status'>
-			        <option value="">------</option>
-                    {%for status in statuses%}
-			        <option value="{{status.status}}">{{status.status}}</option>
-				    {%endfor%}
-				</select></th>
-                <td width ="20%" align="right"><label for="school">School</label></td>
-				<td width ="20%" align="right"><select id="school" name = 'school'>
-                    <option value="">------</option>
-                    {%for school in schools%}
-			        <option value="{{school.school}}">{{school.school}}</option>
-				    {%endfor%}
-				</select></td>
-                <td width ="20%" align="right"><label for="city">Location</label></td>
-                <td width ="20%" align="right"><select id="city" name = 'city'>
-                    <option value="">------</option>
-                    {%for city in cities%}
-			        <option value="{{city.city}}">{{city.city}}</option>
-                    {%endfor%}
-				</select></td>
+<form method="post">
+<h2>Filters:</h2>
+<table type="filter" style="border:1px solid black;" width="100%">
+    <tr>
+	      <th width ="10%" type="filter"><label for="status"><h3 align="left">Status</h3></label></th>
+        <td width ="10%" type="filter" align="center">
+          <select type="filter" id="status" name = 'status'>
+            <option value="">------</option>
+            {%for status in statuses%}
+            <option value="{{status.status}}">{{status.status}}</option>
+            {%endfor%}
+          </select>
+        </td>
+        <th width ="10%" type="filter"><label for="school"><h3 align="left">School:</h3></label></th>
+        <td type="filter" align="center">
+          <select type="filter" id="school" name = 'school'>
+            <option value="">------</option>
+            {%for school in schools%}
+            <option value="{{school.school}}">{{school.school}}</option>
+            {%endfor%}
+          </select>
+        </td>
+        <th width ="10%" type="filter"><label for="city"><h3 align="left">Location:</h3></label></th>
+        <td type="filter" align="center">
+          <select type="filter" id="city" name = 'city'>
+            <option value="">------</option>
+            {%for city in cities%}
+            <option value="{{city.city}}">{{city.city}}</option>
+            {%endfor%}
+          </select>
+        </td>
+          <th width ="10%" type="filter"><label for="mentor"><h3 align="left">Mentor's first name:</h3></label></td>
+          <td type="filter" align="center">
+          <select type="filtermentor" id="mentor" name = 'mentor'>
+            <option value="">------</option>
+            {%for mentor in mentors%}
+            <option value="{{mentor.full_name}}">{{mentor.full_name}}</option>
+            {%endfor%}
+          </select>
+        </td>
+</table>
+<table type="filter2" aign="left" width="80%">
+        <th type="filter2" width ="10%"><label><h3 align="left">Registration Time:</h3></label></th>
+        <td type="filter2" width ="40%" align="left">from:<input  type='date' name='time_from'></td>
+        <td type="filter2" width ="40%" aign="center">to:<input  type='date' name='time_to'></td>
 
-                <td width ="20%" align="right"><label for="mentor">Mentor's first name</label></td>
-                <td width ="20%" align="right"><select id="mentor" name = 'mentor'>
-			        <option value="">------</option>
-                    {%for mentor in mentors%}
-			        <option value="{{mentor.full_name}}">{{mentor.full_name}}</option>
-				    {%endfor%}
-				</select></td><br>
+    </tr>
+    <tr>
+      <th type="filter2" width ="40%"><label for="name"><h3 align="left">Applicant's first name:</h3></label></th>
+      <td width ="40%" type="filter2" ><input id="name" name='first_name'></td><br>
+      <td width ="40%" type="filter2" ></td>
+    </tr>
 
-                <td width ="40%" align="right"><label>Registration Time:</label></td>
-                <td width ="40%" align="right">from:<input  type='date' name='time_from'></td>
-                    <td width ="40%" align="right">to:<input  type='date' name='time_to'></td><br>
+      <th type="filter2" width ="40%"><label for="email"><h3 align="left">Applicant's email:</h3></label></th>
+
+      <td width ="40%" type="filter2"  ><input id="email" name='email'></td><br>
+      <td width ="40%" type="filter2" ></td>
+    </td>
                 <!--<input id="time"required type='date' name='time3'><br>-->
 
 
-                <td width ="40%" align="right"><label for="name">Applicant's first name</label></td>
-                <td width ="40%" align="right"><input id="name" name='first_name'></td><br>
 
-                <td width ="40%" align="right"><label for="email">Applicant's email</label></td>
-                <td width ="40%" align="right"><input id="email" name='email'></td><br>
-                <input type="submit" value="Filter">
                 </tr>
                 <!--<button type="button">Filter</button>-->
             </form>
-
-<table style="border:1px solid black;" width="90%">
+</table>
+<table type="filter2" style="border:1px solid black;" width="90%">
+  <input type="button" value="Filter">
     <tr>
 
         <th width="25%" align="center" style="border:1px solid black;">Name</th>
@@ -83,8 +105,4 @@
             </tr>
             {% endfor %}
     </tr>
-
-</table>
-
-</body>
-</html>
+    {% endblock %}

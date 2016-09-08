@@ -21,13 +21,12 @@ def login_required(f):
         if session.get('username') is None:
             return redirect(url_for('index', next=request.url))
         return f(*args, **kwargs)
-
     return decorated_function
 
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('base.html')
 
 
 @app.route('/registration', methods=['GET', 'POST'])
@@ -41,7 +40,7 @@ def registration_form():
         validation_result = applicant.valid()
         if (len(validation_result) == 0):
             applicant.save()
-            return render_template('index.html', message="Thanks for your registration :)")
+            return render_template('base.html', message="Thanks for your registration :)")
 
         else:
             return render_template('registration.html', applicant=applicant, errors=validation_result)
@@ -61,14 +60,15 @@ def admin():
             flash('Wrong user name')
             return render_template('login.html')
         elif request.form['password'] != admin_data['password']:
-            flash('Wrong passworld')
+            flash('Wrong password')
             return render_template('login.html')
         else:
             session['username'] = request.form['username']
-            flash("You have logged in. Welcome on the board")
-            return redirect(url_for('admin_filter'))
-
+            return redirect('/')
+            # return render_template('base.html', message="You logged in as {0}".format(request.form['username']))
+            # return redirect(url_for('admin_filter'))  # user=request.form['username'], message="You logged in as {0}".format(request.form['username']
     return render_template('login.html')
+
 
 
 @app.route('/logout')
@@ -76,7 +76,8 @@ def admin():
 def logout():
     session.pop('username', None)
     # flash('You were logged out')
-    return 'You were logged out'
+    return redirect('/')
+    # return render_template('base.html', message="You were logged out")
 
 @app.route('/admin/applicant_list', methods=['GET', 'POST'])
 @login_required

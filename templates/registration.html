@@ -1,50 +1,54 @@
-<!DOCTYPE html>
-<html>
-	<head>
-	    <title>Registration form</title>
-	</head>
+{% extends "base.html" %}
+    {% block title %}
+        - Registration
+    {% endblock %}
+    {% block greeter %}
+        {{ super() }}
+    {% endblock %}
+    {% block menu %}
+        {{ super() }}
+    {% endblock %}
+    {% block body %}
+    <!-- <p align="center"><img src="static/python.png" width="550" height="550" alt="Codecool" type="python"></p>
+	<p align="center"><img src="static/git_logo.png" width="550" height="550" alt="Codecool" type="git"></p> -->
+    <h1  align="center">Registration form</h1>
+    <form action="/registration" method="post">
 
-		<body>
+        <p align="center">First name:
+        <br><input type="text" required value='{{applicant.first_name}}' name='first_name'>
+        {% if errors %}
+        {% for key, value in errors.items() %}
+        {% if key == 'first_name' %}
+        <span style="color:red";>{{value}}</span>
+        {% endif %}{% endfor %}{% endif %}
+        </p>
 
-            <h2>Registration form</h2>
-			<form action="/registration" method="post">
+        <p align="center">Last name:
+        <br><input type="text" required value='{{applicant.last_name}}' name='last_name'>
+        {% if errors %}
+        {% for key, value in errors.items() %}
+        {% if key == 'last_name' %}
+        <span style="color:red";>{{value}}</span>
+        {% endif %}{% endfor %}{% endif %}
+        </p>
 
-				<p>First name:
-				<br><input required value='{{applicant.first_name}}' name='first_name'>
-                {% if errors %}
-                {% for key, value in errors.items() %}
-                {% if key == 'first_name' %}
-                <span style="color:red";>{{value}}</span>
-                {% endif %}{% endfor %}{% endif %}
-                </p>
+        <p align="center">E-mail address:
+        <br><input required type='email' value='{{applicant.email}}' name='email'>
+        {% if errors %}
+        {% for key, value in errors.items() %}
+        {% if key == 'email' %}
+        <span style="color:red";>{{value}}</span>
+        {% endif %}{% endfor %}{% endif %}
+        </p>
 
-				<p>Last name:
-				<br><input required value='{{applicant.last_name}}' name='last_name'>
-                {% if errors %}
-                {% for key, value in errors.items() %}
-                {% if key == 'last_name' %}
-                <span style="color:red";>{{value}}</span>
-                {% endif %}{% endfor %}{% endif %}
-                </p>
+        <p align="center">City:<br>
+        <select name = 'city'>
+            <option value="Budapest">Budapest</option>
+            <option value="Eger">Eger</option>
+            <option value="Szentendre">Szentendre</option>
+            <option value="Ostrava">Ostrava</option>
+        </select></p>
+        <p align="center"><button type='submit'>Register</button></p>
 
-				<p>E-mail address:
-				<br><input required type='email' value='{{applicant.email}}' name='email'>
-                {% if errors %}
-                {% for key, value in errors.items() %}
-                {% if key == 'email' %}
-                <span style="color:red";>{{value}}</span>
-                {% endif %}{% endfor %}{% endif %}
-                </p>
-
-				<p>City:<br>
-				<select name = 'city'>
-			        <option value="Budapest">Budapest</option>
-				    <option value="Eger">Eger</option>
-                    <option value="Szentendre">Szentendre</option>
-				    <option value="Ostrava">Ostrava</option>
-				</select></p>
-				<br><button type='submit'>Register</button>
-
-			</form>
-		</body>
-</html>
+    </form>
+    {% endblock %}

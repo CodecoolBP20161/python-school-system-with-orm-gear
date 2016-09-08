@@ -26,7 +26,7 @@ def login_required(f):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('base.html')
 
 
 @app.route('/registration', methods=['GET', 'POST'])
@@ -41,7 +41,7 @@ def registration_form():
         validation_result = applicant.valid()
         if(len(validation_result) == 0):
             applicant.save()
-            return render_template('index.html', message="Thanks for your registration :)")
+            return render_template('base.html', message="Thanks for your registration :)")
 
         else:
             return render_template('registration.html', applicant=applicant, errors=validation_result)
@@ -58,21 +58,23 @@ def admin():
             flash('Wrong user name')
             return render_template('login.html')
         elif request.form['password'] != admin_data['password']:
-            flash('Wrong passworld')
+            flash('Wrong password')
             return render_template('login.html')
         else:
             session['username'] = request.form['username']
-            flash("You have logged in. Welcome on the board")
-
-
-    return render_template('login.html')
+            # flash("You have logged in. Welcome on the board")
+    if request.method == "POST":
+        return render_template('base.html', user=request.form['username'],
+                               message="You logged in as {0}".format(request.form['username']))
+    else:
+        return render_template('login.html')
 
 
 @app.route('/logout')
 def logout():
     session.pop('username', None)
     # flash('You were logged out')
-    return 'You were logged out'
+    return render_template('base.html', message="You were logged out")
 
 
 @app.route('/admin/e-mail-log')
@@ -83,5 +85,5 @@ def email_log():
 
 
 if __name__ == '__main__':
-    app.run()
-    # app.run(debug=True)
+    # app.run()
+    app.run(debug=True)

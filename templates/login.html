@@ -1,26 +1,27 @@
-<!DOCTYPE html>
-<html>
-	<head>
-	    <title>Admin Login form</title>
-	</head>
+{% extends "base.html" %}
+    {% block title %}
+        - Admin Login
+    {% endblock %}
+    {% block greeter %}
+        {{ super() }}
+    {% endblock %}
+    {% block menu %}
+        {{ super() }}
+    {% endblock %}
+    {% block body %}
+    <h1 align="center">Admin Login</h1>
+    {% for m in get_flashed_messages() %}
+    <div class=flash>{{ m }}</div>
+    {% endfor %}
+    <form action="/admin" method="post">
 
-		<body>
+        <p align="center">User name:
+        <br><input type="text" required name='username'></p>
 
-            <h3>Registration form</h3>
-            {% for m in get_flashed_messages() %}
-            <div class=flash>{{ m }}</div>
-            {% endfor %}
-			<form action="/admin" method="post">
+        <p align="center">Password:
+        <br><input type="password" required name='password'></p>
 
-				<p>User name:
-				<br><input required name='username'></p>
+        <p align="center"><button type='submit'>Login</button></p>
 
-				<p>Password:
-				<br><input type="password" required name='password'></p>
-
-
-				<br><button type='submit'>Login</button>
-
-			</form>
-		</body>
-</html>
+    </form>
+    {% endblock %}

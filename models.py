@@ -3,10 +3,10 @@ import random
 from read_from_text import *
 from datetime import *
 
-db = PostgresqlDatabase('6_teamwork_week', user=Read_from_text.connect_data())
-# db = PostgresqlDatabase('6_teamwork_week',
-#                         **{'user': Read_from_text.connect_data(), 'host': 'localhost', 'port': 5432,
-#                            'password': '753951'})
+# db = PostgresqlDatabase('6_teamwork_week', user=Read_from_text.connect_data())
+db = PostgresqlDatabase('6_teamwork_week',
+                        **{'user': Read_from_text.connect_data(), 'host': 'localhost', 'port': 5432,
+                           'password': '753951'})
 
 
 class BaseModel(Model):
@@ -101,6 +101,18 @@ class Applicant(Person):
         if Validation.email_exists(self.email):
             errors['email'] = 'E-mail already in use'
         return errors
+
+    @classmethod
+    def mentors_for_applicant(cls, first_name, last_name):
+        return cls.select(Applicant, InterviewSlot, InterviewSlotMentor, Mentor).join(
+            InterviewSlot).join(
+            InterviewSlotMentor).join(Mentor).where(Mentor.first_name.contains(first_name),
+                                                    Mentor.last_name.contains(last_name))
+
+    def registered_applicant_between_given_time(self, _from, _to):
+        return self.where(
+            getattr(Applicant, 'registration_time') > datetime.strptime(_from, "%Y-%m-%d"),
+            getattr(Applicant, 'registration_time') < datetime.strptime(_to, "%Y-%m-%d"))
 
 
 class Mentor(Person):

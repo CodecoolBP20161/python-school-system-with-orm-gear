@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+</head>
+<body>
+<p><h2>Interview filter</h2></p>
+
+<!--<p><form action="/story" method="get"><button>Add a new User Story</button></form></p>-->
+            <form method="post">
+                Filters:<br>
+                <tr>
+                <td width ="20%" align="right"><label for="school">School</label></td>
+				<td width ="20%" align="right"><select id="school" name = 'school'>
+                    <option value="">------</option>
+                    {%for school in schools%}
+			        <option value="{{school.school}}">{{school.school}}</option>
+				    {%endfor%}
+				</select></td>
+
+                <td width ="20%" align="right"><label for="mentor">Mentor's name</label></td>
+                <td width ="20%" align="right"><select id="mentor" name = 'mentor'>
+			        <option value="">------</option>
+                    {%for mentor in mentors%}
+			        <option value="{{mentor.full_name}}">{{mentor.full_name}}</option>
+				    {%endfor%}
+				</select></td><br>
+
+                <td width ="40%" align="right"><label>Interview Time:</label></td>
+                <td width ="40%" align="right">from:<input  type='date' name='time_from'></td>
+                    <td width ="40%" align="right">to:<input  type='date' name='time_to'></td><br>
+                <!--<input id="time"required type='date' name='time3'><br>-->
+
+
+                <td width ="40%" align="right"><label for="name">Application code</label></td>
+                <td width ="40%" align="right"><input id="name" name='code'></td><br>
+
+
+                <input type="submit" value="Filter">
+                </tr>
+                <!--<button type="button">Filter</button>-->
+            </form>
+
+<table style="border:1px solid black;" width="90%">
+    <tr>
+
+        <th width="25%" align="center" style="border:1px solid black;">School</th>
+        <th width="15%" align="center" style="border:1px solid black;">Mentor</th>
+        <th width="25%" align="center" style="border:1px solid black;">Applicant</th>
+        <th width="10%" align="center" style="border:1px solid black;">Detail</th>
+        <th width="10%" align="center" style="border:1px solid black;">Time</th>
+
+
+            {% for n in interview_filter %}
+            <tr>
+                <td align="center" style="border:1px solid black;">{{n.school}}</td>
+                <td align="center" style="border:1px solid black;">{{n.interviewslotmentor.mentor.first_name}}
+                    {{n.interviewslotmentor.mentor.last_name}}</td>
+                <td align="center" style="border:1px solid black;">{{n.applicant.first_name}} {{n.applicant.last_name}}</td>
+                <td align="center" style="border:1px solid black;">{{n.detail}}</td>
+                <td align="center" style="border:1px solid black;">{{n.time}}</td>
+
+
+            </tr>
+            {% endfor %}
+    </tr>
+
+</table>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+</head>
+<body>
+<p><h2>Application filter</h2></p>
+
+<!--<p><form action="/story" method="get"><button>Add a new User Story</button></form></p>-->
+            <form method="post">
+                Filters:<br>
+                <tr>
+	           <td width ="20%" align="right"><label for="status">Status</label></td>
+                    <th width ="20%" align="right"><select id="status" name = 'status'>
+			        <option value="">------</option>
+                    {%for status in statuses%}
+			        <option value="{{status.status}}">{{status.status}}</option>
+				    {%endfor%}
+				</select></th>
+                <td width ="20%" align="right"><label for="school">School</label></td>
+				<td width ="20%" align="right"><select id="school" name = 'school'>
+                    <option value="">------</option>
+                    {%for school in schools%}
+			        <option value="{{school.school}}">{{school.school}}</option>
+				    {%endfor%}
+				</select></td>
+                <td width ="20%" align="right"><label for="city">Location</label></td>
+                <td width ="20%" align="right"><select id="city" name = 'city'>
+                    <option value="">------</option>
+                    {%for city in cities%}
+			        <option value="{{city.city}}">{{city.city}}</option>
+                    {%endfor%}
+				</select></td>
+
+                <td width ="20%" align="right"><label for="mentor">Mentor's first name</label></td>
+                <td width ="20%" align="right"><select id="mentor" name = 'mentor'>
+			        <option value="">------</option>
+                    {%for mentor in mentors%}
+			        <option value="{{mentor.full_name}}">{{mentor.full_name}}</option>
+				    {%endfor%}
+				</select></td><br>
+
+                <td width ="40%" align="right"><label>Registration Time:</label></td>
+                <td width ="40%" align="right">from:<input  type='date' name='time_from'></td>
+                    <td width ="40%" align="right">to:<input  type='date' name='time_to'></td><br>
+                <!--<input id="time"required type='date' name='time3'><br>-->
+
+
+                <td width ="40%" align="right"><label for="name">Applicant's first name</label></td>
+                <td width ="40%" align="right"><input id="name" name='first_name'></td><br>
+
+                <td width ="40%" align="right"><label for="email">Applicant's email</label></td>
+                <td width ="40%" align="right"><input id="email" name='email'></td><br>
+                <input type="submit" value="Filter">
+                </tr>
+                <!--<button type="button">Filter</button>-->
+            </form>
+
+<table style="border:1px solid black;" width="90%">
+    <tr>
+
+        <th width="25%" align="center" style="border:1px solid black;">Name</th>
+        <th width="15%" align="center" style="border:1px solid black;">School</th>
+        <th width="25%" align="center" style="border:1px solid black;">Email</th>
+        <th width="10%" align="center" style="border:1px solid black;">App. code</th>
+        <th width="10%" align="center" style="border:1px solid black;">City</th>
+        <th width="10%" align="center" style="border:1px solid black;">Status</th>
+        <th width="10%" align="center" style="border:1px solid black;">Reg. time</th>
+
+
+            {% for n in applicant_filter %}
+            <tr>
+                <td align="center" style="border:1px solid black;">{{n.first_name}} {{n.last_name}}</td>
+                <td align="center" style="border:1px solid black;">{{n.school}}</td>
+                <td align="center" style="border:1px solid black;">{{n.email}}</td>
+                <td align="center" style="border:1px solid black;">{{n.code}}</td>
+                <td align="center" style="border:1px solid black;">{{n.city}}</td>
+                <td align="center" style="border:1px solid black;">{{n.status}}</td>
+                <td align="center" style="border:1px solid black;">{{n.registration_time.strftime('%Y-%m-%d %H:%M')}}</td>
+
+
+            </tr>
+            {% endfor %}
+    </tr>
+
+</table>
+
+</body>
+</html>

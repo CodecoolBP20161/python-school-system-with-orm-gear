@@ -49,7 +49,7 @@ def registration_form():
 
 
 @app.route('/admin/applicant_list', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def admin_filter():
     forms = request.form.to_dict()
 
@@ -75,7 +75,7 @@ def admin_filter():
 
         for key, value in forms.items():
             # print(len(value))
-            if key != "mentor" and len(value) > 0:
+            if key != "mentor" or key != "time" and len(value) > 0:
                 applicant_filter = applicant_filter.where(
                     getattr(Applicant, key).contains(value))
 

@@ -109,10 +109,6 @@ class Applicant(Person):
             InterviewSlotMentor).join(Mentor).where(Mentor.first_name.contains(first_name),
                                                     Mentor.last_name.contains(last_name))
 
-    def registered_applicant_between_given_time(self, _from, _to):
-        return self.where(
-            getattr(Applicant, 'registration_time') > datetime.strptime(_from, "%Y-%m-%d"),
-            getattr(Applicant, 'registration_time') < datetime.strptime(_to, "%Y-%m-%d"))
 
     @classmethod
     def option_groups(cls, groups):

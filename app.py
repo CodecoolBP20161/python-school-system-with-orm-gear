@@ -3,6 +3,7 @@ from models import *
 import json
 from functools import *
 import os
+from main import *
 
 app = Flask(__name__)
 db.connect()
@@ -36,6 +37,9 @@ def registration_form():
         validation_result = applicant.valid()
         if len(validation_result) == 0:
             applicant.save()
+            Main.get_user_email_data()
+            Main.register()
+            Main.interview()
             return render_template('base.html', message="Thanks for your registration :)")
         else:
             return render_template('registration.html', applicant=applicant, errors=validation_result)

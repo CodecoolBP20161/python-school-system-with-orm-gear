@@ -1,5 +1,6 @@
 from models import *
 import re
+import json
 
 
 class Validation:
@@ -21,3 +22,19 @@ class Validation:
     @staticmethod
     def email_exists(email):
         return Applicant.select().where(Applicant.email == email).exists()
+
+    @staticmethod
+    def read_login_info():
+        with open('admin.json') as json_data:
+            admin_data = json.load(json_data)
+        return admin_data
+
+    @staticmethod
+    def username_correct(username):
+        admin_data = Validation.read_login_info()
+        return username == admin_data['username']
+
+    @staticmethod
+    def password_correct(password):
+        admin_data = Validation.read_login_info()
+        return password == admin_data['password']

@@ -6,19 +6,37 @@
         {{ super() }}
     {% endblock %}
     {% block menu %}
-        {{ super() }}
+    <p align="center">
+        <table align="center" width="100%">
+            <tr>
+                <th width="50%">
+                    <h1><p align="center"><a href="http://localhost:5000/" style="text-decoration: none">Home</a></p></h1>
+                </th>
+                <th width="50%">
+                    <h1><p align="center"><a href="http://localhost:5000/registration" style="text-decoration: none">Registration</a></p></h1>
+                </th>
+            </tr>
+        </table>
+    </p>
     {% endblock %}
     {% block body %}
     <h1 align="center">Admin Login</h1>
-    {% for m in get_flashed_messages() %}
-    <div class=flash>{{ m }}</div>
-    {% endfor %}
     <form action="/admin" method="post">
 
         <p align="center">User name:
+            {% if errors %}
+            {% for key, value in errors.items() %}
+            {% if key == 'username' %}
+            <br><span style="color:red";>{{value}}</span>
+            {% endif %}{% endfor %}{% endif %}
         <br><input type="text" required name='username'></p>
 
         <p align="center">Password:
+            {% if errors %}
+            {% for key, value in errors.items() %}
+            {% if key == 'password' %}
+            <br><span style="color:red";>{{value}}</span>
+            {% endif %}{% endfor %}{% endif %}
         <br><input type="password" required name='password'></p>
 
         <p align="center"><button type='submit'>Login</button></p>

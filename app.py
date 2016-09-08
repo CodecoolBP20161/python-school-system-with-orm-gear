@@ -1,9 +1,9 @@
 from flask import *
 from models import *
-import json
 from functools import *
 import os
 from main import *
+from validation import Validation
 
 app = Flask(__name__)
 db.connect()
@@ -49,20 +49,18 @@ def registration_form():
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     result = render_template('login.html')
-    with open('admin.json') as json_data:
-        admin_data = json.load(json_data)
-
     if request.method == "POST":
+        errors = {}
         username = request.form['username']
-
-        if username != admin_data['username']:
-            flash('Wrong user name')
-        elif request.form['password'] != admin_data['password']:
-            flash('Wrong password')
-        else:
+        if not Validation.username_correct(username):
+            errors['username'] = 'Wrong username'
+        if not Validation.password_correct(request.form['password']):
+            errors['password'] = 'Wrong password'
+        if len(errors) == 0:
             session['username'] = username
-            result = redirect(url_for('admin_filter'))
-
+            result = redirect('/')
+        else:
+            result = render_template('login.html', errors=errors)
     return result
 
 
@@ -155,5 +153,5 @@ def email_log():
 
 
 if __name__ == '__main__':
-    # app.run()
-    app.run(debug=True)
+    app.run()
+    # app.run(debug=True)

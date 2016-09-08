@@ -61,7 +61,7 @@ def admin():
             flash('Wrong password')
         else:
             session['username'] = username
-            result = redirect(url_for('admin_filter'))
+            result = redirect('/')
 
     return result
 

@@ -6,7 +6,18 @@
         {{ super() }}
     {% endblock %}
     {% block menu %}
-        {{ super() }}
+    <p align="center">
+        <table align="center" width="100%">
+            <tr>
+                <th width="50%">
+                    <h1><p align="center"><a href="http://localhost:5000/" style="text-decoration: none">Home</a></p></h1>
+                </th>
+                <th width="50%">
+                    <h1><p align="center"><a href="http://localhost:5000/registration" style="text-decoration: none">Registration</a></p></h1>
+                </th>
+            </tr>
+        </table>
+    </p>
     {% endblock %}
     {% block body %}
     <h1 align="center">Admin Login</h1>

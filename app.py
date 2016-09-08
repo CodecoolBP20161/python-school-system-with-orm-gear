@@ -53,28 +53,34 @@ def registration_form():
 def admin_filter():
     forms = request.form.to_dict()
 
+    schools = Applicant.select(Applicant.school).group_by(Applicant.school)
+    statuses = Applicant.select(Applicant.status).group_by(Applicant.status)
+    cities = Applicant.select(Applicant.city).group_by(Applicant.city)
+    mentors = Mentor.select(Mentor.first_name, Mentor.last_name).group_by(Mentor.first_name, Mentor.last_name)
+
     if request.method == "POST":
+        applicant_filter = Applicant.select()
+        # print(forms)
 
-        if forms.get('mentor'):
-            applicant = Applicant.select(Applicant, InterviewSlot, InterviewSlotMentor, Mentor).join(
+        if forms.get('mentor') and len(forms.get('mentor')) > 0:
+            full_name = forms.get('mentor').split(" ")
+            print(full_name)
+            applicant_filter = Applicant.select(Applicant, InterviewSlot, InterviewSlotMentor, Mentor).join(
                 InterviewSlot).join(
-                InterviewSlotMentor).join(Mentor).where(Mentor.first_name.contains(request.form['mentor']))
-            return render_template('applicant.html', applicant=applicant)
+                InterviewSlotMentor).join(Mentor).where(Mentor.first_name.contains(full_name[0]),
+                                                        Mentor.last_name.contains(full_name[1]))
+        if forms.get('time'):
+            applicant_filter = applicant_filter.where(
+                getattr(Applicant, 'registration_time') > datetime.strptime(forms.get('time'), "%Y-%m-%d"))
 
-        if forms.get('value'):
-            print(forms)
-            # .where(Activity.name.contains("Physics")) # LIKE in SQL
-            applicant = Applicant.select().where(
-                getattr(Applicant, forms.get('key').lower()).contains(forms.get('value')))
-            return render_template('applicant.html', applicant=applicant)
+        for key, value in forms.items():
+            # print(len(value))
+            if key != "mentor" and len(value) > 0:
+                applicant_filter = applicant_filter.where(
+                    getattr(Applicant, key).contains(value))
 
-        if forms.get('time2'):
-            applicant = Applicant.select().where(
-                getattr(Applicant, 'registration_time') > datetime.strptime(forms.get('time2'), "%Y-%m-%d"),
-                getattr(Applicant, 'registration_time') < datetime.strptime(forms.get('time3'), "%Y-%m-%d"))
-            return render_template('applicant.html', applicant=applicant)
-
-    return render_template('applicant.html')
+        return render_template('applicant.html', applicant_filter=applicant_filter, schools=schools, statuses=statuses, cities=cities, mentors=mentors)
+    return render_template('applicant.html', schools=schools, statuses=statuses, cities=cities, mentors=mentors)
 
 
 @app.route('/admin', methods=['GET', 'POST'])

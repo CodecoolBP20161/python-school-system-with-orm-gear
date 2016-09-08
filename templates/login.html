@@ -21,15 +21,22 @@
     {% endblock %}
     {% block body %}
     <h1 align="center">Admin Login</h1>
-    {% for m in get_flashed_messages() %}
-    <div class=flash>{{ m }}</div>
-    {% endfor %}
     <form action="/admin" method="post">
 
         <p align="center">User name:
+            {% if errors %}
+            {% for key, value in errors.items() %}
+            {% if key == 'username' %}
+            <br><span style="color:red";>{{value}}</span>
+            {% endif %}{% endfor %}{% endif %}
         <br><input type="text" required name='username'></p>
 
         <p align="center">Password:
+            {% if errors %}
+            {% for key, value in errors.items() %}
+            {% if key == 'password' %}
+            <br><span style="color:red";>{{value}}</span>
+            {% endif %}{% endfor %}{% endif %}
         <br><input type="password" required name='password'></p>
 
         <p align="center"><button type='submit'>Login</button></p>

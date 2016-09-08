@@ -64,7 +64,9 @@ def admin():
             return render_template('login.html')
         else:
             session['username'] = request.form['username']
-            return redirect(url_for('admin_filter'))  # user=request.form['username'], message="You logged in as {0}".format(request.form['username']
+            return redirect('/')
+            # return render_template('base.html', message="You logged in as {0}".format(request.form['username']))
+            # return redirect(url_for('admin_filter'))  # user=request.form['username'], message="You logged in as {0}".format(request.form['username']
     return render_template('login.html')
 
 
@@ -74,7 +76,8 @@ def admin():
 def logout():
     session.pop('username', None)
     # flash('You were logged out')
-    return render_template('base.html', message="You were logged out")
+    return redirect('/')
+    # return render_template('base.html', message="You were logged out")
 
 @app.route('/admin/applicant_list', methods=['GET', 'POST'])
 @login_required

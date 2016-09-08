@@ -29,7 +29,7 @@
             {% if key == 'username' %}
             <br><span style="color:red";>{{value}}</span>
             {% endif %}{% endfor %}{% endif %}
-        <br><input type="text" required name='username'></p>
+        <br><input type="text" required name='username' {% if username %} value={{username}} {%endif%}></p>
 
         <p align="center">Password:
             {% if errors %}
@@ -37,7 +37,7 @@
             {% if key == 'password' %}
             <br><span style="color:red";>{{value}}</span>
             {% endif %}{% endfor %}{% endif %}
-        <br><input type="password" required name='password'></p>
+        <br><input type="password" required name='password' {% if password %} value={{password}} {%endif%}></p>
 
         <p align="center"><button type='submit'>Login</button></p>
 

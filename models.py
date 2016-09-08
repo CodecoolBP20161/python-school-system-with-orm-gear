@@ -15,7 +15,7 @@ class BaseModel(Model):
     class Meta:
         database = db
 
-# todo: first to do try
+
 class Person(BaseModel):
     first_name = CharField()
     last_name = CharField()

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+</head>
+<body>
+<p><h2>Application filter</h2></p>
+
+<!--<p><form action="/story" method="get"><button>Add a new User Story</button></form></p>-->
+            <form method="post">
+                Filter:<br>
+	            <input type="submit" name="key" value="Status">
+				<select name = 'value'>
+			        <option value="new">New</option>
+				    <option value="processing">Processing</option>
+                    <option value="accepted">Accepted</option>
+				</select><br>
+            </form>
+            <form method="post">
+                <input type="submit" name="time1" value="Registration Time">
+                <input required type='date' name='time2'>
+                <input required type='date' name='time3'><br>
+            </form>
+            <form method="post">
+                <input type="submit" name="key" value="City">
+                <input required name='value'><br>
+
+            </form>
+            <form method="post">
+                <input type="submit" name="key" value="First_name">
+                <input required name='value'><br>
+            </form>
+            <form method="post">
+                <input type="submit" name="key" value="Email">
+                <input required name='value'><br>
+            </form>
+            <form method="post">
+                <input type="submit" name="key" value="School">
+				<select name = 'value'>
+			        <option value="Budapest">Budapest</option>
+				    <option value="Miskolc">Miskolc</option>
+                    <option value="Krakow">Krakow</option>
+				</select><br>
+            </form>
+            <form method="post">
+                <input type="submit" name="mentor1" value="Mentor first name">
+                <input required name='mentor'>
+            </form>
+
+<table style="border:1px solid black;" width="90%">
+    <tr>
+        <th width="25%" align="center" style="border:1px solid black;">Name</th>
+        <th width="15%" align="center" style="border:1px solid black;">School</th>
+        <th width="25%" align="center" style="border:1px solid black;">Email</th>
+        <th width="10%" align="center" style="border:1px solid black;">App. code</th>
+        <th width="10%" align="center" style="border:1px solid black;">City</th>
+        <th width="10%" align="center" style="border:1px solid black;">Status</th>
+        <th width="10%" align="center" style="border:1px solid black;">Reg. time</th>
+
+
+            {% for n in applicant %}
+            <tr>
+                <td align="center" style="border:1px solid black;">{{n.first_name}} {{n.last_name}}</td>
+                <td align="center" style="border:1px solid black;">{{n.school}}</td>
+                <td align="center" style="border:1px solid black;">{{n.email}}</td>
+                <td align="center" style="border:1px solid black;">{{n.code}}</td>
+                <td align="center" style="border:1px solid black;">{{n.city}}</td>
+                <td align="center" style="border:1px solid black;">{{n.status}}</td>
+                <td align="center" style="border:1px solid black;">{{n.registration_time.strftime('%Y-%m-%d %H:%M')}}</td>
+
+
+            </tr>
+            {% endfor %}
+    </tr>
+
+</table>
+
+</body>
+</html>

@@ -4,6 +4,7 @@ import json
 from validation import Validation
 from functools import *
 import os
+
 app = Flask(__name__)
 db.connect()
 
@@ -30,7 +31,6 @@ def index():
 
 
 @app.route('/registration', methods=['GET', 'POST'])
-
 def registration_form():
     try:
         applicant = Applicant.create_from_form(request.form)
@@ -39,13 +39,43 @@ def registration_form():
 
     if request.method == "POST":
         validation_result = applicant.valid()
-        if(len(validation_result) == 0):
+        if (len(validation_result) == 0):
             applicant.save()
             return render_template('index.html', message="Thanks for your registration :)")
 
         else:
             return render_template('registration.html', applicant=applicant, errors=validation_result)
     return render_template('registration.html', applicant=applicant)
+
+
+@app.route('/admin/applicant_list', methods=['GET', 'POST'])
+# @login_required
+def admin_filter():
+    forms = request.form.to_dict()
+
+    if request.method == "POST":
+
+        if forms.get('mentor'):
+            applicant = Applicant.select(Applicant, InterviewSlot, InterviewSlotMentor, Mentor).join(
+                InterviewSlot).join(
+                InterviewSlotMentor).join(Mentor).where(Mentor.first_name.contains(request.form['mentor']))
+            return render_template('applicant.html', applicant=applicant)
+
+        if forms.get('value'):
+            print(forms)
+            # .where(Activity.name.contains("Physics")) # LIKE in SQL
+            applicant = Applicant.select().where(
+                getattr(Applicant, forms.get('key').lower()).contains(forms.get('value')))
+            return render_template('applicant.html', applicant=applicant)
+
+        if forms.get('time2'):
+            applicant = Applicant.select().where(
+                getattr(Applicant, 'registration_time') > datetime.strptime(forms.get('time2'), "%Y-%m-%d"),
+                getattr(Applicant, 'registration_time') < datetime.strptime(forms.get('time3'), "%Y-%m-%d"))
+            return render_template('applicant.html', applicant=applicant)
+
+    return render_template('applicant.html')
+
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
@@ -63,7 +93,6 @@ def admin():
         else:
             session['username'] = request.form['username']
             flash("You have logged in. Welcome on the board")
-
 
     return render_template('login.html')
 
@@ -83,5 +112,5 @@ def email_log():
 
 
 if __name__ == '__main__':
-    app.run()
-    # app.run(debug=True)
+    # app.run()
+    app.run(debug=True)

@@ -11,36 +11,36 @@
             <h4 align="center">{{message}}</h4>
         {% endif %}
         {% block greeter %}
-		      {% if session.get('username') %}
-		            <h4 align="right">Welcome, {{session.get('username')}}
-                    <br><a href="http://localhost:5000/logout">Logout</a></h4>
-		      {% else %}
-		            <h4 align="right">Welcome, guest</h4>
-		      {%endif%}
+
+    	    {% if session.get('username') %}
+                <h4 align="right">Welcome, {{session.get('username')}}
+                <br><a type="logout" href="http://localhost:5000/logout">Logout</a></h4>
+    	    {% else %}
+    	        <h4 align="right">Welcome, guest</h4>
+    	    {%endif%}
         {% endblock %}
         {% block menu %}
             <p align="center">
                 <table align="center" width="100%">
-                            <!-- <tr>
-                                <td width="25%" align="center"><a href="http://localhost:5000/">Home</a></td>
-                                <td width="25%" align="center"><a href="http://localhost:5000/registration">Registration</a></td>
-                                <td width="25%" align="center"><a href="http://localhost:5000/admin">Login</a></td>
-                                <td width="25%" align="center"><a href="http://localhost:5000/admin/e-mail-log">E-mails</a></td>
-                            </tr> -->
-
-                            <tr>
-							    <th>
+                                                        <tr>
+							    <!-- <th>
 	                                <h1><p align="center"><a href="http://localhost:5000/" style="text-decoration: none">Home</a></p></h1>
-							    </th>
-							    <th>
+							    </th> -->
+                                {% if session.get('username') == 'admin' %}
+                                <th width="50%">
+                                    <h1><p align="center"><a href="http://localhost:5000/admin/applicant_list" style="text-decoration: none">Applicants Filter</a></p></h1>
+                                </th>
+                                <th width="50%">
+                                    <h1><p align="center"><a href="http://localhost:5000/admin/e-mail-log" style="text-decoration: none">E-mails</a></p></h1>
+                                </th>
+                                {% else %}
+                                <th width="50%">
 							        <h1><p align="center"><a href="http://localhost:5000/registration" style="text-decoration: none">Registration</a></p></h1>
 							    </th>
-    							<th>
-    							    <h1><p align="center"><a href="http://localhost:5000/admin" style="text-decoration: none">Admin Login</a></p></h1>
-    							</th>
-                                <th>
-    							    <h1><p align="center"><a href="http://localhost:5000/admin/e-mail-log" style="text-decoration: none">E-mails</a></p></h1>
-    							</th>
+                                <th width="50%">
+                                    <h1><p align="center"><a href="http://localhost:5000/admin" style="text-decoration: none">Admin Login</a></p></h1>
+                                </th>
+                                {%endif%}
 						    </tr>
                 </table>
             </p>
@@ -48,8 +48,12 @@
 
 
         {% block body %}
-        <p align="center"><img src="static/codecool.jpg" width="500" height="500" alt="Codecool"></p>
-
+        <p align="center"><img src="static/codecool.jpg" width="400" height="400" alt="Codecool"></p>
+				<p align="center">
+				<audio controls align="center">
+					<source src="/static/War - Low Rider (HQ Audio).mp3" type="audio/ogg">
+					</audio>
+				</p>
         {% endblock %}
 	</body>
 </html>

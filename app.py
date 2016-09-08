@@ -69,6 +69,7 @@ def logout():
     return render_template('base.html', message="You were logged out")
 
 
+
 @app.route('/admin/applicant_list', methods=['GET', 'POST'])
 @login_required
 def admin_filter():

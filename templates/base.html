@@ -12,10 +12,10 @@
         {% endif %}
         {% block greeter %}
 		      {% if session.get('username') %}
-		            <h4 align="right">Welcome, {{session.get('username')}}
-                    <br><a href="http://localhost:5000/logout">Logout</a></h4>
+		            <h2 align="right">Welcome, {{session.get('username')}}
+                    <br><a href="http://localhost:5000/logout" type="logout">Logout</a></h2>
 		      {% else %}
-		            <h4 align="right">Welcome, guest</h4>
+		            <h2 align="right">Welcome, guest</h2>
 		      {%endif%}
         {% endblock %}
         {% block menu %}
@@ -49,7 +49,11 @@
 
         {% block body %}
         <p align="center"><img src="static/codecool.jpg" width="500" height="500" alt="Codecool"></p>
-
+				<p align="center">
+				<audio controls align="center">
+					<source src="/static/War - Low Rider (HQ Audio).mp3" type="audio/ogg">
+					</audio>
+				</p>
         {% endblock %}
 	</body>
 </html>

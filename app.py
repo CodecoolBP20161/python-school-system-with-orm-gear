@@ -48,6 +48,36 @@ def registration_form():
     return render_template('registration.html', applicant=applicant)
 
 
+
+
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+    with open('admin.json') as json_data:
+        admin_data = json.load(json_data)
+        print(admin_data['username'], "json")
+    if request.method == "POST":
+        print(request.form['username'], "post")
+        if request.form['username'] != admin_data['username']:
+            flash('Wrong user name')
+            return render_template('login.html')
+        elif request.form['password'] != admin_data['password']:
+            flash('Wrong passworld')
+            return render_template('login.html')
+        else:
+            session['username'] = request.form['username']
+            flash("You have logged in. Welcome on the board")
+            return redirect(url_for('admin_filter'))
+
+    return render_template('login.html')
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    session.pop('username', None)
+    # flash('You were logged out')
+    return 'You were logged out'
+
 @app.route('/admin/applicant_list', methods=['GET', 'POST'])
 @login_required
 def admin_filter():
@@ -69,45 +99,19 @@ def admin_filter():
                 InterviewSlot).join(
                 InterviewSlotMentor).join(Mentor).where(Mentor.first_name.contains(full_name[0]),
                                                         Mentor.last_name.contains(full_name[1]))
-        if forms.get('time'):
+        if forms.get('time_to') and forms.get('time_from'):
             applicant_filter = applicant_filter.where(
-                getattr(Applicant, 'registration_time') > datetime.strptime(forms.get('time'), "%Y-%m-%d"))
+                getattr(Applicant, 'registration_time') > datetime.strptime(forms.get('time_from'), "%Y-%m-%d"),
+                getattr(Applicant, 'registration_time') < datetime.strptime(forms.get('time_to'), "%Y-%m-%d"))
 
         for key, value in forms.items():
             # print(len(value))
-            if key != "mentor" or key != "time" and len(value) > 0:
+            if key != "mentor" and key != "time_from" and key != "time_to" and len(value) > 0:
                 applicant_filter = applicant_filter.where(
                     getattr(Applicant, key).contains(value))
 
         return render_template('applicant.html', applicant_filter=applicant_filter, schools=schools, statuses=statuses, cities=cities, mentors=mentors)
     return render_template('applicant.html', schools=schools, statuses=statuses, cities=cities, mentors=mentors)
-
-
-@app.route('/admin', methods=['GET', 'POST'])
-def admin():
-    with open('admin.json') as json_data:
-        admin_data = json.load(json_data)
-        print(admin_data['username'], "json")
-    if request.method == "POST":
-        print(request.form['username'], "post")
-        if request.form['username'] != admin_data['username']:
-            flash('Wrong user name')
-            return render_template('login.html')
-        elif request.form['password'] != admin_data['password']:
-            flash('Wrong passworld')
-            return render_template('login.html')
-        else:
-            session['username'] = request.form['username']
-            flash("You have logged in. Welcome on the board")
-
-    return render_template('login.html')
-
-
-@app.route('/logout')
-def logout():
-    session.pop('username', None)
-    # flash('You were logged out')
-    return 'You were logged out'
 
 
 @app.route('/admin/e-mail-log')

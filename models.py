@@ -114,6 +114,14 @@ class Applicant(Person):
             getattr(Applicant, 'registration_time') > datetime.strptime(_from, "%Y-%m-%d"),
             getattr(Applicant, 'registration_time') < datetime.strptime(_to, "%Y-%m-%d"))
 
+    @classmethod
+    def option_groups(cls, groups):
+        result = []
+        for group in groups:
+            attribute = getattr(cls, group)
+            result.append(cls.select(attribute).group_by(attribute))
+        return result
+
 
 class Mentor(Person):
     pass

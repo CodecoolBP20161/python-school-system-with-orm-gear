@@ -37,7 +37,6 @@ def registration_form():
         if len(validation_result) == 0:
             applicant.save()
             return render_template('base.html', message="Thanks for your registration :)")
-
         else:
             return render_template('registration.html', applicant=applicant, errors=validation_result)
     return render_template('registration.html', applicant=applicant)
@@ -75,10 +74,9 @@ def logout():
 def admin_filter():
     forms = request.form.to_dict()
 
-    schools = Applicant.select(Applicant.school).group_by(Applicant.school)
-    statuses = Applicant.select(Applicant.status).group_by(Applicant.status)
-    cities = Applicant.select(Applicant.city).group_by(Applicant.city)
-    mentors = Mentor.select(Mentor.first_name, Mentor.last_name).group_by(Mentor.first_name, Mentor.last_name)
+    applicant_groups = ['school', 'status', 'city']
+    applicant_options = Applicant.option_groups(applicant_groups)
+    mentors_options = Mentor.select(Mentor.first_name, Mentor.last_name).group_by(Mentor.first_name, Mentor.last_name)
 
     if request.method == "POST":
         applicant_filter = Applicant.select()
@@ -97,9 +95,11 @@ def admin_filter():
                 applicant_filter = applicant_filter.where(
                     getattr(Applicant, key).contains(value))
 
-        return render_template('applicant.html', applicant_filter=applicant_filter, schools=schools, statuses=statuses,
-                               cities=cities, mentors=mentors)
-    return render_template('applicant.html', schools=schools, statuses=statuses, cities=cities, mentors=mentors)
+        return render_template('applicant.html', applicant_filter=applicant_filter, schools=applicant_options[0],
+                               statuses=applicant_options[1],
+                               cities=applicant_options[2], mentors=mentors_options)
+    return render_template('applicant.html', schools=applicant_options[0], statuses=applicant_options[1], cities=applicant_options[2],
+                           mentors=mentors_options)
 
 
 @app.route('/admin/e-mail-log')

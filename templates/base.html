@@ -25,20 +25,20 @@
                     <tr>
                         {% if session.get('username') == 'admin' %}
                         <th width="33%">
-                            <h1><p align="center"><a href="http://localhost:5000/admin/applicant_list" style="text-decoration: none">Applicants Filter</a></p></h1>
+                            <h1><p align="center"><a href="{{url_for('admin_filter')}}" style="text-decoration: none">Applicants Filter</a></p></h1>
                         </th>
                         <th width="33%">
-                            <h1><p align="center"><a href="http://localhost:5000/admin/e-mail-log" style="text-decoration: none">E-mail Log</a></p></h1>
+                            <h1><p align="center"><a href="{{url_for('email_log')}}" style="text-decoration: none">E-mail Log</a></p></h1>
                         </th>
                         <th width="33%">
-                            <h1><p align="center"><a href="http://localhost:5000/admin/interview_list" style="text-decoration: none">Interview Filter</a></p></h1>
+                            <h1><p align="center"><a href="{{url_for('admin_filter_interviews')}}" style="text-decoration: none">Interview Filter</a></p></h1>
                         </th>
                         {% else %}
                         <th width="50%">
-					        <h1><p align="center"><a href="http://localhost:5000/registration" style="text-decoration: none">Registration</a></p></h1>
+					        <h1><p align="center"><a href="{{url_for('registration_form')}}" style="text-decoration: none">Registration</a></p></h1>
 					    </th>
                         <th width="50%">
-                            <h1><p align="center"><a href="http://localhost:5000/admin" style="text-decoration: none">Admin Login</a></p></h1>
+                            <h1><p align="center"><a href="{{url_for('admin')}}" style="text-decoration: none">Admin Login</a></p></h1>
                         </th>
                         {%endif%}
 					</tr>

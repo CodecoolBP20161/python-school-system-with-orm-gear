@@ -52,16 +52,15 @@ def admin():
     if request.method == "POST":
         errors = {}
         username = request.form['username']
-        password = request.form['password']
         if not Validation.username_correct(username):
             errors['username'] = 'Wrong username'
-        if not Validation.password_correct(password):
+        if not Validation.password_correct(request.form['password']):
             errors['password'] = 'Wrong password'
         if len(errors) == 0:
             session['username'] = username
             result = redirect('/')
         else:
-            result = render_template('login.html', username=username, password=password, errors=errors)
+            result = render_template('login.html', errors=errors)
     return result
 
 
@@ -90,6 +89,13 @@ def admin_filter():
             full_name = forms.get('mentor').split(" ")
 
             applicant_filter = Applicant.mentors_for_applicant(full_name[0], full_name[1])
+
+
+        if to_time or from_time:
+            if from_time:
+                applicant_filter = applicant_filter.where(getattr(Applicant, 'registration_time') > datetime.strptime(from_time, "%Y-%m-%d"))
+            elif to_time:
+                applicant_filter = applicant_filter.where(getattr(Applicant, 'registration_time') < datetime.strptime(to_time, "%Y-%m-%d"))
 
         if to_time and from_time:
             applicant_filter = applicant_filter.where(
@@ -128,6 +134,14 @@ def admin_filter_interviews():
             interview_filter = interview_filter.where(~(InterviewSlot.applicant >> None),
                                                       Mentor.first_name.contains(full_name[0]),
                                                       Mentor.last_name.contains(full_name[1]))
+
+        if forms.get('time_to') or forms.get('time_from'):
+            if forms.get('time_from'):
+                interview_filter = interview_filter.where(
+                    InterviewSlot.time > datetime.strptime(forms.get('time_from'), "%Y-%m-%d"))
+            elif forms.get('time_to'):
+                interview_filter = interview_filter.where(
+                    InterviewSlot.time < datetime.strptime(forms.get('time_to'), "%Y-%m-%d"))
 
         if forms.get('time_to') and forms.get('time_from'):
             interview_filter = interview_filter.where(

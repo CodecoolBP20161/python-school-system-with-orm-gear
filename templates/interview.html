@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+    {% block title %}
+        - Interviews
+    {% endblock %}
+    {% block greeter %}
+        {{ super() }}
+    {% endblock %}
+    {% block menu %}
+    <p align="center">
+        <table align="center" width="100%">
+            <tr>
+                <th width="33%">
+                    <h1><p align="center"><a href="http://localhost:5000/" style="text-decoration: none">Home</a></p></h1>
+                </th>
+                <th width="33%">
+                    <h1><p align="center"><a href="http://localhost:5000/admin/e-mail-log" style="text-decoration: none">E-mail Log</a></p></h1>
+                </th>
+                <th width="33%">
+                    <h1><p align="center"><a href="http://localhost:5000/admin/applicant_list" style="text-decoration: none">Applicants Filter</a></p></h1>
+                </th>
+            </tr>
+        </table>
+    </p>
+    {% endblock %}
+    {% block body %}
+<p><h1 align="center">Interview filter</h1>
+
+<!--<p><form action="/story" method="get"><button>Add a new User Story</button></form></p>-->
+<form method="post">
+    <h2>Filters:</h2>
+    <table type="filter" style="border:1px solid black;" width="100%">
+    <tr>
+	      <th width ="10%" type="filter"><label><h3 align="left">School</h3></label></th>
+        <td width ="10%" type="filter" align="center">
+          <select type="filter"  name = 'school'>
+            <option value="">------</option>
+            {%for school in schools%}
+            <option value="{{school.school}}">{{school.school}}</option>
+            {%endfor%}
+          </select>
+        </td>
+
+
+          <th width ="10%" type="filter"><label for="mentor"><h3 align="left">Mentor's name:</h3></label></td>
+          <td type="filter" align="center">
+          <select type="filtermentor" id="mentor" name = 'mentor'>
+            <option value="">------</option>
+            {%for mentor in mentors%}
+            <option value="{{mentor.full_name}}">{{mentor.full_name}}</option>
+            {%endfor%}
+          </select>
+        </td>
+    </tr>
+</table>
+<table type="filter2" align="left" width="80%">
+        <th type="filter2" width ="10%"><label><h3 align="left">Interview Time:</h3></label></th>
+        <td type="filter2" width ="40%" align="left">from:<input  type='date' name='time_from'></td>
+        <td type="filter2" width ="40%" aign="center">to:<input  type='date' name='time_to'></td>
+
+
+      <th type="filter2" width ="40%"><label for="code"><h3 align="left">Application code</h3></label></th>
+
+      <td width ="40%" type="filter2"  ><input id="code" name='code'></td><br>
+      <td width ="40%" type="filter2" ></td>
+    </td>
+                <!--<input id="time"required type='date' name='time3'><br>-->
+
+
+
+    </tr>
+                <!--<button type="button">Filter</button>-->
+</table>
+  <button type="submit">Filter</button>
+</form>
+<table type="filter2" style="border:1px solid black;" width="90%">
+    <tr>
+
+
+        <th width="15%" align="center" style="border:1px solid black;">School</th>
+        <th width="25%" align="center" style="border:1px solid black;">Mentor</th>
+        <th width="10%" align="center" style="border:1px solid black;">Applicant</th>
+        <th width="10%" align="center" style="border:1px solid black;">Detail</th>
+        <th width="10%" align="center" style="border:1px solid black;">Time</th>
+
+
+
+            {% for n in interview_filter %}
+            <tr>
+                <td align="center" style="border:1px solid black;">{{n.school}}</td>
+                <td align="center" style="border:1px solid black;">{{n.interviewslotmentor.mentor.first_name}}
+                    {{n.interviewslotmentor.mentor.last_name}}</td>
+                <td align="center" style="border:1px solid black;">{{n.applicant.first_name}} {{n.applicant.last_name}}</td>
+                <td align="center" style="border:1px solid black;">{{n.detail}}</td>
+                <td align="center" style="border:1px solid black;">{{n.time}}</td>
+            </tr>
+            {% endfor %}
+    </tr>
+</table>
+    {% endblock %}

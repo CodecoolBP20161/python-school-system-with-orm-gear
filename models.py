@@ -1,6 +1,7 @@
 from peewee import *
 import random
 from read_from_text import *
+from datetime import *
 
 db = PostgresqlDatabase('6_teamwork_week', user=Read_from_text.connect_data())
 # db = PostgresqlDatabase('6_teamwork_week',
@@ -14,12 +15,16 @@ class BaseModel(Model):
     class Meta:
         database = db
 
-# todo: first to do try
+
 class Person(BaseModel):
     first_name = CharField()
     last_name = CharField()
     school = CharField(default='', null=True)
     email = CharField()
+
+    @property
+    def full_name(self):
+        return ' '.join([self.first_name, self.last_name])
 
 
 class City(BaseModel):
@@ -31,6 +36,7 @@ class Applicant(Person):
     code = CharField(default=None, null=True, unique=True)
     city = TextField()
     status = CharField(default='new')
+    registration_time = DateTimeField(default=datetime.utcnow())
 
     @classmethod
     def new_applicant(cls):
@@ -65,7 +71,6 @@ class Applicant(Person):
     def get_interviewed_applicant(cls):
         return cls.select().where(cls.status == "processing")
 
-
     def get_mentors_for_interview(self, query):
         mentors = []
         for applicant in self.applicant_datas:
@@ -79,7 +84,39 @@ class Applicant(Person):
         if query == "mentors":
             return mentors
 
+    @classmethod
+    def create_from_form(cls, request_form):
+        return Applicant(first_name=request_form['first_name'],
+                         last_name=request_form['last_name'],
+                         email=request_form['email'],
+                         city=request_form['city'])
 
+    def valid(self):
+        from validation import Validation
+        errors = {}
+        if Validation.first_name_validation(self.first_name):
+            errors['first_name'] = 'Invalid first name'
+        if Validation.last_name_validation(self.last_name):
+            errors['last_name'] = 'Invalid last name'
+        if Validation.email_exists(self.email):
+            errors['email'] = 'E-mail already in use'
+        return errors
+
+    @classmethod
+    def mentors_for_applicant(cls, first_name, last_name):
+        return cls.select(Applicant, InterviewSlot, InterviewSlotMentor, Mentor).join(
+            InterviewSlot).join(
+            InterviewSlotMentor).join(Mentor).where(Mentor.first_name.contains(first_name),
+                                                    Mentor.last_name.contains(last_name))
+
+
+    @classmethod
+    def option_groups(cls, groups):
+        result = []
+        for group in groups:
+            attribute = getattr(cls, group)
+            result.append(cls.select(attribute).group_by(attribute))
+        return result
 
 
 class Mentor(Person):
@@ -115,4 +152,14 @@ class InterviewSlotMentor(BaseModel):
 
     @classmethod
     def email_to_mentors(cls):
-        return InterviewSlotMentor.select().join(InterviewSlot).where(~(InterviewSlot.applicant >> None), InterviewSlot.detail >> None).order_by(InterviewSlot.id)
+        return InterviewSlotMentor.select().join(InterviewSlot).where(~(InterviewSlot.applicant >> None),
+                                                                        InterviewSlot.detail >> None).order_by(InterviewSlot.id)
+
+
+class Email_log(BaseModel):
+    subject = CharField()
+    message = CharField()
+    type = CharField()
+    date = DateTimeField()
+    full_name = CharField()
+    email = CharField()

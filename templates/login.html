@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+    {% block title %}
+        - Admin Login
+    {% endblock %}
+    {% block greeter %}
+        {{ super() }}
+    {% endblock %}
+    {% block menu %}
+    <p align="center">
+        <table align="center" width="100%">
+            <tr>
+                <th width="50%">
+                    <h1><p align="center"><a href="http://localhost:5000/" style="text-decoration: none">Home</a></p></h1>
+                </th>
+                <th width="50%">
+                    <h1><p align="center"><a href="http://localhost:5000/registration" style="text-decoration: none">Registration</a></p></h1>
+                </th>
+            </tr>
+        </table>
+    </p>
+    {% endblock %}
+    {% block body %}
+    <h1 align="center">Admin Login</h1>
+    <form action="/admin" method="post">
+
+        <p align="center">User name:
+            {% if errors %}
+            {% for key, value in errors.items() %}
+            {% if key == 'username' %}
+            <br><span style="color:red";>{{value}}</span>
+            {% endif %}{% endfor %}{% endif %}
+        <br><input type="text" required name='username' {% if username %} value={{username}} {%endif%}></p>
+
+        <p align="center">Password:
+            {% if errors %}
+            {% for key, value in errors.items() %}
+            {% if key == 'password' %}
+            <br><span style="color:red";>{{value}}</span>
+            {% endif %}{% endfor %}{% endif %}
+        <br><input type="password" required name='password' {% if password %} value={{password}} {%endif%}></p>
+
+        <p align="center"><button type='submit'>Login</button></p>
+
+    </form>
+    {% endblock %}

@@ -68,7 +68,6 @@ class Example_data:
 
         return interview_list
 
-
     @classmethod
     def insert(cls):
         with db.atomic():

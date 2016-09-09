@@ -23,7 +23,9 @@ class Message:
         return cls.message_dict(subject, message)
 
     @classmethod
-    def applicant_interview(cls, first_name, time, mentor_first_name, mentor_last_name, mentor2_first_name, mentor2_last_name):  # , mentor2_first_name, mentor2_last_name
+    def applicant_interview(cls, first_name, time,
+                            mentor_first_name, mentor_last_name,
+                            mentor2_first_name, mentor2_last_name):  # , mentor2_first_name, mentor2_last_name
         first_name = cls.strip_accents(first_name)
         mentor_first_name = cls.strip_accents(mentor_first_name)
         mentor_last_name = cls.strip_accents(mentor_last_name)
@@ -35,7 +37,9 @@ class Message:
                      Your interview time slot is: {1}
                      Your mentors' name are: {2} {3}, {4} {5}
                      Best Regards,
-                     Codecool   """.format(first_name, time, mentor_first_name, mentor_last_name, mentor2_first_name, mentor2_last_name)  # , mentor2_first_name, mentor2_last_name
+                     Codecool   """.format(first_name, time,
+                                           mentor_first_name, mentor_last_name,
+                                           mentor2_first_name, mentor2_last_name)
 
         return cls.message_dict(subject, message)
 

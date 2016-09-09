@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+    {% block title %}
+        - E-mails
+    {% endblock %}
+    {% block greeter %}
+        {{ super() }}
+    {% endblock %}
+    {% block menu %}
+    <p align="center">
+        <table align="center" width="100%">
+            <tr>
+                <th width="33%">
+                    <h1><p align="center"><a href="http://localhost:5000/" style="text-decoration: none">Home</a></p></h1>
+                </th>
+                <th width="33%">
+                    <h1><p align="center"><a href="http://localhost:5000/admin/applicant_list" style="text-decoration: none">Applicants Filter</a></p></h1>
+                </th>
+                <th width="33%">
+                    <h1><p align="center"><a href="http://localhost:5000/admin/interview_list" style="text-decoration: none">Interview Filter</a></p></h1>
+                </th>
+            </tr>
+        </table>
+    </p>
+    {% endblock %}
+    {% block body %}
+    <h1 align="center">E-mail log</h1>
+
+
+    <table align="center"style="border:1px solid black;" type="email" width="90%">
+        <tr>
+            <th type="email" width="5%" align="center">Subject</th>
+            <th type="email"  width="15%" align="center">Message</th>
+            <th type="email"  width="10%" align="center">Email Type</th>
+            <th type="email"  width="8%" align="center">Date Time</th>
+            <th type="email"  width="10%" align="center">Name</th>
+            <th type="email"  width="8%" align="center">Email</th>
+
+
+                {% for n in email %}
+                <tr>
+                    <td type="email"  align="center">{{n.subject}}</td>
+                    <td type="email"  align="center">{{n.message | truncate(140, True)}}</td>
+                    <td type="email"  align="center">{{n.type}}</td>
+                    <td type="email"  align="center">{{n.date.strftime('%Y-%m-%d %H:%M')}}</td>
+                    <td type="email"  align="center">{{n.full_name}}</td>
+                    <td type="email"  align="center">{{n.email}}</td>
+
+
+                </tr>
+                {% endfor %}
+        </tr>
+
+    </table>
+    {% endblock %}

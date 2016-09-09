@@ -52,15 +52,16 @@ def admin():
     if request.method == "POST":
         errors = {}
         username = request.form['username']
+        password = request.form['password']
         if not Validation.username_correct(username):
             errors['username'] = 'Wrong username'
-        if not Validation.password_correct(request.form['password']):
+        if not Validation.password_correct(password):
             errors['password'] = 'Wrong password'
         if len(errors) == 0:
             session['username'] = username
             result = redirect('/')
         else:
-            result = render_template('login.html', errors=errors)
+            result = render_template('login.html', username=username, password=password, errors=errors)
     return result
 
 

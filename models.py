@@ -3,10 +3,10 @@ import random
 from read_from_text import *
 from datetime import *
 
-db = PostgresqlDatabase('6_teamwork_week', user=Read_from_text.connect_data())
-# db = PostgresqlDatabase('6_teamwork_week',
-#                         **{'user': Read_from_text.connect_data(), 'host': 'localhost', 'port': 5432,
-#                            'password': '753951'})
+# db = PostgresqlDatabase('6_teamwork_week', user=Read_from_text.connect_data())
+db = PostgresqlDatabase('6_teamwork_week',
+                        **{'user': Read_from_text.connect_data(), 'host': 'localhost', 'port': 5432,
+                           'password': '753951'})
 
 
 class BaseModel(Model):
@@ -14,6 +14,16 @@ class BaseModel(Model):
 
     class Meta:
         database = db
+
+    @classmethod
+    def filter(cls, attribute, filter):
+        try:
+            result = cls.select().where(getattr(cls, attribute) == filter)
+        except AttributeError:
+            result = None
+            print(
+                "wrong attribute your {0} select().where({0}.{1} == {2}), query is bad".format(cls, attribute, filter))
+        return result
 
 
 class Person(BaseModel):
@@ -42,26 +52,60 @@ class Applicant(Person):
     def new_applicant(cls):
         return cls.select().where(cls.status == "new")
 
-    def update_school(self):
-        school_get = City.get(City.applicant_city == self.city).school
-        self.school = school_get
-        self.save()
+    @classmethod
+    def update_school(cls):
+        new_applicant = cls.filter("status", "new")
+        if new_applicant:
+            for applicant in new_applicant:
+                school_get = City.get(City.applicant_city == applicant.city).school
+                applicant.school = school_get
+                applicant.save()
 
-    def generate_code(self):
-        get_codes = Applicant.select().where(~(Applicant.code >> None))
-        if get_codes:
-            not_unique = True
-            while not_unique is True:
-                new_code = "".join([self.city[:2].upper(), str(random.randint(1000, 10000))])
-                for code in get_codes:
-                    if new_code not in code.code:
-                        not_unique = False
-            self.code = new_code
-            self.save()
-        else:
+    # @classmethod
+    # def update_applicant(cls):
+    #     new_applicant = cls.select().join(City, on=City.applicant_city == cls.city).where(cls.status == "new")
+    #     for applicant in new_applicant:
+    #         applicant.update_school()
+
+    @classmethod
+    def get_codes(cls):
+        codes = []
+        get_codes = cls.select(cls.code).where(~(cls.code >> None)).tuples()
+        for code in get_codes:
+            codes.append(codes)
+        return codes
+
+    def new_code(self):
+        while True:
             new_code = "".join([self.city[:2].upper(), str(random.randint(1000, 10000))])
-            self.code = new_code
-            self.save()
+            if new_code not in Applicant.get_codes():
+                break
+        return new_code
+
+    @classmethod
+    def set_code(cls):
+        get_applicant = cls.filter("code", None)
+        for applicant in get_applicant:
+            applicant.code = applicant.new_code()
+            applicant.save()
+            print(applicant.code, applicant.first_name, applicant.last_name, applicant.city, applicant.school,
+                  applicant.status, applicant.email)
+
+    # def generate_code(self):
+    #     get_codes = Applicant.select().where(~(Applicant.code >> None))
+    #     if get_codes:
+    #         not_unique = True
+    #         while not_unique is True:
+    #             new_code = "".join([self.city[:2].upper(), str(random.randint(1000, 10000))])
+    #             for code in get_codes:
+    #                 if new_code not in code.code:
+    #                     not_unique = False
+    #         self.code = new_code
+    #         self.save()
+    #     else:
+    #         new_code = "".join([self.city[:2].upper(), str(random.randint(1000, 10000))])
+    #         self.code = new_code
+    #         self.save()
 
     @classmethod
     def get_assigned_applicants(cls):
@@ -109,7 +153,6 @@ class Applicant(Person):
             InterviewSlotMentor).join(Mentor).where(Mentor.first_name.contains(first_name),
                                                     Mentor.last_name.contains(last_name))
 
-
     @classmethod
     def option_groups(cls, groups):
         result = []
@@ -134,6 +177,15 @@ class InterviewSlot(BaseModel):
     def get_free_slots(cls, applicant):
         return cls.select().where(cls.applicant >> None, cls.school == applicant.school).order_by(cls.time)
 
+    # @classmethod
+    # def inter_views(cls):
+    #     for new_applicant in Applicant.filter("status", "new"):
+    #         for interview in cls.get_free_slots(new_applicant):
+    #             interview.applicant = new_applicant
+    #             interview.save()
+    #             new_applicant.status = "processing"
+    #             new_applicant.save()
+
     def interviews(self, applicant):
         if applicant.status == "new":
             self.applicant = applicant
@@ -153,7 +205,8 @@ class InterviewSlotMentor(BaseModel):
     @classmethod
     def email_to_mentors(cls):
         return InterviewSlotMentor.select().join(InterviewSlot).where(~(InterviewSlot.applicant >> None),
-                                                                        InterviewSlot.detail >> None).order_by(InterviewSlot.id)
+                                                                      InterviewSlot.detail >> None).order_by(
+            InterviewSlot.id)
 
 
 class Email_log(BaseModel):

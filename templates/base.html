@@ -14,7 +14,7 @@
 
     	    {% if session.get('username') %}
                 <h4 align="right">Welcome, {{session.get('username')}}
-                <br><a type="logout" href={{url_for('logout')}}>Logout</a></h4>
+                <br><a type="logout" href={{url_for('admin_page.logout')}}>Logout</a></h4>
     	    {% else %}
     	        <h4 align="right">Welcome, guest</h4>
     	    {%endif%}
@@ -25,20 +25,20 @@
                     <tr>
                         {% if session.get('username') == 'admin' %}
                         <th width="33%">
-                            <h1><p align="center"><a href="{{url_for('admin_filter')}}" style="text-decoration: none">Applicants Filter</a></p></h1>
+                            <h1><p align="center"><a href="{{url_for('admin_page.admin_filter')}}" style="text-decoration: none">Applicants Filter</a></p></h1>
                         </th>
                         <th width="33%">
-                            <h1><p align="center"><a href="{{url_for('email_log')}}" style="text-decoration: none">E-mail Log</a></p></h1>
+                            <h1><p align="center"><a href="{{url_for('admin_page.email_log')}}" style="text-decoration: none">E-mail Log</a></p></h1>
                         </th>
                         <th width="33%">
-                            <h1><p align="center"><a href="{{url_for('admin_filter_interviews')}}" style="text-decoration: none">Interview Filter</a></p></h1>
+                            <h1><p align="center"><a href="{{url_for('admin_page.admin_filter_interviews')}}" style="text-decoration: none">Interview Filter</a></p></h1>
                         </th>
                         {% else %}
                         <th width="50%">
 					        <h1><p align="center"><a href="{{url_for('registration_form')}}" style="text-decoration: none">Registration</a></p></h1>
 					    </th>
                         <th width="50%">
-                            <h1><p align="center"><a href="{{url_for('admin')}}" style="text-decoration: none">Admin Login</a></p></h1>
+                            <h1><p align="center"><a href="{{url_for('admin_page.admin')}}" style="text-decoration: none">Admin Login</a></p></h1>
                         </th>
                         {%endif%}
 					</tr>

@@ -1,12 +1,11 @@
 # This script can generate example data for "City" and "InterviewSlot" models.
 
-from models import *
-# from model.InterviewSlot import *
-# from model.City import *
-# from model.Applicant import *
-# from model.Email_log import *
-# from model.InterviewSlotMentor import *
-# from model.Mentor import *
+from model.InterviewSlot import *
+from model.City import *
+from model.Applicant import *
+from model.Email_log import *
+from model.InterviewSlotMentor import *
+from model.Mentor import *
 from peewee import *
 from main import *
 import random

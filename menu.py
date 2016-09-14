@@ -1,12 +1,14 @@
-from build import *
+
+# from model.example_data import *
 from example_data import *
+from build import *
 from main import *
-from models import *
+
 from peewee import *
 
 
 # story11
-class Menu():
+class Menu:
     @staticmethod
     def select_option():
         available_choices = ['(1) Generate New Database', '(2) Display Applicants', '(3) Application Details',

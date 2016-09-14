@@ -1,14 +1,13 @@
 # This script can create the database tables based on your models
 
-from models import *
-# from model.Applicant import Applicant
-# from model.Person import Person
-# from model.City import City
-# from model.Mentor import Mentor
-# from model.InterviewSlot import InterviewSlot
-# from model.InterviewSlotMentor import InterviewSlotMentor
-# from model.Email_log import Email_log
-# from model.BaseModel import *
+from model.Applicant import Applicant
+from model.Person import Person
+from model.City import City
+from model.Mentor import Mentor
+from model.InterviewSlot import InterviewSlot
+from model.InterviewSlotMentor import InterviewSlotMentor
+from model.Email_log import Email_log
+from model.BaseModel import *
 
 
 class Build:

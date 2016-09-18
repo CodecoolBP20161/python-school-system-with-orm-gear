@@ -1,6 +1,10 @@
-from models import *
-from build import *
-from example_data import *
+# from models import *
+
+from model.Applicant import Applicant
+from model.Mentor import Mentor
+from model.InterviewSlot import InterviewSlot
+from model.InterviewSlotMentor import InterviewSlotMentor
+from model.Email_log import Email_log
 from message import *
 from user import *
 from emails import *
@@ -27,17 +31,11 @@ class Main:
 
     @classmethod
     def register(cls):
-        new_applicant = Applicant.new_applicant()
-        if new_applicant:
-            for applicant in new_applicant:
-                applicant.update_school()
 
-        get_applicant = Applicant.select().where(Applicant.code >> None)
-        if get_applicant:
-            for applicant in get_applicant:
-                applicant.generate_code()
-                print(applicant.code, applicant.first_name, applicant.last_name, applicant.city, applicant.school,
-                      applicant.status, applicant.email)
+        Applicant.update_school()
+        Applicant.set_code()
+        # InterviewSlot.inter_views()
+
         print('_______________________________________\n')
         print("Sending out e-mails to new applicants.\n")
         cls.send_mail()
@@ -62,12 +60,19 @@ class Main:
 
     @classmethod
     def send_email_interview(cls):
-        for applicant in Applicant.get_interviewed_applicant():
+        # todo: refactor email sender with this new query, problem duplicate applicant because of mentors
+        for applicant in Applicant.select(Applicant, InterviewSlot, InterviewSlotMentor, Mentor).join(
+                InterviewSlot).join(
+                InterviewSlotMentor).join(Mentor).where(Applicant.status == "processing"):
+            print(applicant.first_name, applicant.interviewslot.time,
+                  applicant.interviewslot.interviewslotmentor.mentor.first_name,
+                  applicant.interviewslot.interviewslotmentor.mentor.last_name)
+        for applicant in Applicant.filter("status", "processing"):
             for applic in applicant.applicant_datas:
                 if applic.detail is None:
-                    mentors = applicant.get_mentors_for_interview("mentors")
+                    mentors = applicant.get_mentors_for_interview()
                     message_dict = Message.applicant_interview(applicant.first_name,
-                                                               applicant.get_mentors_for_interview("time"),
+                                                               applicant.get_mentors_for_interview_time(),
                                                                *mentors)
                     Email.send_email(applicant.email, **cls.user_data, **message_dict)
                     data = Email_log.create(subject=message_dict['subject'],
@@ -96,6 +101,7 @@ class Main:
                                     full_name="{0} {1}".format(interview.mentor.first_name, interview.mentor.last_name),
                                     email=interview.mentor.email)
 
+    # InterviewSlot.inter_views()
     @classmethod
     def interview(cls):
         for new in Applicant.new_applicant():

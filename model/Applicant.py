@@ -1,11 +1,11 @@
-from peewee import *
+
+from model.City import City
+# from model.InterviewSlotMentor import InterviewSlotMentor
 from model.Person import Person
-from model.BaseModel import BaseModel
-from model.City import *
-from model.Mentor import *
-from model.InterviewSlotMentor import *
-from model.InterviewSlot import *
+# from controll_admin import Person, City, InterviewSlotMentor
 from datetime import *
+from peewee import CharField, TextField, DateTimeField
+
 import random
 
 
@@ -19,47 +19,67 @@ class Applicant(Person):
     def new_applicant(cls):
         return cls.select().where(cls.status == "new")
 
-    def update_school(self):
-        school_get = City.get(City.applicant_city == self.city).school
-        self.school = school_get
-        self.save()
+    @classmethod
+    def update_school(cls):
+        new_applicant = cls.filter("status", "new")
+        if new_applicant:
+            for applicant in new_applicant:
+                school_get = City.get(City.applicant_city == applicant.city).school
+                applicant.school = school_get
+                applicant.save()
 
-    def generate_code(self):
-        get_codes = Applicant.select().where(~(Applicant.code >> None))
-        if get_codes:
-            not_unique = True
-            while not_unique is True:
-                new_code = "".join([self.city[:2].upper(), str(random.randint(1000, 10000))])
-                for code in get_codes:
-                    if new_code not in code.code:
-                        not_unique = False
-            self.code = new_code
-            self.save()
-        else:
+    # @classmethod
+    # def update_applicant(cls):
+    #     new_applicant = cls.select().join(City, on=City.applicant_city == cls.city).where(cls.status == "new")
+    #     for applicant in new_applicant:
+    #         applicant.update_school()
+
+    @classmethod
+    def get_codes(cls):
+        codes = []
+        get_codes = cls.select(cls.code).where(~(cls.code >> None)).tuples()
+        for code in get_codes:
+            codes.append(codes)
+        return codes
+
+    def new_code(self):
+        while True:
             new_code = "".join([self.city[:2].upper(), str(random.randint(1000, 10000))])
-            self.code = new_code
-            self.save()
+            if new_code not in Applicant.get_codes():
+                break
+        return new_code
+
+    @classmethod
+    def set_code(cls):
+        get_applicant = cls.filter("code", None)
+        for applicant in get_applicant:
+            applicant.code = applicant.new_code()
+            applicant.save()
+            print(applicant.code, applicant.first_name, applicant.last_name, applicant.city, applicant.school,
+                  applicant.status, applicant.email)
+
 
     @classmethod
     def get_assigned_applicants(cls):
         return cls.select().where(~(cls.code >> None), ~(cls.school >> None), cls.status == "new")
 
-    @classmethod
-    def get_interviewed_applicant(cls):
-        return cls.select().where(cls.status == "processing")
 
-    def get_mentors_for_interview(self, query):
-        mentors = []
+
+    def get_mentors_for_interview_time(self):
         for applicant in self.applicant_datas:
-            if query == "time":
-                return applicant.time
-            for mentor in InterviewSlotMentor.select():
-                if applicant.id == mentor.interview.id:
-                    mentors.append(mentor.mentor.first_name)
-                    mentors.append(mentor.mentor.last_name)
-                    # print(mentor.mentor.first_name, mentor.mentor.last_name)
-        if query == "mentors":
-            return mentors
+            return applicant.time
+
+    def get_mentors_for_interview(self):
+        mentors = []
+
+
+        # for mentor in InterviewSlotMentor.select():
+        #     if applicant.id == mentor.interview.id:
+        #         mentors.append(mentor.mentor.first_name)
+        #         mentors.append(mentor.mentor.last_name)
+
+
+        return mentors
 
     @classmethod
     def create_from_form(cls, request_form):
@@ -79,18 +99,9 @@ class Applicant(Person):
             errors['email'] = 'E-mail already in use'
         return errors
 
-    @classmethod
-    def mentors_for_applicant(cls, first_name, last_name):
-        return cls.select(Applicant, InterviewSlot, InterviewSlotMentor, Mentor).join(
-            InterviewSlot).join(
-            InterviewSlotMentor).join(Mentor).where(Mentor.first_name.contains(first_name),
-                                                    Mentor.last_name.contains(last_name))
-
-
-    @classmethod
-    def option_groups(cls, groups):
-        result = []
-        for group in groups:
-            attribute = getattr(cls, group)
-            result.append(cls.select(attribute).group_by(attribute))
-        return result
+    # @classmethod
+    # def mentors_for_applicant(cls, first_name, last_name):
+    #     return cls.select(Applicant, InterviewSlot, InterviewSlotMentor, Mentor).join(
+    #         InterviewSlot).join(
+    #         InterviewSlotMentor).join(Mentor).where(Mentor.first_name.contains(first_name),
+    #                                                 Mentor.last_name.contains(last_name))

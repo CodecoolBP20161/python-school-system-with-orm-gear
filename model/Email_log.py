@@ -1,4 +1,6 @@
-from model.BaseModel import *
+from model.BaseModel import BaseModel
+from peewee import CharField, DateTimeField
+
 
 class Email_log(BaseModel):
     subject = CharField()

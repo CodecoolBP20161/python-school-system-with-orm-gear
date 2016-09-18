@@ -1,4 +1,4 @@
-from models import *
+from model.Applicant import Applicant
 import re
 import json
 

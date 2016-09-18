@@ -1,7 +1,11 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for
 from validation import Validation
-from models import *
-from jinja2 import TemplateNotFound
+from model.Applicant import Applicant
+from model.InterviewSlot import InterviewSlot
+from model.Mentor import Mentor
+from model.InterviewSlotMentor import InterviewSlotMentor
+from model.Email_log import Email_log
+# from jinja2 import TemplateNotFound
 from functools import wraps
 
 admin_page = Blueprint('admin_page', __name__,
@@ -38,6 +42,7 @@ def admin():
             result = render_template('login.html', errors=errors)
     return result
 
+
 @admin_page.route('/logout')
 @login_required
 def logout():
@@ -62,14 +67,18 @@ def admin_filter():
         if forms.get('mentor') and len(forms.get('mentor')) > 0:
             full_name = forms.get('mentor').split(" ")
 
-            applicant_filter = Applicant.mentors_for_applicant(full_name[0], full_name[1])
-
+            applicant_filter = Applicant.select(Applicant, InterviewSlot, InterviewSlotMentor, Mentor).join(
+                InterviewSlot).join(
+                InterviewSlotMentor).join(Mentor).where(Mentor.first_name.contains(first_name),
+                                                        Mentor.last_name.contains(last_name))
 
         if to_time or from_time:
             if from_time:
-                applicant_filter = applicant_filter.where(getattr(Applicant, 'registration_time') > datetime.strptime(from_time, "%Y-%m-%d"))
+                applicant_filter = applicant_filter.where(
+                    getattr(Applicant, 'registration_time') > datetime.strptime(from_time, "%Y-%m-%d"))
             elif to_time:
-                applicant_filter = applicant_filter.where(getattr(Applicant, 'registration_time') < datetime.strptime(to_time, "%Y-%m-%d"))
+                applicant_filter = applicant_filter.where(
+                    getattr(Applicant, 'registration_time') < datetime.strptime(to_time, "%Y-%m-%d"))
 
         if to_time and from_time:
             applicant_filter = applicant_filter.where(
@@ -95,6 +104,8 @@ def admin_filter_interviews():
     forms = request.form.to_dict()
 
     schools = InterviewSlot.select(InterviewSlot.school).group_by(InterviewSlot.school)
+    # interview_groups = ['school']
+    # schools = InterviewSlot.option_groups(interview_groups)
     mentors = Mentor.select(Mentor.first_name, Mentor.last_name).group_by(Mentor.first_name, Mentor.last_name)
 
     if request.method == 'POST':
@@ -139,4 +150,3 @@ def admin_filter_interviews():
 def email_log():
     email = Email_log.select()
     return render_template('email_table.html', email=email)
-

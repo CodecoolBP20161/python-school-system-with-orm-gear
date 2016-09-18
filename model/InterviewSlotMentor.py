@@ -1,7 +1,8 @@
-from model.BaseModel import *
-from model.Mentor import *
+from model.BaseModel import BaseModel
+from model.Mentor import Mentor
 from model.InterviewSlot import InterviewSlot
-from peewee import *
+from peewee import ForeignKeyField
+# from controll_admin import *
 
 
 class InterviewSlotMentor(BaseModel):
@@ -11,4 +12,5 @@ class InterviewSlotMentor(BaseModel):
     @classmethod
     def email_to_mentors(cls):
         return InterviewSlotMentor.select().join(InterviewSlot).where(~(InterviewSlot.applicant >> None),
-                                                                        InterviewSlot.detail >> None).order_by(InterviewSlot.id)
+                                                                      InterviewSlot.detail >> None).order_by(
+            InterviewSlot.id)

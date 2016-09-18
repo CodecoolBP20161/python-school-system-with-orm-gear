@@ -2,10 +2,11 @@ from peewee import *
 import random
 from read_from_text import *
 from datetime import *
+from Database_info import Database_info
 
-# db = PostgresqlDatabase('6_teamwork_week', user=Read_from_text.connect_data())
-db = PostgresqlDatabase('6_teamwork_week',
-                        **{'user': Read_from_text.connect_data(), 'host': 'localhost', 'port': 5432,
+# db = PostgresqlDatabase(Database_info.db_name(), user=Database_info.db_user_name())
+db = PostgresqlDatabase(Database_info.db_name(),
+                        **{'user': Database_info.db_user_name(), 'host': 'localhost', 'port': 5432,
                            'password': '753951'})
 
 
@@ -23,6 +24,14 @@ class BaseModel(Model):
             result = None
             print(
                 "wrong attribute your {0} select().where({0}.{1} == {2}), query is bad".format(cls, attribute, filter))
+        return result
+
+    @classmethod
+    def option_groups(cls, groups):
+        result = []
+        for group in groups:
+            attribute = getattr(cls, group)
+            result.append(cls.select(attribute).group_by(attribute))
         return result
 
 
@@ -91,21 +100,6 @@ class Applicant(Person):
             print(applicant.code, applicant.first_name, applicant.last_name, applicant.city, applicant.school,
                   applicant.status, applicant.email)
 
-    # def generate_code(self):
-    #     get_codes = Applicant.select().where(~(Applicant.code >> None))
-    #     if get_codes:
-    #         not_unique = True
-    #         while not_unique is True:
-    #             new_code = "".join([self.city[:2].upper(), str(random.randint(1000, 10000))])
-    #             for code in get_codes:
-    #                 if new_code not in code.code:
-    #                     not_unique = False
-    #         self.code = new_code
-    #         self.save()
-    #     else:
-    #         new_code = "".join([self.city[:2].upper(), str(random.randint(1000, 10000))])
-    #         self.code = new_code
-    #         self.save()
 
     @classmethod
     def get_assigned_applicants(cls):
@@ -115,18 +109,16 @@ class Applicant(Person):
     def get_interviewed_applicant(cls):
         return cls.select().where(cls.status == "processing")
 
-    def get_mentors_for_interview(self, query):
+    def get_mentors_for_interview(self):
         mentors = []
-        for applicant in self.applicant_datas:
-            if query == "time":
-                return applicant.time
-            for mentor in InterviewSlotMentor.select():
-                if applicant.id == mentor.interview.id:
-                    mentors.append(mentor.mentor.first_name)
-                    mentors.append(mentor.mentor.last_name)
-                    # print(mentor.mentor.first_name, mentor.mentor.last_name)
-        if query == "mentors":
-            return mentors
+
+        # for mentor in InterviewSlotMentor.select():
+        #     if applicant.id == mentor.interview.id:
+        #         mentors.append(mentor.mentor.first_name)
+        #         mentors.append(mentor.mentor.last_name)
+        #         # print(mentor.mentor.first_name, mentor.mentor.last_name)
+        #
+        return mentors
 
     @classmethod
     def create_from_form(cls, request_form):
@@ -146,20 +138,12 @@ class Applicant(Person):
             errors['email'] = 'E-mail already in use'
         return errors
 
-    @classmethod
-    def mentors_for_applicant(cls, first_name, last_name):
-        return cls.select(Applicant, InterviewSlot, InterviewSlotMentor, Mentor).join(
-            InterviewSlot).join(
-            InterviewSlotMentor).join(Mentor).where(Mentor.first_name.contains(first_name),
-                                                    Mentor.last_name.contains(last_name))
-
-    @classmethod
-    def option_groups(cls, groups):
-        result = []
-        for group in groups:
-            attribute = getattr(cls, group)
-            result.append(cls.select(attribute).group_by(attribute))
-        return result
+    # @classmethod
+    # def mentors_for_applicant(cls, first_name, last_name):
+    #     return cls.select(Applicant, InterviewSlot, InterviewSlotMentor, Mentor).join(
+    #         InterviewSlot).join(
+    #         InterviewSlotMentor).join(Mentor).where(Mentor.first_name.contains(first_name),
+    #                                                 Mentor.last_name.contains(last_name))
 
 
 class Mentor(Person):

@@ -1,5 +1,6 @@
 from model.BaseModel import *
 
+
 class Person(BaseModel):
     first_name = CharField()
     last_name = CharField()

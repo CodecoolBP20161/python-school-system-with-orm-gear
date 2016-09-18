@@ -5,12 +5,14 @@ import datetime
 from peewee import *
 from read_from_text import *
 from main import Main
-from models import *
-# from model.Applicant import Applicant
-# from model.InterviewSlot import InterviewSlot
-# from model.Mentor import Mentor
-# from model.InterviewSlotMentor import InterviewSlotMentor
-# from model.Email_log import Email_log
+# from models import *
+from model.Applicant import Applicant
+from model.BaseModel import db
+from model.InterviewSlot import InterviewSlot
+from model.Mentor import Mentor
+from model.InterviewSlotMentor import InterviewSlotMentor
+from model.Email_log import Email_log
+
 from validation import Validation
 from controll_admin import admin_page
 

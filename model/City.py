@@ -1,5 +1,6 @@
+from model.BaseModel import BaseModel
+from peewee import TextField
 
-from model.BaseModel import *
 
 class City(BaseModel):
     applicant_city = TextField()

@@ -1,7 +1,8 @@
-from peewee import *
+from peewee import ForeignKeyField, TextField, CharField, DateTimeField
 from model.BaseModel import BaseModel
 from model.Applicant import Applicant
 from model.Mentor import Mentor
+# from controll_admin import *
 
 
 class InterviewSlot(BaseModel):

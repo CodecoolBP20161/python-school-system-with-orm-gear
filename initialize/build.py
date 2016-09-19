@@ -1,17 +1,17 @@
 # This script can create the database tables based on your models
 
-from model.Applicant import Applicant
-from model.Person import Person
-from model.City import City
-from model.Mentor import Mentor
-from model.InterviewSlot import InterviewSlot
-from model.InterviewSlotMentor import InterviewSlotMentor
-from model.Email_log import Email_log
-from model.BaseModel import db
-
-from Database_info import Database_info
 from psycopg2 import connect
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+
+from initialize.Database_info import Database_info
+from model.Applicant import Applicant
+from model.BaseModel import db
+from model.City import City
+from model.Email_log import Email_log
+from model.InterviewSlot import InterviewSlot
+from model.InterviewSlotMentor import InterviewSlotMentor
+from model.Mentor import Mentor
+from model.Person import Person
 
 
 class Build:

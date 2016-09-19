@@ -1,5 +1,6 @@
 from peewee import *
-from Database_info import Database_info
+
+from initialize.Database_info import Database_info
 
 # db = PostgresqlDatabase(Database_info.db_name(), user=Database_info.db_user_name())
 db = PostgresqlDatabase(Database_info.db_name(),

@@ -1,11 +1,10 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for
-from validation import Validation
+from controller.validation import Validation
 from model.Applicant import Applicant
-from model.InterviewSlot import InterviewSlot
-from model.Mentor import Mentor
-from model.InterviewSlotMentor import InterviewSlotMentor
 from model.Email_log import Email_log
-# from jinja2 import TemplateNotFound
+from model.InterviewSlot import InterviewSlot
+from model.InterviewSlotMentor import InterviewSlotMentor
+from model.Mentor import Mentor
 from functools import wraps
 
 admin_page = Blueprint('admin_page', __name__,

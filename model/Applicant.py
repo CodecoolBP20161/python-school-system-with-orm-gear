@@ -1,9 +1,10 @@
-from model.City import City
-from model.Person import Person
+import random
 from datetime import *
+
 from peewee import CharField, TextField, DateTimeField
 
-import random
+from model.City import City
+from model.Person import Person
 
 
 class Applicant(Person):
@@ -66,7 +67,7 @@ class Applicant(Person):
                          city=request_form['city'])
 
     def valid(self):
-        from validation import Validation
+        from controller.validation import Validation
         errors = {}
         if Validation.first_name_validation(self.first_name):
             errors['first_name'] = 'Invalid first name'

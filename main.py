@@ -1,12 +1,14 @@
+from datetime import *
+
+from initialize.user import *
 from model.Applicant import Applicant
-from model.Mentor import Mentor
+from model.Email_log import Email_log
 from model.InterviewSlot import InterviewSlot
 from model.InterviewSlotMentor import InterviewSlotMentor
-from model.Email_log import Email_log
-from message import *
-from user import *
-from emails import *
-from datetime import *
+from model.Mentor import Mentor
+from model.emails import *
+from model.message import *
+
 
 # import logging
 # logger = logging.getLogger('peewee')

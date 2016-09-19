@@ -1,4 +1,4 @@
-class Email():
+class Email:
 
     @staticmethod
     def send_email(recipient, user, pwd, subject, body):

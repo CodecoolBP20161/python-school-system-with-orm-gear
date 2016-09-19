@@ -10,13 +10,13 @@
         <table align="center" width="100%">
             <tr>
                 <th width="33%">
-                    <h1><p align="center"><a href="http://localhost:5000/" style="text-decoration: none">Home</a></p></h1>
+                    <h1><p align="center"><a href="{{url_for('index')}}" style="text-decoration: none">Home</a></p></h1>
                 </th>
                 <th width="33%">
-                    <h1><p align="center"><a href="http://localhost:5000/admin/e-mail-log" style="text-decoration: none">E-mail Log</a></p></h1>
+                    <h1><p align="center"><a href="{{url_for('admin_page.email_log')}}" style="text-decoration: none">E-mail Log</a></p></h1>
                 </th>
                 <th width="33%">
-                    <h1><p align="center"><a href="http://localhost:5000/admin/applicant_list" style="text-decoration: none">Applicants Filter</a></p></h1>
+                    <h1><p align="center"><a href="{{url_for('admin_page.admin_filter')}}" style="text-decoration: none">Applicants Filter</a></p></h1>
                 </th>
             </tr>
         </table>
@@ -54,14 +54,13 @@
 </table>
 <table type="filter2" align="left" width="80%">
         <th type="filter2" width ="10%"><label><h3 align="left">Interview Time:</h3></label></th>
-        <td type="filter2" width ="40%" align="left">from:<input  type='date' name='time_from'></td>
-        <td type="filter2" width ="40%" aign="center">to:<input  type='date' name='time_to'></td>
+        <td type="filter2" width ="30%" align="left">from:<input  type='date' name='time_from'></td>
+        <td type="filter2" width ="30%" aign="center">to:<input  type='date' name='time_to'></td>
 
 
       <th type="filter2" width ="40%"><label for="code"><h3 align="left">Application code</h3></label></th>
 
       <td width ="40%" type="filter2"  ><input id="code" name='code'></td><br>
-      <td width ="40%" type="filter2" ></td>
     </td>
                 <!--<input id="time"required type='date' name='time3'><br>-->
 

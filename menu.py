@@ -1,12 +1,13 @@
-from build import *
-from example_data import *
+# from model.example_data import *
+from model.example_data import *
+from model.build import Build
 from main import *
-from models import *
+
 from peewee import *
 
 
 # story11
-class Menu():
+class Menu:
     @staticmethod
     def select_option():
         available_choices = ['(1) Generate New Database', '(2) Display Applicants', '(3) Application Details',
@@ -20,6 +21,7 @@ class Menu():
             # print('_______________________________________\n')
             if menu_choice == '1':
                 print('_______________________________________\n')
+                # Build.connect_db()
                 Build.connect()
                 Build.drop()
                 Build.create()
@@ -47,7 +49,9 @@ class Menu():
                     existed_applicant = Applicant.get(Applicant.code == application_code)
                     interview = InterviewSlot.get(InterviewSlot.applicant == existed_applicant)
                     print('_______________________________________\n')
-                    mentors = existed_applicant.get_mentors_for_interview("mentors")
+
+                    # todo: refactor this after email sender with the sam concept
+                    mentors = existed_applicant.get_mentors_for_interview()
 
                     print('Date: {0}\nSchool: {1}\nMentors: {2} {3}, {4} {5}'.format(interview.time,
                                                                                      existed_applicant.school,

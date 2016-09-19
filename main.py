@@ -24,7 +24,7 @@ from model.message import *
 
 
 class Main:
-    user_data = {}
+    # user_data = {}
 
     @classmethod
     def register(cls):
@@ -37,15 +37,16 @@ class Main:
         print("Sending out e-mails to new applicants.\n")
         cls.send_mail()
 
-    @classmethod
-    def get_user_email_data(cls):
-        cls.user_data = User.create_file()
+    # @classmethod
+    # def get_user_email_data(cls):
+    #     cls.user_data = User.create_file()
 
     @classmethod
     def send_mail(cls):
         for applicant in Applicant.get_assigned_applicants():
             message_dict = Message.new_applicant(applicant.first_name, applicant.code, applicant.school)
-            Email.send_email(applicant.email, **cls.user_data, **message_dict)
+            sent_email = Email(applicant.email, **message_dict)
+            sent_email.send_mail()
             # print(message_dict.get('subject'))
             print(message_dict['subject'])
             Email_log.create_email_log(message_dict['subject'], message_dict['body'], "new applicant",
@@ -62,7 +63,8 @@ class Main:
                                                            applicant.interviewslot.time,
                                                            applicant.interviewslot.interviewslotmentor.mentor.full_name,
                                                            email_data["mentor1_full_name"])
-                Email.send_email(applicant.email, **cls.user_data, **message_dict)
+                sent_email = Email(applicant.email, **message_dict)
+                sent_email.send_mail()
                 Email_log.create_email_log(message_dict['subject'], message_dict['body'], "applicant's interview",
                                            datetime.utcnow(), applicant.full_name, applicant.email)
 
@@ -78,8 +80,8 @@ class Main:
                                                     interview.interview.applicant.first_name,
                                                     interview.interview.applicant.last_name)
 
-            Email.send_email(interview.mentor.email, **cls.user_data, **message_dict)
-
+            sent_email = Email(interview.mentor.email, **message_dict)
+            sent_email.send_mail()
             interview.interview.detail = "email sent"
             interview.interview.save()
             Email_log.create_email_log(message_dict['subject'], message_dict['body'], "mentors's interview",

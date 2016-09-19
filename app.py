@@ -2,8 +2,8 @@ from flask import *
 
 from controller.controll_admin import admin_page
 from initialize.build import Build
-from initialize.example_data import Example_data
 from initialize.read_from_text import *
+from initialize.example_data import Example_data
 from main import Main
 from model.Applicant import Applicant
 from model.BaseModel import db
@@ -18,12 +18,11 @@ secret = os.urandom(24)
 app.secret_key = secret
 
 Build.connect()
-# Build.drop()
-# Build.create()
-# Example_data.insert()
-# Main.get_user_email_data()
-# Main.register()
-# Main.interview()
+Build.drop()
+Build.create()
+Example_data.insert()
+Main.register()
+Main.interview()
 
 @app.route('/')
 def index():

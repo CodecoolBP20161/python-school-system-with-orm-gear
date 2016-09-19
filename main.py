@@ -51,36 +51,33 @@ class Main:
             Email.send_email(applicant.email, **cls.user_data, **message_dict)
             # print(message_dict.get('subject'))
             print(message_dict['subject'])
-            data = Email_log.create(subject=message_dict['subject'],
-                                    message=message_dict['body'],
-                                    type="new applicant",
-                                    date=datetime.utcnow(),
-                                    full_name="{0} {1}".format(applicant.first_name, applicant.last_name),
-                                    email=applicant.email)
+            Email_log.create(subject=message_dict['subject'],
+                             message=message_dict['body'],
+                             type="new applicant",
+                             date=datetime.utcnow(),
+                             full_name="{0} {1}".format(applicant.first_name, applicant.last_name),
+                             email=applicant.email)
 
     @classmethod
     def send_email_interview(cls):
-        # todo: refactor email sender with this new query, problem duplicate applicant because of mentors
-        for applicant in Applicant.select(Applicant, InterviewSlot, InterviewSlotMentor, Mentor).join(
-                InterviewSlot).join(
-                InterviewSlotMentor).join(Mentor).where(Applicant.status == "processing"):
-            print(applicant.first_name, applicant.interviewslot.time,
-                  applicant.interviewslot.interviewslotmentor.mentor.first_name,
-                  applicant.interviewslot.interviewslotmentor.mentor.last_name)
-        for applicant in Applicant.filter("status", "processing"):
-            for applic in applicant.applicant_datas:
-                if applic.detail is None:
-                    mentors = applicant.get_mentors_for_interview()
-                    message_dict = Message.applicant_interview(applicant.first_name,
-                                                               applicant.get_mentors_for_interview_time(),
-                                                               *mentors)
-                    Email.send_email(applicant.email, **cls.user_data, **message_dict)
-                    data = Email_log.create(subject=message_dict['subject'],
-                                            message=message_dict['body'],
-                                            type="applicant's interview",
-                                            date=datetime.utcnow(),
-                                            full_name="{0} {1}".format(applicant.first_name, applicant.last_name),
-                                            email=applicant.email)
+        email_data = dict()
+        # todo: refactor email sender get_user_email_data in email sender creat some facade pattern to it, and email.send method refactor as instance method
+        for i, applicant in enumerate(Applicant.select(Applicant, InterviewSlot, InterviewSlotMentor, Mentor).join(
+                InterviewSlot).join(InterviewSlotMentor).join(Mentor).where(Applicant.status == "processing")):
+            if i % 2:
+                message_dict = Message.applicant_interview(applicant.first_name,
+                                                           applicant.interviewslot.time,
+                                                           applicant.interviewslot.interviewslotmentor.mentor.full_name,
+                                                           email_data["mentor1_full_name"])
+                Email.send_email(applicant.email, **cls.user_data, **message_dict)
+                Email_log.create(subject=message_dict['subject'],
+                                 message=message_dict['body'],
+                                 type="applicant's interview",
+                                 date=datetime.utcnow(),
+                                 full_name="{0} {1}".format(applicant.first_name, applicant.last_name),
+                                 email=applicant.email)
+            else:
+                email_data.update({"mentor1_full_name": applicant.interviewslot.interviewslotmentor.mentor.full_name})
 
     @classmethod
     def send_email_interview_mentors(cls):

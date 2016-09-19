@@ -24,22 +24,20 @@ class Message:
 
     @classmethod
     def applicant_interview(cls, first_name, time,
-                            mentor_first_name, mentor_last_name,
-                            mentor2_first_name, mentor2_last_name):  # , mentor2_first_name, mentor2_last_name
+                            mentor_full_name,
+                            mentor2_full_name):  # , mentor2_first_name, mentor2_last_name
         first_name = cls.strip_accents(first_name)
-        mentor_first_name = cls.strip_accents(mentor_first_name)
-        mentor_last_name = cls.strip_accents(mentor_last_name)
-        mentor2_first_name = cls.strip_accents(mentor2_first_name)
-        mentor2_last_name = cls.strip_accents(mentor2_last_name)
+        mentor_full_name = cls.strip_accents(mentor_full_name)
+        mentor2_full_name = cls.strip_accents(mentor2_full_name)
         subject = "Codecool"
         message = """Dear {0},
 
                      Your interview time slot is: {1}
-                     Your mentors' name are: {2} {3}, {4} {5}
+                     Your mentors' name are: {2}, {3},
                      Best Regards,
                      Codecool   """.format(first_name, time,
-                                           mentor_first_name, mentor_last_name,
-                                           mentor2_first_name, mentor2_last_name)
+                                           mentor_full_name,
+                                           mentor2_full_name)
 
         return cls.message_dict(subject, message)
 

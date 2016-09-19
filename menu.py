@@ -50,7 +50,7 @@ class Menu:
                     interview = InterviewSlot.get(InterviewSlot.applicant == existed_applicant)
                     print('_______________________________________\n')
 
-                    #todo: refactor this after email sender with the sam concept
+                    # todo: refactor this after email sender with the sam concept
                     mentors = existed_applicant.get_mentors_for_interview()
 
                     print('Date: {0}\nSchool: {1}\nMentors: {2} {3}, {4} {5}'.format(interview.time,
@@ -64,11 +64,5 @@ class Menu:
                 Main.register()
                 Main.interview()
 
-
-for applicant in Applicant.select(Applicant, InterviewSlot, InterviewSlotMentor, Mentor).join(InterviewSlot).join(
-        InterviewSlotMentor).join(Mentor).where(Applicant.status == "processing"):
-    print(applicant.first_name, applicant.interviewslot.time,
-          applicant.interviewslot.interviewslotmentor.mentor.first_name,
-          applicant.interviewslot.interviewslotmentor.mentor.last_name)
 
 Menu.select_option()

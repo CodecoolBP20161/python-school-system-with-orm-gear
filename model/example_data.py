@@ -1,8 +1,16 @@
 # This script can generate example data for "City" and "InterviewSlot" models.
 
-from models import *
-from peewee import *
-from main import *
+#
+from model.Applicant import Applicant
+from model.InterviewSlot import InterviewSlot
+from model.BaseModel import BaseModel, db
+from model.City import City
+
+from model.InterviewSlotMentor import InterviewSlotMentor
+from model.Mentor import Mentor
+
+# from controll_admin import *
+
 import random
 
 

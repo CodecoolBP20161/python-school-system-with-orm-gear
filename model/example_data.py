@@ -57,7 +57,7 @@ class Example_data:
                                {"school": "Krakow", "time": '2016-08-28 10:00:00'}
                                ]
         return interview_slot_dict
-
+# todo: refactor interview_slot_mentor to get more clean
     @staticmethod
     def interview_slot_mentor():
         interview = InterviewSlot.select().order_by(InterviewSlot.time)

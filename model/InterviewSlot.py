@@ -16,6 +16,7 @@ class InterviewSlot(BaseModel):
     def get_free_slots(cls, applicant):
         return cls.select().where(cls.applicant >> None, cls.school == applicant.school).order_by(cls.time)
 
+#todo: refactor get interviews method
     def interviews(self, applicant):
         if applicant.status == "new":
             self.applicant = applicant

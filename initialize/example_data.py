@@ -1,14 +1,16 @@
 # This script can generate example data for "City" and "InterviewSlot" models.
 
-from models import *
-# from model.InterviewSlot import *
-# from model.City import *
-# from model.Applicant import *
-# from model.Email_log import *
-# from model.InterviewSlotMentor import *
-# from model.Mentor import *
-from peewee import *
-from main import *
+#
+from model.Applicant import Applicant
+from model.InterviewSlot import InterviewSlot
+from model.BaseModel import BaseModel, db
+from model.City import City
+
+from model.InterviewSlotMentor import InterviewSlotMentor
+from model.Mentor import Mentor
+
+# from controll_admin import *
+
 import random
 
 
@@ -55,7 +57,7 @@ class Example_data:
                                {"school": "Krakow", "time": '2016-08-28 10:00:00'}
                                ]
         return interview_slot_dict
-
+# todo: refactor interview_slot_mentor to get more clean
     @staticmethod
     def interview_slot_mentor():
         interview = InterviewSlot.select().order_by(InterviewSlot.time)

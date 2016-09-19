@@ -1,8 +1,5 @@
-
 from model.City import City
-# from model.InterviewSlotMentor import InterviewSlotMentor
 from model.Person import Person
-# from controll_admin import Person, City, InterviewSlotMentor
 from datetime import *
 from peewee import CharField, TextField, DateTimeField
 
@@ -28,12 +25,6 @@ class Applicant(Person):
                 applicant.school = school_get
                 applicant.save()
 
-    # @classmethod
-    # def update_applicant(cls):
-    #     new_applicant = cls.select().join(City, on=City.applicant_city == cls.city).where(cls.status == "new")
-    #     for applicant in new_applicant:
-    #         applicant.update_school()
-
     @classmethod
     def get_codes(cls):
         codes = []
@@ -58,28 +49,14 @@ class Applicant(Person):
             print(applicant.code, applicant.first_name, applicant.last_name, applicant.city, applicant.school,
                   applicant.status, applicant.email)
 
-
     @classmethod
     def get_assigned_applicants(cls):
         return cls.select().where(~(cls.code >> None), ~(cls.school >> None), cls.status == "new")
-
-
 
     def get_mentors_for_interview_time(self):
         for applicant in self.applicant_datas:
             return applicant.time
 
-    def get_mentors_for_interview(self):
-        mentors = []
-
-
-        # for mentor in InterviewSlotMentor.select():
-        #     if applicant.id == mentor.interview.id:
-        #         mentors.append(mentor.mentor.first_name)
-        #         mentors.append(mentor.mentor.last_name)
-
-
-        return mentors
 
     @classmethod
     def create_from_form(cls, request_form):
@@ -98,10 +75,3 @@ class Applicant(Person):
         if Validation.email_exists(self.email):
             errors['email'] = 'E-mail already in use'
         return errors
-
-    # @classmethod
-    # def mentors_for_applicant(cls, first_name, last_name):
-    #     return cls.select(Applicant, InterviewSlot, InterviewSlotMentor, Mentor).join(
-    #         InterviewSlot).join(
-    #         InterviewSlotMentor).join(Mentor).where(Mentor.first_name.contains(first_name),
-    #                                                 Mentor.last_name.contains(last_name))

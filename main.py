@@ -1,5 +1,3 @@
-# from models import *
-
 from model.Applicant import Applicant
 from model.Mentor import Mentor
 from model.InterviewSlot import InterviewSlot
@@ -10,7 +8,6 @@ from user import *
 from emails import *
 from datetime import *
 
-
 # import logging
 # logger = logging.getLogger('peewee')
 # hdlr = logging.FileHandler('app.log', mode='w')
@@ -18,8 +15,6 @@ from datetime import *
 # hdlr.setFormatter(formatter)
 # logger.addHandler(hdlr)
 # logger.setLevel(logging.DEBUG)
-
-
 # logger.addHandler(logging.StreamHandler())
 
 # check logs for optimize and not to use querys here only on models
@@ -51,12 +46,8 @@ class Main:
             Email.send_email(applicant.email, **cls.user_data, **message_dict)
             # print(message_dict.get('subject'))
             print(message_dict['subject'])
-            Email_log.create(subject=message_dict['subject'],
-                             message=message_dict['body'],
-                             type="new applicant",
-                             date=datetime.utcnow(),
-                             full_name="{0} {1}".format(applicant.first_name, applicant.last_name),
-                             email=applicant.email)
+            Email_log.create_email_log(message_dict['subject'], message_dict['body'], "new applicant",
+                                       datetime.utcnow(), applicant.full_name, applicant.email)
 
     @classmethod
     def send_email_interview(cls):
@@ -70,14 +61,12 @@ class Main:
                                                            applicant.interviewslot.interviewslotmentor.mentor.full_name,
                                                            email_data["mentor1_full_name"])
                 Email.send_email(applicant.email, **cls.user_data, **message_dict)
-                Email_log.create(subject=message_dict['subject'],
-                                 message=message_dict['body'],
-                                 type="applicant's interview",
-                                 date=datetime.utcnow(),
-                                 full_name="{0} {1}".format(applicant.first_name, applicant.last_name),
-                                 email=applicant.email)
+                Email_log.create_email_log(message_dict['subject'], message_dict['body'], "applicant's interview",
+                                           datetime.utcnow(), applicant.full_name, applicant.email)
+
             else:
                 email_data.update({"mentor1_full_name": applicant.interviewslot.interviewslotmentor.mentor.full_name})
+                # todo: facade to email method and refactor send_email_interview_mentors
 
     @classmethod
     def send_email_interview_mentors(cls):
@@ -91,14 +80,12 @@ class Main:
 
             interview.interview.detail = "email sent"
             interview.interview.save()
-            data = Email_log.create(subject=message_dict['subject'],
-                                    message=message_dict['body'],
-                                    type="mentors's interview",
-                                    date=datetime.utcnow(),
-                                    full_name="{0} {1}".format(interview.mentor.first_name, interview.mentor.last_name),
-                                    email=interview.mentor.email)
+            Email_log.create_email_log(message_dict['subject'], message_dict['body'], "mentors's interview",
+                                       datetime.utcnow(), interview.mentor.full_name, interview.mentor.email)
 
-    # InterviewSlot.inter_views()
+
+            # todo: refcator interview method handle in one place
+
     @classmethod
     def interview(cls):
         for new in Applicant.new_applicant():
@@ -112,8 +99,11 @@ class Main:
         cls.send_email_interview_mentors()
 
 
-# Build()
+# Build.connect()
+# Build.drop()
+# Build.create()
 # Example_data.insert()
+# Main.get_user_email_data()
 # Main.register()
 # Main.interview()
-print("Please start with menu.py")
+print("Please start with app.py")

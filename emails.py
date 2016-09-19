@@ -1,3 +1,5 @@
+
+#todo: refactor email, send method with decorator, and get instance method for email send
 class Email:
 
     @staticmethod

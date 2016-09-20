@@ -6,7 +6,7 @@ from model.InterviewSlot import InterviewSlot
 from model.InterviewSlotMentor import InterviewSlotMentor
 from model.Mentor import Mentor
 from functools import wraps
-
+import datetime
 admin_page = Blueprint('admin_page', __name__,
                        template_folder='templates')
 
@@ -69,8 +69,8 @@ def admin_filter():
 
             applicant_filter = Applicant.select(Applicant, InterviewSlot, InterviewSlotMentor, Mentor).join(
                 InterviewSlot).join(
-                InterviewSlotMentor).join(Mentor).where(Mentor.first_name.contains(first_name),
-                                                        Mentor.last_name.contains(last_name))
+                InterviewSlotMentor).join(Mentor).where(Mentor.first_name.contains(full_name[0]),
+                                                        Mentor.last_name.contains(full_name[1]))
 
         if to_time or from_time:
             if from_time:

@@ -6,7 +6,7 @@ from model.InterviewSlot import InterviewSlot
 from model.InterviewSlotMentor import InterviewSlotMentor
 from model.Mentor import Mentor
 from functools import wraps
-import datetime
+from datetime import *
 admin_page = Blueprint('admin_page', __name__,
                        template_folder='templates')
 

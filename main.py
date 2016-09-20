@@ -1,6 +1,6 @@
-from datetime import *
 
-
+from initialize.example_data import Example_data
+from initialize.build import Build
 from model.Applicant import Applicant
 from model.InterviewSlot import InterviewSlot
 from model.InterviewSlotMentor import InterviewSlotMentor
@@ -28,5 +28,11 @@ class Main:
 
 
 if __name__ == '__main__':
+    # Build.drop()
+    Build.create()
+    applicant  =Applicant.select()
+    if len(applicant) == 0:
+        Example_data.insert()
+    Main.register()
     # app.run()
     app.run(debug=True)

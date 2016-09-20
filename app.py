@@ -1,9 +1,8 @@
 from flask import *
 
 from controller.controll_admin import admin_page
-from initialize.build import Build
+
 from initialize.read_from_text import *
-from initialize.example_data import Example_data
 from main import Main
 
 from model.Applicant import Applicant
@@ -25,10 +24,7 @@ def get_db():
     """
     if not hasattr(g, 'postgres_db'):
         g.postgres_db = db.connect()
-        Build.drop()
-        Build.create()
-        Example_data.insert()
-        Main.register()
+
 
     return g.postgres_db
 
@@ -57,9 +53,7 @@ def registration_form():
         validation_result = applicant.valid()
         if len(validation_result) == 0:
             applicant.save()
-            Main.get_user_email_data()
             Main.register()
-            Main.interview()
             return render_template('base.html', message="Thanks for your registration :)")
         else:
             return render_template('registration.html', applicant=applicant, errors=validation_result)

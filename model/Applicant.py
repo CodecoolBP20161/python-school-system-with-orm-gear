@@ -37,7 +37,7 @@ class Applicant(Person):
 
     def new_code(self):
         while True:
-            new_code = "".join([self.city[:2].upper(), str(random.randint(1000, 10000))])
+            new_code = "".join([self.school[:2].upper(), str(random.randint(1000, 10000))])
             if new_code not in Applicant.get_codes():
                 break
         return new_code
@@ -58,7 +58,6 @@ class Applicant(Person):
     def get_mentors_for_interview_time(self):
         for applicant in self.applicant_datas:
             return applicant.time
-
 
     @classmethod
     def create_from_form(cls, request_form):
@@ -88,4 +87,29 @@ class Applicant(Person):
             print(message_dict['subject'])
             Email_log.create_email_log(message_dict['subject'], message_dict['body'], "new applicant",
                                        datetime.utcnow(), applicant.full_name, applicant.email)
+
+    def get_applicant_details_for_inteview(self):
+        from model.InterviewSlot import InterviewSlot
+        from model.InterviewSlotMentor import InterviewSlotMentor
+        from model.Mentor import Mentor
+        details = {"mentors": []}
+        for mentor in Applicant.select(Applicant, InterviewSlot, InterviewSlotMentor, Mentor).join(
+                InterviewSlot).join(InterviewSlotMentor).join(Mentor).where(self.id == Applicant.id):
+            details["mentors"].append(mentor.full_name)
+            details["time"] = mentor.interviewslot.time
+        return details
+
+    @classmethod
+    def send_app_int(cls):
+        for applicant in cls.filter("status", "processing"):
+            details = applicant.get_applicant_details_for_inteview()
+            message_dict = Message(applicant.first_name, details["time"],
+                                   details["mentors"][0],details["mentors"][1])
+            message_dict = message_dict.applicant_interview()
+            sent_email = Email(applicant.email, **message_dict)
+            sent_email.send_mail()
+            Email_log.create_email_log(message_dict['subject'], message_dict['body'], "applicant's interview",
+                                       datetime.utcnow(), applicant.full_name, applicant.email)
+
+
 

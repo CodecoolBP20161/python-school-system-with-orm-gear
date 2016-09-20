@@ -5,23 +5,39 @@ from initialize.build import Build
 from initialize.read_from_text import *
 from initialize.example_data import Example_data
 from main import Main
+
 from model.Applicant import Applicant
 from model.BaseModel import db
 
+
 app = Flask(__name__)
 app.register_blueprint(admin_page) # url_prefix='/admin'
-# db = PostgresqlDatabase('6_teamwork_week',
-#                         **{'user': Read_from_text.connect_data(), 'host': 'localhost', 'port': 5432,
-#                            'password': '753951'})
-db.connect()
+
 secret = os.urandom(24)
 app.secret_key = secret
 
-Build.connect()
-Build.drop()
-Build.create()
-Example_data.insert()
-Main.register()
+
+
+@app.before_first_request
+def get_db():
+    """Opens a new database connection if there is none yet for the
+    current application context.
+    """
+    if not hasattr(g, 'postgres_db'):
+        g.postgres_db = db.connect()
+        Build.drop()
+        Build.create()
+        Example_data.insert()
+        Main.register()
+
+    return g.postgres_db
+
+
+@app.teardown_appcontext
+def close_db(error):
+    """Closes the database again at the end of the request."""
+    if hasattr(g, 'postgres_db'):
+        g.postgres_db.close()
 
 
 @app.route('/')
@@ -50,6 +66,6 @@ def registration_form():
     return render_template('registration.html', applicant=applicant)
 
 
-if __name__ == '__main__':
-    # app.run()
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     # app.run()
+#     app.run(debug=True)

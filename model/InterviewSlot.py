@@ -4,7 +4,6 @@ from model.Applicant import Applicant
 from model.Mentor import Mentor
 
 
-
 class InterviewSlot(BaseModel):
     mentor = ForeignKeyField(Mentor, related_name='mentor_datas', default=None, null=True)
     school = TextField()
@@ -27,16 +26,7 @@ class InterviewSlot(BaseModel):
                     new.save()
 
 
-    # def interviews(self, applicant):
-    #     if applicant.status == "new":
-    #         self.applicant = applicant
-    #         self.save()
-    #         applicant.status = "processing"
-    #         applicant.save()
 
-    @classmethod
-    def get_interview_times(cls):
-        return cls.select().join(Mentor).switch(InterviewSlot).join(Applicant)
 
 
 

@@ -15,10 +15,6 @@ class Applicant(Person):
     registration_time = DateTimeField(default=datetime.utcnow())
 
     @classmethod
-    def new_applicant(cls):
-        return cls.select().where(cls.status == "new")
-
-    @classmethod
     def update_school(cls):
         new_applicant = cls.filter("status", "new")
         if new_applicant:
@@ -55,10 +51,6 @@ class Applicant(Person):
     def get_assigned_applicants(cls):
         return cls.select().where(~(cls.code >> None), ~(cls.school >> None), cls.status == "new")
 
-    def get_mentors_for_interview_time(self):
-        for applicant in self.applicant_datas:
-            return applicant.time
-
     @classmethod
     def create_from_form(cls, request_form):
         return Applicant(first_name=request_form['first_name'],
@@ -78,17 +70,18 @@ class Applicant(Person):
         return errors
 
     @classmethod
-    def send_mail(cls):
+    def send_mail_for_new_applicant(cls):
         for applicant in cls.get_assigned_applicants():
             message_dict = Message(applicant.first_name, applicant.code, applicant.school)
             message_dict = message_dict.new_applicant()
             sent_email = Email(applicant.email, **message_dict)
             sent_email.send_mail()
-            print(message_dict['subject'])
+            # print(message_dict['subject'])
+#todo: to the email log to send from it the email, facade or decorator new class???
             Email_log.create_email_log(message_dict['subject'], message_dict['body'], "new applicant",
                                        datetime.utcnow(), applicant.full_name, applicant.email)
 
-    def get_applicant_details_for_inteview(self):
+    def get_applicant_details_for_interview(self):
         from model.InterviewSlot import InterviewSlot
         from model.InterviewSlotMentor import InterviewSlotMentor
         from model.Mentor import Mentor
@@ -100,9 +93,9 @@ class Applicant(Person):
         return details
 
     @classmethod
-    def send_app_int(cls):
+    def send_applicant_interview_email(cls):
         for applicant in cls.filter("status", "processing"):
-            details = applicant.get_applicant_details_for_inteview()
+            details = applicant.get_applicant_details_for_interview()
             message_dict = Message(applicant.first_name, details["time"],
                                    details["mentors"][0],details["mentors"][1])
             message_dict = message_dict.applicant_interview()

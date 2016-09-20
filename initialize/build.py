@@ -16,7 +16,7 @@ from model.Person import Person
 
 class Build:
 
-#todo: create database if it is not exist
+#todo: create database if it is not exist try with local password why it is not working????
     @staticmethod
     def connect_db():
         try:

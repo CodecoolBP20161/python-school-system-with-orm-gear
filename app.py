@@ -1,20 +1,17 @@
 from flask import *
-
 from controller.controll_admin import admin_page
-
+from controll_user import user_page
 from initialize.read_from_text import *
 from main import Main
-
 from model.Applicant import Applicant
 from model.BaseModel import db
 
-
 app = Flask(__name__)
-app.register_blueprint(admin_page) # url_prefix='/admin'
+app.register_blueprint(admin_page)  # url_prefix='/admin'
+# app.register_blueprint(user_page)
 
 secret = os.urandom(24)
 app.secret_key = secret
-
 
 
 @app.before_first_request
@@ -24,8 +21,6 @@ def get_db():
     """
     if not hasattr(g, 'postgres_db'):
         g.postgres_db = db.connect()
-
-
     return g.postgres_db
 
 
@@ -39,7 +34,6 @@ def close_db(error):
 @app.route('/')
 def index():
     return render_template('base.html')
-
 
 
 @app.route('/registration', methods=['GET', 'POST'])

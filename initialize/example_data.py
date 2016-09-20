@@ -11,7 +11,6 @@ from model.City import City
 from model.InterviewSlotMentor import InterviewSlotMentor
 from model.Mentor import Mentor
 
-
 import random
 
 
@@ -38,7 +37,7 @@ class Example_data:
          "email": "girhes.cc.2016@gmail.com"},
         {"first_name": "James", "last_name": "Brown", "school": "Krakow",
          "email": "girhes.cc.2016@gmail.com"}
-        ]
+    ]
 
     @staticmethod
     def interview_slot():
@@ -62,9 +61,6 @@ class Example_data:
                                ]
         return interview_slot_dict
 
-
-
-# todo: refactor interview_slot_mentor to get more clean
     @staticmethod
     def interview_slot_mentor():
         interview = InterviewSlot.select().order_by(InterviewSlot.time)

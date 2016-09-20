@@ -1,8 +1,6 @@
 import smtplib
 from initialize.user import User
 
-#todo:send method with decorator
-
 
 class Email:
     user_data = User.create_file()

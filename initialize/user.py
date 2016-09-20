@@ -1,9 +1,6 @@
-# This only uses the json package
 import json
 import os.path
 import getpass
-
-# Create a dictionary (a key-value-pair structure in Python)
 
 
 class User:

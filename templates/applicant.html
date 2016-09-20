@@ -104,32 +104,34 @@
                 <!--<button type="button">Filter</button>-->
 </table>
 <button type="submit">Filter</button>
+
 </form>
-<table type="filter2" style="border:1px solid black;" width="90%">
+<table class="table table-striped table-hover ">
+    <thead>
     <tr>
-
-        <th width="25%" align="center" style="border:1px solid black;">Name</th>
-        <th width="15%" align="center" style="border:1px solid black;">School</th>
-        <th width="25%" align="center" style="border:1px solid black;">Email</th>
-        <th width="10%" align="center" style="border:1px solid black;">App. code</th>
-        <th width="10%" align="center" style="border:1px solid black;">City</th>
-        <th width="10%" align="center" style="border:1px solid black;">Status</th>
-        <th width="10%" align="center" style="border:1px solid black;">Reg. time</th>
-
-
-            {% for n in applicant_filter %}
-            <tr>
-                <td align="center" style="border:1px solid black;">{{n.first_name}} {{n.last_name}}</td>
-                <td align="center" style="border:1px solid black;">{{n.school}}</td>
-                <td align="center" style="border:1px solid black;">{{n.email}}</td>
-                <td align="center" style="border:1px solid black;">{{n.code}}</td>
-                <td align="center" style="border:1px solid black;">{{n.city}}</td>
-                <td align="center" style="border:1px solid black;">{{n.status}}</td>
-                <td align="center" style="border:1px solid black;">{{n.registration_time.strftime('%Y-%m-%d %H:%M')}}</td>
-
-
-            </tr>
-            {% endfor %}
+        <th>Name</th>
+        <th>School</th>
+        <th>Email</th>
+        <th>App. code</th>
+        <th>City</th>
+        <th>Status</th>
+        <th>Reg. time</th>
     </tr>
+    </thead>
+
+    <tbody>
+        {% for n in applicant_filter %}
+        <tr>
+            <td>{{n.first_name}} {{n.last_name}}</td>
+            <td>{{n.school}}</td>
+            <td>{{n.email}}</td>
+            <td>{{n.code}}</td>
+            <td>{{n.city}}</td>
+            <td>{{n.status}}</td>
+            <td>{{n.registration_time.strftime('%Y-%m-%d %H:%M')}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
-    {% endblock %}
+
+{% endblock %}

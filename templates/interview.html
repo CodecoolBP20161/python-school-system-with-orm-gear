@@ -83,28 +83,28 @@
 </table>
   <button type="submit">Filter</button>
 </form>
-<table type="filter2" style="border:1px solid black;" width="90%">
+
+<table class="table table-striped table-hover ">
+    <thead>
     <tr>
-
-
-        <th width="15%" align="center" style="border:1px solid black;">School</th>
-        <th width="25%" align="center" style="border:1px solid black;">Mentor</th>
-        <th width="10%" align="center" style="border:1px solid black;">Applicant</th>
-        <th width="10%" align="center" style="border:1px solid black;">Detail</th>
-        <th width="10%" align="center" style="border:1px solid black;">Time</th>
-
-
-
-            {% for n in interview_filter %}
-            <tr>
-                <td align="center" style="border:1px solid black;">{{n.school}}</td>
-                <td align="center" style="border:1px solid black;">{{n.interviewslotmentor.mentor.first_name}}
-                    {{n.interviewslotmentor.mentor.last_name}}</td>
-                <td align="center" style="border:1px solid black;">{{n.applicant.first_name}} {{n.applicant.last_name}}</td>
-                <td align="center" style="border:1px solid black;">{{n.detail}}</td>
-                <td align="center" style="border:1px solid black;">{{n.time}}</td>
-            </tr>
-            {% endfor %}
+        <th>School</th>
+        <th>Mentor</th>
+        <th>Applicant</th>
+        <th>Detail</th>
+        <th>Time</th>
     </tr>
+
+    <tbody>
+        {% for n in interview_filter %}
+        <tr>
+            <td>{{n.school}}</td>
+            <td>{{n.interviewslotmentor.mentor.first_name}} {{n.interviewslotmentor.mentor.last_name}}</td>
+            <td>{{n.applicant.first_name}} {{n.applicant.last_name}}</td>
+            <td>{{n.detail}}</td>
+            <td>{{n.time}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
-    {% endblock %}
+
+{% endblock %}

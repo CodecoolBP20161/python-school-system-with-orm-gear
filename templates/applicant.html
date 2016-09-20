@@ -11,8 +11,8 @@
   <div class="container-fluid">
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
       <ul class="nav navbar-nav">
-        <li><a href="{{url_for('index')}}">About Us</a></li>
-        <li><a href="{{url_for('registration_form')}}">Register</a></li>
+        <li><a href="{{url_for('user_page.index')}}">About Us</a></li>
+        <li><a href="{{url_for('user_page.registration_form')}}">Register</a></li>
         <li><a href="{{url_for('admin_page.admin')}}">Admin Login</a></li>
         {% if session.get('username') == 'admin' %}
         <li class="dropdown">
@@ -107,10 +107,10 @@ Filter Applicants</button>
                 </select>
               </div>
 
-              <label for="time" class="col-md-4 control-label">Select a time period:</label>
+              <label class="col-md-4 control-label">Select a time period:</label>
               <div class="col-md-6 .col-md-offset-34">
-                <input type="date" class="form-control" id="time" name="time_from">
-                <input  type='date' class="form-control" id="time" name='time_to'>
+                <input type="date" class="form-control"  name="time_from">
+                <input  type='date' class="form-control"  name='time_to'>
               </div>
 
               <div class="modal-footer">

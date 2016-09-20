@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request
-from model import Applicant
+from model.Applicant import Applicant
+from main import Main
 
 user_page = Blueprint('user_page', __name__,
-                      template_folder='templates')
+                      template_folder='./templates')
 
 
 @user_page.route('/')

@@ -40,7 +40,10 @@
         {% endblock %}
 
         {% if message %}
-            <h4 align="center">{{message}}</h4>
+			<div class="alert alert-dismissible alert-success">
+			  <button type="button" class="close" data-dismiss="alert">&times;</button>
+			  <p align="center"><strong>{{message}}</strong></p>
+			</div>
         {% endif %}
 
         {% block body %}

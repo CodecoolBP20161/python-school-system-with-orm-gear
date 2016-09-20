@@ -24,8 +24,8 @@ class Applicant(Person):
         new_applicant = cls.filter("status", "new")
         if new_applicant:
             for applicant in new_applicant:
-                school_get = City.get(City.applicant_city == applicant.city).school
-                applicant.school = school_get
+                school_get = City.get(City.applicant_city == applicant.city)
+                applicant.school = school_get.school
                 applicant.save()
 
     # @classmethod
@@ -44,7 +44,7 @@ class Applicant(Person):
 
     def new_code(self):
         while True:
-            new_code = "".join([self.city[:2].upper(), str(random.randint(1000, 10000))])
+            new_code = "".join([self.school[:2].upper(), str(random.randint(1000, 10000))])
             if new_code not in Applicant.get_codes():
                 break
         return new_code
@@ -92,11 +92,11 @@ class Applicant(Person):
         from validation import Validation
         errors = {}
         if Validation.first_name_validation(self.first_name):
-            errors['first_name'] = 'Invalid first name'
+            errors['first_name'] = 'Invalid'
         if Validation.last_name_validation(self.last_name):
-            errors['last_name'] = 'Invalid last name'
+            errors['last_name'] = 'Invalid'
         if Validation.email_exists(self.email):
-            errors['email'] = 'E-mail already in use'
+            errors['email'] = 'already in use'
         return errors
 
     # @classmethod

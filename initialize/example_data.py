@@ -1,6 +1,8 @@
 # This script can generate example data for "City" and "InterviewSlot" models.
 
 #
+import random
+from datetime import datetime, timedelta
 from model.Applicant import Applicant
 from model.InterviewSlot import InterviewSlot
 from model.BaseModel import BaseModel, db
@@ -9,7 +11,6 @@ from model.City import City
 from model.InterviewSlotMentor import InterviewSlotMentor
 from model.Mentor import Mentor
 
-# from controll_admin import *
 
 import random
 
@@ -41,22 +42,28 @@ class Example_data:
 
     @staticmethod
     def interview_slot():
-        interview_slot_dict = [{"school": "Budapest", "time": '2016-08-28 10:00:00'},
-                               {"school": "Budapest", "time": '2016-08-28 11:00:00'},
-                               {"school": "Budapest", "time": '2016-08-27 10:00:00'},
-                               {"school": "Budapest", "time": '2016-08-27 11:00:00'},
-                               {"school": "Budapest", "time": '2016-08-29 10:00:00'},
-                               {"school": "Budapest", "time": '2016-08-26 11:00:00'},
-                               {"school": "Krakow", "time": '2016-08-27 09:00:00'},
-                               {"school": "Krakow", "time": '2016-08-28 09:00:00'},
-                               {"school": "Krakow", "time": '2016-08-29 09:00:00'},
-                               {"school": "Miskolc", "time": '2016-08-27 09:00:00'},
-                               {"school": "Miskolc", "time": '2016-08-27 10:00:00'},
-                               {"school": "Miskolc", "time": '2016-08-28 09:00:00'},
-                               {"school": "Miskolc", "time": '2016-08-28 10:00:00'},
-                               {"school": "Krakow", "time": '2016-08-28 10:00:00'}
+        start = datetime.now()
+        end = start + timedelta(days=20)
+
+        interview_slot_dict = [{"school": "Budapest", "time": start + (end - start) * random.random()},
+                               {"school": "Budapest", "time": start + (end - start) * random.random()},
+                               {"school": "Budapest", "time": start + (end - start) * random.random()},
+                               {"school": "Budapest", "time": start + (end - start) * random.random()},
+                               {"school": "Budapest", "time": start + (end - start) * random.random()},
+                               {"school": "Budapest", "time": start + (end - start) * random.random()},
+                               {"school": "Krakow", "time": start + (end - start) * random.random()},
+                               {"school": "Krakow", "time": start + (end - start) * random.random()},
+                               {"school": "Krakow", "time": start + (end - start) * random.random()},
+                               {"school": "Miskolc", "time": start + (end - start) * random.random()},
+                               {"school": "Miskolc", "time": start + (end - start) * random.random()},
+                               {"school": "Miskolc", "time": start + (end - start) * random.random()},
+                               {"school": "Miskolc", "time": start + (end - start) * random.random()},
+                               {"school": "Krakow", "time": start + (end - start) * random.random()}
                                ]
         return interview_slot_dict
+
+
+
 # todo: refactor interview_slot_mentor to get more clean
     @staticmethod
     def interview_slot_mentor():
@@ -64,7 +71,6 @@ class Example_data:
         interview_list = []
         for interviews in interview:
             mentors = Mentor.select().where(interviews.school == Mentor.school)
-
             mentors1 = random.choice(mentors)
             for i in range(10):
                 mentors2 = random.choice(mentors)

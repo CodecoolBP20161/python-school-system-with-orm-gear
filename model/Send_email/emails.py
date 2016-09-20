@@ -1,7 +1,7 @@
 import smtplib
 from initialize.user import User
 
-#todo: refactor email, send method with decorator, and get instance method for email send
+#todo:send method with decorator
 
 
 class Email:

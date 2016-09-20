@@ -1,10 +1,11 @@
 import random
 from datetime import *
-
 from peewee import CharField, TextField, DateTimeField
-
 from model.City import City
 from model.Person import Person
+from model.Email_log import Email_log
+from model.Send_email.emails import Email
+from model.Send_email.message import Message
 
 
 class Applicant(Person):
@@ -76,3 +77,15 @@ class Applicant(Person):
         if Validation.email_exists(self.email):
             errors['email'] = 'E-mail already in use'
         return errors
+
+    @classmethod
+    def send_mail(cls):
+        for applicant in cls.get_assigned_applicants():
+            message_dict = Message(applicant.first_name, applicant.code, applicant.school)
+            message_dict = message_dict.new_applicant()
+            sent_email = Email(applicant.email, **message_dict)
+            sent_email.send_mail()
+            print(message_dict['subject'])
+            Email_log.create_email_log(message_dict['subject'], message_dict['body'], "new applicant",
+                                       datetime.utcnow(), applicant.full_name, applicant.email)
+

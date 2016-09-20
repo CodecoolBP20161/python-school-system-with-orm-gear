@@ -1,7 +1,6 @@
 from model.BaseModel import BaseModel
 from peewee import CharField, DateTimeField
 
-#todo: create new method for create data for email_log after email_send
 
 class Email_log(BaseModel):
     subject = CharField()
@@ -12,10 +11,12 @@ class Email_log(BaseModel):
     email = CharField()
 
     @classmethod
-    def create_email_log(cls, subject, message, type, date, applicant_full_name, applicant_email):
+    def create_email_log(cls, subject, message, type, date, full_name, email):
         Email_log.create(subject=subject,
                          message=message,
                          type=type,
                          date=date,
-                         full_name=applicant_full_name,
-                         email=applicant_email)
+                         full_name=full_name,
+                         email=email)
+
+

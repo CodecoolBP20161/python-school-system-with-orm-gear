@@ -22,7 +22,7 @@ Build.drop()
 Build.create()
 Example_data.insert()
 Main.register()
-Main.interview()
+
 
 @app.route('/')
 def index():

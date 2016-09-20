@@ -6,21 +6,33 @@
         {{ super() }}
     {% endblock %}
     {% block menu %}
-    <p align="center">
-        <table align="center" width="100%">
-            <tr>
-                <th width="33%">
-                    <h1><p align="center"><a href="{{url_for('index')}}" style="text-decoration: none">Home</a></p></h1>
-                </th>
-                <th width="33%">
-                    <h1><p align="center"><a href="{{url_for('admin_page.admin_filter')}}" style="text-decoration: none">Applicants Filter</a></p></h1>
-                </th>
-                <th width="33%">
-                    <h1><p align="center"><a href="{{url_for('admin_page.admin_filter_interviews')}}" style="text-decoration: none">Interview Filter</a></p></h1>
-                </th>
-            </tr>
-        </table>
-    </p>
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+          <ul class="nav navbar-nav">
+            <li><a href="{{url_for('index')}}">About Us</a></li>
+            <li><a href="{{url_for('registration_form')}}">Register</a></li>
+            <li><a href="{{url_for('admin_page.admin')}}">Admin Login</a></li>
+            {% if session.get('username') == 'admin' %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin Options<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="{{url_for('admin_page.admin_filter')}}">Application Filter</a></li>
+                <li><a href="{{url_for('admin_page.email_log')}}">E-mail Log</a></li>
+                <li><a href="{{url_for('admin_page.admin_filter_interviews')}}">Interview Filter</a></li>
+              </ul>
+            </li>
+            {% endif %}
+          </ul>
+          {% if session.get('username') %}
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{url_for('admin_page.logout')}}">Logout</a>
+            </li>
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
     {% endblock %}
     {% block body %}
     <h1 align="center">E-mail log</h1>

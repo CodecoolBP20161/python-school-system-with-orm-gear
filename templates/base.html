@@ -1,51 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-        <link href="/static/style.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         {% block head %}
 	    <title>Codecool{% block title %}{% endblock %}</title>
         {% endblock %}
 	</head>
 	<body>
-        {% if message %}
-            <h4 align="center">{{message}}</h4>
-        {% endif %}
-        {% block greeter %}
-
-    	    {% if session.get('username') %}
-                <h4 align="right">Welcome, {{session.get('username')}}
-                <br><a type="logout" href={{url_for('admin_page.logout')}}>Logout</a></h4>
-    	    {% else %}
-    	        <h4 align="right">Welcome, guest</h4>
-    	    {%endif%}
-        {% endblock %}
         {% block menu %}
-            <p align="center">
-                <table align="center" width="100%">
-                    <tr>
-                        {% if session.get('username') == 'admin' %}
-                        <th width="33%">
-                            <h1><p align="center"><a href="{{url_for('admin_page.admin_filter')}}" style="text-decoration: none">Applicants Filter</a></p></h1>
-                        </th>
-                        <th width="33%">
-                            <h1><p align="center"><a href="{{url_for('admin_page.email_log')}}" style="text-decoration: none">E-mail Log</a></p></h1>
-                        </th>
-                        <th width="33%">
-                            <h1><p align="center"><a href="{{url_for('admin_page.admin_filter_interviews')}}" style="text-decoration: none">Interview Filter</a></p></h1>
-                        </th>
-                        {% else %}
-                        <th width="50%">
-					        <h1><p align="center"><a href="{{url_for('registration_form')}}" style="text-decoration: none">Registration</a></p></h1>
-					    </th>
-                        <th width="50%">
-                            <h1><p align="center"><a href="{{url_for('admin_page.admin')}}" style="text-decoration: none">Admin Login</a></p></h1>
-                        </th>
-                        {%endif%}
-					</tr>
-                </table>
-            </p>
+        <nav class="navbar navbar-inverse">
+          <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="{{url_for('index')}}">About Us <span class="sr-only">(current)</span></a></li>
+                <li><a href="{{url_for('registration_form')}}">Register</a></li>
+                <li><a href="{{url_for('admin_page.admin')}}">Admin Login</a></li>
+                {% if session.get('username') == 'admin' %}
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin Options<span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="{{url_for('admin_page.admin_filter')}}">Application Filter</a></li>
+                    <li><a href="{{url_for('admin_page.email_log')}}">E-mail Log</a></li>
+                    <li><a href="{{url_for('admin_page.admin_filter_interviews')}}">Interview Filter</a></li>
+                  </ul>
+                </li>
+                {% endif %}
+              </ul>
+              {% if session.get('username') %}
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{url_for('admin_page.logout')}}">Logout</a>
+                </li>
+              </ul>
+              {% endif %}
+            </div>
+          </div>
+        </nav>
         {% endblock %}
 
+        {% if message %}
+			<div class="alert alert-dismissible alert-success">
+			  <button type="button" class="close" data-dismiss="alert">&times;</button>
+			  <p align="center"><strong>{{message}}</strong></p>
+			</div>
+        {% endif %}
 
         {% block body %}
         <p align="center"><img src="static/codecool.jpg" width="400" height="400" alt="Codecool"></p>

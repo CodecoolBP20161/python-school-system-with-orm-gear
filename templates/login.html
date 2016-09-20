@@ -6,40 +6,67 @@
         {{ super() }}
     {% endblock %}
     {% block menu %}
-    <p align="center">
-        <table align="center" width="100%">
-            <tr>
-                <th width="50%">
-                    <h1><p align="center"><a href="{{url_for('index')}}" style="text-decoration: none">Home</a></p></h1>
-                </th>
-                <th width="50%">
-                    <h1><p align="center"><a href="{{url_for('registration_form')}}" style="text-decoration: none">Registration</a></p></h1>
-                </th>
-            </tr>
-        </table>
-    </p>
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+          <ul class="nav navbar-nav">
+            <li><a href="{{url_for('index')}}">About Us</a></li>
+            <li><a href="{{url_for('registration_form')}}">Register</a></li>
+            <li class="active"><a href="{{url_for('admin_page.admin')}}">Admin Login<span class="sr-only">(current)</span></a></li>
+            {% if session.get('username') == 'admin' %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin Options<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="{{url_for('admin_page.admin_filter')}}">Application Filter</a></li>
+                <li><a href="{{url_for('admin_page.email_log')}}">E-mail Log</a></li>
+                <li><a href="{{url_for('admin_page.admin_filter_interviews')}}">Interview Filter</a></li>
+              </ul>
+            </li>
+            {% endif %}
+          </ul>
+          {% if session.get('username') %}
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{url_for('admin_page.logout')}}">Logout</a>
+            </li>
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
     {% endblock %}
     {% block body %}
-    <h1 align="center">Admin Login</h1>
-    <form action="/admin" method="post">
-
-        <p align="center">User name:
-            {% if errors %}
-            {% for key, value in errors.items() %}
-            {% if key == 'username' %}
-            <br><span style="color:red";>{{value}}</span>
-            {% endif %}{% endfor %}{% endif %}
-        <br><input type="text" required name='username' {% if username %} value={{username}} {%endif%}></p>
-
-        <p align="center">Password:
-            {% if errors %}
-            {% for key, value in errors.items() %}
-            {% if key == 'password' %}
-            <br><span style="color:red";>{{value}}</span>
-            {% endif %}{% endfor %}{% endif %}
-        <br><input type="password" required name='password' {% if password %} value={{password}} {%endif%}></p>
-
-        <p align="center"><button type='submit'>Login</button></p>
-
+    <form class="form-horizontal" action="/admin" method="post">
+    <fieldset>
+        <legend>Admin Login</legend>
+        <div align="center" class="form-group">
+            <label for="inputText" class="col-lg-2 control-label">
+                {% if errors %}
+                {% for key, value in errors.items() %}
+                {% if key == 'username' %}
+                <span style="color:red";>{{value}}</span>
+                {% endif %}{% endfor %}{% endif %}
+                User name:</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" required name='username' placeholder="User Name" {% if username %} value={{username}} {%endif%}>
+                </div>
+        </div>
+        <div align="center" class="form-group">
+            <label for="inputText" class="col-lg-2 control-label">
+                {% if errors %}
+                {% for key, value in errors.items() %}
+                {% if key == 'password' %}
+                <span style="color:red";>{{value}}</span>
+                {% endif %}{% endfor %}{% endif %}
+                Password:</label>
+                <div class="col-lg-10">
+                    <input type="password" class="form-control" required name='password' placeholder="Password" {% if password %} value={{password}} {%endif%}>
+                </div>
+        </div>
+            <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-2">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+            </div>
+    </fieldset>
     </form>
     {% endblock %}

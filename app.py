@@ -64,8 +64,3 @@ def registration_form():
         else:
             return render_template('registration.html', applicant=applicant, errors=validation_result)
     return render_template('registration.html', applicant=applicant)
-
-
-# if __name__ == '__main__':
-#     # app.run()
-#     app.run(debug=True)

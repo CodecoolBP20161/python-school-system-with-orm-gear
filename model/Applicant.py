@@ -90,19 +90,21 @@ class Applicant(Person):
                 InterviewSlot).join(InterviewSlotMentor).join(Mentor).where(self.id == Applicant.id):
             details["mentors"].append(mentor.full_name)
             details["time"] = mentor.interviewslot.time
+            details["detail"] = mentor.interviewslot.detail
         return details
 #todo: some problem precess is sending emails again and again don't know who has received email
     @classmethod
     def send_applicant_interview_email(cls):
         for applicant in cls.filter("status", "processing"):
             details = applicant.get_applicant_details_for_interview()
-            message_dict = Message(applicant.first_name, details["time"],
-                                   details["mentors"][0],details["mentors"][1])
-            message_dict = message_dict.applicant_interview()
-            sent_email = Email(applicant.email, **message_dict)
-            sent_email.send_mail()
-            EmailLog.create_email_log(message_dict['subject'], message_dict['body'], "applicant's interview",
-                                       datetime.utcnow(), applicant.full_name, applicant.email)
+            if not details["detail"]:
+                message_dict = Message(applicant.first_name, details["time"],
+                                       details["mentors"][0],details["mentors"][1])
+                message_dict = message_dict.applicant_interview()
+                sent_email = Email(applicant.email, **message_dict)
+                sent_email.send_mail()
+                EmailLog.create_email_log(message_dict['subject'], message_dict['body'], "applicant's interview",
+                                           datetime.utcnow(), applicant.full_name, applicant.email)
 
 
 

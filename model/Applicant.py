@@ -74,12 +74,11 @@ class Applicant(Person):
         for applicant in cls.get_assigned_applicants():
             message_dict = Message(applicant.first_name, applicant.code, applicant.school)
             message_dict = message_dict.new_applicant()
+            log = [message_dict['subject'], message_dict['body'], "new_applicant", datetime.utcnow(),
+                   applicant.full_name, applicant.email]
             sent_email = Email(applicant.email, **message_dict)
-            sent_email.send_mail()
+            sent_email.send_mail(log)
             # print(message_dict['subject'])
-#todo: to the email log to send from it the email, facade or decorator new class???
-            EmailLog.create_email_log(message_dict['subject'], message_dict['body'], "new applicant",
-                                       datetime.utcnow(), applicant.full_name, applicant.email)
 
     def get_applicant_details_for_interview(self):
         from model.InterviewSlot import InterviewSlot
@@ -99,12 +98,9 @@ class Applicant(Person):
             details = applicant.get_applicant_details_for_interview()
             if not details["detail"]:
                 message_dict = Message(applicant.first_name, details["time"],
-                                       details["mentors"][0],details["mentors"][1])
+                                       details["mentors"][0], details["mentors"][1])
                 message_dict = message_dict.applicant_interview()
+                log = [message_dict['subject'], message_dict['body'], "applicant's interview", datetime.utcnow(),
+                       applicant.full_name, applicant.email]
                 sent_email = Email(applicant.email, **message_dict)
-                sent_email.send_mail()
-                EmailLog.create_email_log(message_dict['subject'], message_dict['body'], "applicant's interview",
-                                           datetime.utcnow(), applicant.full_name, applicant.email)
-
-
-
+                sent_email.send_mail(log)

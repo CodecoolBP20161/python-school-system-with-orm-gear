@@ -35,43 +35,41 @@
     </nav>
     {% endblock %}
     {% block body %}
+    <div class="container">
     <form class="form-horizontal" action="/registration" method="post">
       <fieldset>
         <legend>Registration</legend>
         <div class="form-group">
-          <label for="inputText" class="col-lg-2 control-label">
-              {% if errors %}
-              {% for key, value in errors.items() %}
-              {% if key == 'first_name' %}
-              <span style="color:red";>{{value}}</span>
-              {% endif %}{% endfor %}{% endif %}
-              First Name</label>
+          <label for="inputText" class="col-lg-2 control-label">First Name</label>
           <div class="col-xs-4">
-            <input type="text" class="form-control" name="first_name" placeholder="First Name" value='{{applicant.first_name}}' required>
+            <input type="text" class="form-control" name="first_name" placeholder="First Name" value='{{applicant.first_name}}' required autofocus>
+            {% if errors %}
+            {% for key, value in errors.items() %}
+            {% if key == 'first_name' %}
+            <span style="color:red";>{{value}}</span>
+            {% endif %}{% endfor %}{% endif %}
           </div>
         </div>
         <div class="form-group">
-          <label for="inputText" class="col-lg-2 control-label">
-              {% if errors %}
-              {% for key, value in errors.items() %}
-              {% if key == 'last_name' %}
-              <span style="color:red";>{{value}}</span>
-              {% endif %}{% endfor %}{% endif %}
-              Last Name</label>
+          <label for="inputText" class="col-lg-2 control-label">Last Name</label>
           <div class="col-xs-4">
             <input type="text" class="form-control" name="last_name" placeholder="Last Name" value='{{applicant.last_name}}' required>
+            {% if errors %}
+            {% for key, value in errors.items() %}
+            {% if key == 'last_name' %}
+            <span style="color:red";>{{value}}</span>
+            {% endif %}{% endfor %}{% endif %}
           </div>
         </div>
         <div class="form-group">
-          <label for="inputEmail" class="col-lg-2 control-label">E-mail
-              {% if errors %}
-              {% for key, value in errors.items() %}
-              {% if key == 'email' %}
-              <span style="color:red";>{{value}}</span>
-              {% endif %}{% endfor %}{% endif %}
-          </label>
+          <label for="inputEmail" class="col-lg-2 control-label">E-mail</label>
           <div class="col-xs-4">
             <input type="email" class="form-control" name="email" placeholder="Email" value='{{applicant.email}}' required>
+            {% if errors %}
+            {% for key, value in errors.items() %}
+            {% if key == 'email' %}
+            <span style="color:red";>{{value}}</span>
+            {% endif %}{% endfor %}{% endif %}
           </div>
         </div>
         <div class="form-group">
@@ -92,4 +90,5 @@
         </div>
       </fieldset>
     </form>
+    </div>
     {% endblock %}

@@ -62,11 +62,11 @@ class Applicant(Person):
         from controller.validation import Validation
         errors = {}
         if Validation.first_name_validation(self.first_name):
-            errors['first_name'] = 'Invalid'
+            errors['first_name'] = 'Invalid First Name'
         if Validation.last_name_validation(self.last_name):
-            errors['last_name'] = 'Invalid'
+            errors['last_name'] = 'Invalid Last Name'
         if Validation.email_exists(self.email):
-            errors['email'] = 'already in use'
+            errors['email'] = 'E-mail already in use'
         return errors
 
     @classmethod
@@ -103,6 +103,3 @@ class Applicant(Person):
             sent_email.send_mail()
             Email_log.create_email_log(message_dict['subject'], message_dict['body'], "applicant's interview",
                                        datetime.utcnow(), applicant.full_name, applicant.email)
-
-
-

@@ -31,9 +31,9 @@ def admin():
         errors = {}
         username = request.form['username']
         if not Validation.username_correct(username):
-            errors['username'] = 'Wrong username'
+            errors['username'] = 'Wrong Username'
         if not Validation.password_correct(request.form['password']):
-            errors['password'] = 'Wrong password'
+            errors['password'] = 'Wrong Password'
         if len(errors) == 0:
             session['username'] = username
             result = redirect('/')

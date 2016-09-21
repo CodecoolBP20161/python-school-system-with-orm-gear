@@ -3,8 +3,11 @@ legend {
 }
 body {
     background-image: url("/static/bg.png");
-    background-size: 100% auto;
+    background-size: auto;
     background-repeat: no-repeat;
-    background-position: bottom;
+    background-position: bottom right;
     background-attachment: fixed;
+}
+.transparent-background {
+    background-color: rgba(245, 245, 245, 0.75);
 }

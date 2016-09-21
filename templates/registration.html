@@ -46,7 +46,7 @@
               <span style="color:red";>{{value}}</span>
               {% endif %}{% endfor %}{% endif %}
               First Name</label>
-          <div class="col-lg-10">
+          <div class="col-xs-4">
             <input type="text" class="form-control" name="first_name" placeholder="First Name" value='{{applicant.first_name}}' required>
           </div>
         </div>
@@ -58,7 +58,7 @@
               <span style="color:red";>{{value}}</span>
               {% endif %}{% endfor %}{% endif %}
               Last Name</label>
-          <div class="col-lg-10">
+          <div class="col-xs-4">
             <input type="text" class="form-control" name="last_name" placeholder="Last Name" value='{{applicant.last_name}}' required>
           </div>
         </div>
@@ -70,13 +70,13 @@
               <span style="color:red";>{{value}}</span>
               {% endif %}{% endfor %}{% endif %}
           </label>
-          <div class="col-lg-10">
+          <div class="col-xs-4">
             <input type="email" class="form-control" name="email" placeholder="Email" value='{{applicant.email}}' required>
           </div>
         </div>
         <div class="form-group">
           <label for="select" class="col-lg-2 control-label">City</label>
-          <div class="col-lg-10">
+          <div class="col-xs-4">
             <select class="form-control" name="city">
               <option value="Budapest">Budapest</option>
               <option value="Eger">Eger</option>

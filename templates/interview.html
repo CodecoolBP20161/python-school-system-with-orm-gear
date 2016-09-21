@@ -12,7 +12,6 @@
           <ul class="nav navbar-nav">
             <li><a href="{{url_for('user_page.index')}}">About Us</a></li>
             <li><a href="{{url_for('user_page.registration_form')}}">Register</a></li>
-            <li><a href="{{url_for('admin_page.admin')}}">Admin Login</a></li>
             {% if session.get('username') == 'admin' %}
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin Options<span class="caret"></span></a>

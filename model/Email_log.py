@@ -9,3 +9,14 @@ class Email_log(BaseModel):
     date = DateTimeField()
     full_name = CharField()
     email = CharField()
+
+    @classmethod
+    def create_email_log(cls, subject, message, type, date, full_name, email):
+        Email_log.create(subject=subject,
+                         message=message,
+                         type=type,
+                         date=date,
+                         full_name=full_name,
+                         email=email)
+
+

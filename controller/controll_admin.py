@@ -1,13 +1,12 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for
-from validation import Validation
+from controller.validation import Validation
 from model.Applicant import Applicant
-from model.InterviewSlot import InterviewSlot
-from model.Mentor import Mentor
-from model.InterviewSlotMentor import InterviewSlotMentor
 from model.Email_log import Email_log
-# from jinja2 import TemplateNotFound
+from model.InterviewSlot import InterviewSlot
+from model.InterviewSlotMentor import InterviewSlotMentor
+from model.Mentor import Mentor
 from functools import wraps
-
+from datetime import *
 admin_page = Blueprint('admin_page', __name__,
                        template_folder='templates')
 
@@ -50,6 +49,7 @@ def logout():
     return render_template('base.html', message="You were logged out")
 
 
+# todo: refactor admin_filter to get more clean
 @admin_page.route('/admin/applicant_list', methods=['GET', 'POST'])
 @login_required
 def admin_filter():
@@ -69,8 +69,8 @@ def admin_filter():
 
             applicant_filter = Applicant.select(Applicant, InterviewSlot, InterviewSlotMentor, Mentor).join(
                 InterviewSlot).join(
-                InterviewSlotMentor).join(Mentor).where(Mentor.first_name.contains(first_name),
-                                                        Mentor.last_name.contains(last_name))
+                InterviewSlotMentor).join(Mentor).where(Mentor.first_name.contains(full_name[0]),
+                                                        Mentor.last_name.contains(full_name[1]))
 
         if to_time or from_time:
             if from_time:

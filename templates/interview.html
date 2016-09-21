@@ -10,8 +10,8 @@
       <div class="container-fluid">
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
           <ul class="nav navbar-nav">
-            <li><a href="{{url_for('index')}}">About Us</a></li>
-            <li><a href="{{url_for('registration_form')}}">Register</a></li>
+            <li><a href="{{url_for('user_page.index')}}">About Us</a></li>
+            <li><a href="{{url_for('user_page.registration_form')}}">Register</a></li>
             <li><a href="{{url_for('admin_page.admin')}}">Admin Login</a></li>
             {% if session.get('username') == 'admin' %}
             <li class="dropdown">
@@ -62,7 +62,7 @@
                     <select class="form-control" id="school" name="school">
                       <option value="">------</option>
                         {%for school in schools%}
-                      <option value="{{schools.school}}">{{schools.school}}</option>
+                      <option value="{{school.school}}">{{school.school}}</option>
                         {%endfor%}
                     </select>
                   </div>

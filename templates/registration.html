@@ -10,8 +10,8 @@
       <div class="container-fluid">
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
           <ul class="nav navbar-nav">
-            <li><a href="{{url_for('index')}}">About Us</a></li>
-            <li class="active"><a href="{{url_for('registration_form')}}">Register <span class="sr-only">(current)</span></a></li>
+            <li><a href="{{url_for('user_page.index')}}">About Us</a></li>
+            <li class="active"><a href="{{url_for('user_page.registration_form')}}">Register <span class="sr-only">(current)</span></a></li>
             <li><a href="{{url_for('admin_page.admin')}}">Admin Login</a></li>
             {% if session.get('username') == 'admin' %}
             <li class="dropdown">

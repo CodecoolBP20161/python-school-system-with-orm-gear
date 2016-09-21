@@ -1,4 +1,4 @@
-from read_from_text import Read_from_text
+from initialize.read_from_text import Read_from_text
 
 class Database_info:
     db_info = Read_from_text.create_file()

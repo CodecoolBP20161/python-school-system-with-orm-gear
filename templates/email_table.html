@@ -38,29 +38,29 @@
     <h1 align="center">E-mail log</h1>
 
 
-    <table align="center"style="border:1px solid black;" type="email" width="90%">
+    <table class="table table-striped table-hover ">
+         <thead>
+         <tr>
+            <th>Subject</th>
+            <th>Message</th>
+            <th>Email Type</th>
+            <th>Date Time</th>
+            <th>Name</th>
+            <th>Email</th>
+         </tr>
+         </thead>
+
+        <tbody>
+        {% for n in email %}
         <tr>
-            <th type="email" width="5%" align="center">Subject</th>
-            <th type="email"  width="15%" align="center">Message</th>
-            <th type="email"  width="10%" align="center">Email Type</th>
-            <th type="email"  width="8%" align="center">Date Time</th>
-            <th type="email"  width="10%" align="center">Name</th>
-            <th type="email"  width="8%" align="center">Email</th>
-
-
-                {% for n in email %}
-                <tr>
-                    <td type="email"  align="center">{{n.subject}}</td>
-                    <td type="email"  align="center">{{n.message | truncate(140, True)}}</td>
-                    <td type="email"  align="center">{{n.type}}</td>
-                    <td type="email"  align="center">{{n.date.strftime('%Y-%m-%d %H:%M')}}</td>
-                    <td type="email"  align="center">{{n.full_name}}</td>
-                    <td type="email"  align="center">{{n.email}}</td>
-
-
-                </tr>
-                {% endfor %}
+            <td>{{n.subject}}</td>
+            <td>{{n.message | truncate(140, True)}}</td>
+            <td>{{n.type}}</td>
+            <td>{{n.date.strftime('%Y-%m-%d %H:%M')}}</td>
+            <td>{{n.full_name}}</td>
+            <td>{{n.email}}</td>
         </tr>
-
+        {% endfor %}
+        </tbody>
     </table>
     {% endblock %}

@@ -2,7 +2,6 @@ from peewee import ForeignKeyField, TextField, CharField, DateTimeField
 from model.BaseModel import BaseModel
 from model.Applicant import Applicant
 from model.Mentor import Mentor
-# from controll_admin import *
 
 
 class InterviewSlot(BaseModel):
@@ -16,14 +15,19 @@ class InterviewSlot(BaseModel):
     def get_free_slots(cls, applicant):
         return cls.select().where(cls.applicant >> None, cls.school == applicant.school).order_by(cls.time)
 
-    def interviews(self, applicant):
-        if applicant.status == "new":
-            self.applicant = applicant
-            self.save()
-            applicant.status = "processing"
-            applicant.save()
-
     @classmethod
-    def get_interview_times(cls):
-        return cls.select().join(Mentor).switch(InterviewSlot).join(Applicant)
+    def interviews(cls):
+        for new in Applicant.filter("status", "new"):
+            for applicant in cls.get_free_slots(new):
+                if new.status == "new":
+                    applicant.applicant = new
+                    applicant.save()
+                    new.status = "processing"
+                    new.save()
+
+
+
+
+
+
 

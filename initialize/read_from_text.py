@@ -2,7 +2,8 @@ import os.path
 import getpass
 import json
 
-
+#todo: create one class from user and read_from_text there are a lot of same elements
+#todo: from 3 json file get it to one json
 class Read_from_text:
 
     exist = os.path.isfile("db_user.json")

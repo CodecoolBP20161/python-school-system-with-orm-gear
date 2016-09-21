@@ -6,49 +6,61 @@
         {{ super() }}
     {% endblock %}
     {% block menu %}
-    <p align="center">
-        <table align="center" width="100%">
-            <tr>
-                <th width="33%">
-                    <h1><p align="center"><a href="{{url_for('index')}}" style="text-decoration: none">Home</a></p></h1>
-                </th>
-                <th width="33%">
-                    <h1><p align="center"><a href="{{url_for('admin_page.admin_filter')}}" style="text-decoration: none">Applicants Filter</a></p></h1>
-                </th>
-                <th width="33%">
-                    <h1><p align="center"><a href="{{url_for('admin_page.admin_filter_interviews')}}" style="text-decoration: none">Interview Filter</a></p></h1>
-                </th>
-            </tr>
-        </table>
-    </p>
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+          <ul class="nav navbar-nav">
+            <li><a href="{{url_for('user_page.index')}}">About Us</a></li>
+            <li><a href="{{url_for('user_page.registration_form')}}">Register</a></li>
+            <li><a href="{{url_for('admin_page.admin')}}">Admin Login</a></li>
+            {% if session.get('username') == 'admin' %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin Options<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="{{url_for('admin_page.admin_filter')}}">Application Filter</a></li>
+                <li><a href="{{url_for('admin_page.email_log')}}">E-mail Log</a></li>
+                <li><a href="{{url_for('admin_page.admin_filter_interviews')}}">Interview Filter</a></li>
+              </ul>
+            </li>
+            {% endif %}
+          </ul>
+          {% if session.get('username') %}
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{url_for('admin_page.logout')}}">Logout</a>
+            </li>
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
     {% endblock %}
     {% block body %}
     <h1 align="center">E-mail log</h1>
 
 
-    <table align="center"style="border:1px solid black;" type="email" width="90%">
+    <table class="table table-striped table-hover ">
+         <thead>
+         <tr>
+            <th>Subject</th>
+            <th>Message</th>
+            <th>Email Type</th>
+            <th>Date Time</th>
+            <th>Name</th>
+            <th>Email</th>
+         </tr>
+         </thead>
+
+        <tbody>
+        {% for n in email %}
         <tr>
-            <th type="email" width="5%" align="center">Subject</th>
-            <th type="email"  width="15%" align="center">Message</th>
-            <th type="email"  width="10%" align="center">Email Type</th>
-            <th type="email"  width="8%" align="center">Date Time</th>
-            <th type="email"  width="10%" align="center">Name</th>
-            <th type="email"  width="8%" align="center">Email</th>
-
-
-                {% for n in email %}
-                <tr>
-                    <td type="email"  align="center">{{n.subject}}</td>
-                    <td type="email"  align="center">{{n.message | truncate(140, True)}}</td>
-                    <td type="email"  align="center">{{n.type}}</td>
-                    <td type="email"  align="center">{{n.date.strftime('%Y-%m-%d %H:%M')}}</td>
-                    <td type="email"  align="center">{{n.full_name}}</td>
-                    <td type="email"  align="center">{{n.email}}</td>
-
-
-                </tr>
-                {% endfor %}
+            <td>{{n.subject}}</td>
+            <td>{{n.message | truncate(140, True)}}</td>
+            <td>{{n.type}}</td>
+            <td>{{n.date.strftime('%Y-%m-%d %H:%M')}}</td>
+            <td>{{n.full_name}}</td>
+            <td>{{n.email}}</td>
         </tr>
-
+        {% endfor %}
+        </tbody>
     </table>
     {% endblock %}

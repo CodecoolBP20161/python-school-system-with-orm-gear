@@ -1,16 +1,16 @@
 import smtplib
-from initialize.user import User
+from initialize.read_from_text import UserDataJson
 
 
 class Email:
-    user_data = User.create_file()
+    # user_data = UserDataJson.create_file()
 
     def __init__(self, recipient, subject, body):
         self.recipient = recipient
         self.subject = subject
         self.body = body
-        self.user = Email.user_data['user']
-        self.pwd = Email.user_data['pwd']
+        self.user = UserDataJson.user_data['user']['user']
+        self.pwd = UserDataJson.user_data['user']['pwd']
 
 
     def send_mail(self):

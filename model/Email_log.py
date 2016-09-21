@@ -2,7 +2,7 @@ from model.BaseModel import BaseModel
 from peewee import CharField, DateTimeField
 
 
-class Email_log(BaseModel):
+class EmailLog(BaseModel):
     subject = CharField()
     message = CharField()
     type = CharField()
@@ -12,7 +12,7 @@ class Email_log(BaseModel):
 
     @classmethod
     def create_email_log(cls, subject, message, type, date, full_name, email):
-        Email_log.create(subject=subject,
+        EmailLog.create(subject=subject,
                          message=message,
                          type=type,
                          date=date,

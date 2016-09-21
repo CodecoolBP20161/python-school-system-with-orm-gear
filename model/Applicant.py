@@ -3,7 +3,7 @@ from datetime import *
 from peewee import CharField, TextField, DateTimeField
 from model.City import City
 from model.Person import Person
-from model.Email_log import Email_log
+from model.Email_log import EmailLog
 from model.Send_email.emails import Email
 from model.Send_email.message import Message
 
@@ -78,7 +78,7 @@ class Applicant(Person):
             sent_email.send_mail()
             # print(message_dict['subject'])
 #todo: to the email log to send from it the email, facade or decorator new class???
-            Email_log.create_email_log(message_dict['subject'], message_dict['body'], "new applicant",
+            EmailLog.create_email_log(message_dict['subject'], message_dict['body'], "new applicant",
                                        datetime.utcnow(), applicant.full_name, applicant.email)
 
     def get_applicant_details_for_interview(self):
@@ -101,7 +101,7 @@ class Applicant(Person):
             message_dict = message_dict.applicant_interview()
             sent_email = Email(applicant.email, **message_dict)
             sent_email.send_mail()
-            Email_log.create_email_log(message_dict['subject'], message_dict['body'], "applicant's interview",
+            EmailLog.create_email_log(message_dict['subject'], message_dict['body'], "applicant's interview",
                                        datetime.utcnow(), applicant.full_name, applicant.email)
 
 

@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for
 from controller.validation import Validation
 from model.Applicant import Applicant
-from model.Email_log import Email_log
+from model.Email_log import EmailLog
 from model.InterviewSlot import InterviewSlot
 from model.InterviewSlotMentor import InterviewSlotMentor
 from model.Mentor import Mentor
@@ -148,5 +148,5 @@ def admin_filter_interviews():
 @admin_page.route('/admin/e-mail-log')
 @login_required
 def email_log():
-    email = Email_log.select()
+    email = EmailLog.select()
     return render_template('email_table.html', email=email)

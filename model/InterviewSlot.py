@@ -19,10 +19,14 @@ class InterviewSlot(BaseModel):
     def interviews(cls):
         for new in Applicant.filter("status", "new"):
             for applicant in cls.get_free_slots(new):
-                if new.status == "new":
+                if new.status == "new" or new.status == "waiting":
                     applicant.applicant = new
                     applicant.save()
                     new.status = "processing"
+                    new.save()
+            else:
+                if new.status == "new":
+                    new.status = "waiting"
                     new.save()
 
 

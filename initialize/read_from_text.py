@@ -3,8 +3,6 @@ import getpass
 import json
 
 
-# todo: create one class from user and UserDataJson there are a lot of same elements
-# todo: from 3 json file get it to one json
 class UserDataJson:
     user_data = None
     exist = os.path.isfile("db_user.json")

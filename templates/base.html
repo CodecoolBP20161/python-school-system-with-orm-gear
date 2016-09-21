@@ -2,8 +2,16 @@
 <html lang="en">
 	<head>
         <link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href=/static/style.css>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <style>
+            .carousel-inner > .item > img,
+            .carousel-inner > .item > a > img {
+                width: 70%;
+                margin: auto;
+            }
+        </style>
         {% block head %}
 	    <title>Codecool{% block title %}{% endblock %}</title>
         {% endblock %}
@@ -47,12 +55,72 @@
         {% endif %}
 
         {% block body %}
-        <p align="center"><img src="static/codecool.jpg" width="400" height="400" alt="Codecool"></p>
-				<p align="center">
-				<audio controls align="center">
-					<source src="/static/War - Low Rider (HQ Audio).mp3" type="audio/ogg">
-					</audio>
-				</p>
+        <div class="container">
+          <br>
+          <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+              <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+              <li data-target="#myCarousel" data-slide-to="1"></li>
+              <li data-target="#myCarousel" data-slide-to="2"></li>
+              <li data-target="#myCarousel" data-slide-to="3"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+
+              <div class="item active">
+                <img src="static/img1.jpg" alt="Brainstorm" width="460" height="345">
+                <div class="carousel-caption">
+
+                </div>
+              </div>
+
+              <div class="item">
+                <img src="static/img2.jpg" alt="Laptop" width="460" height="345">
+                <div class="carousel-caption">
+
+                </div>
+              </div>
+
+              <div class="item">
+                <img src="static/img3.jpg" alt="Circuits" width="460" height="345">
+                <div class="carousel-caption">
+
+                </div>
+              </div>
+
+              <div class="item">
+                <img src="static/img4.jpg" alt="Code" width="460" height="345">
+                <div class="carousel-caption">
+
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Left and right controls -->
+            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+          <div class="Jumbotron">
+            <p>
+                <h3>Totally not a clickbait text</h3>
+                <div class="container"><h5>Stuff goes here</h5>
+                    <h6>I could as well paste here some long latin sentences</h6>
+                </div>
+
+            </p>
+          </div>
+        </div>
+
+
         {% endblock %}
 	</body>
 </html>

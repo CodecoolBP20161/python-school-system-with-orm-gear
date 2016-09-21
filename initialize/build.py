@@ -1,9 +1,3 @@
-# This script can create the database tables based on your models
-
-from psycopg2 import connect
-from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-
-from initialize.Database_info import DatabaseInfo
 from model.Applicant import Applicant
 from model.BaseModel import db
 from model.City import City
@@ -15,22 +9,6 @@ from model.Person import Person
 
 
 class Build:
-
-#todo: create database if it is not exist try with local password why it is not working????
-    @staticmethod
-    def connect_db():
-        try:
-            con = connect(user=DatabaseInfo.db_user_name(), host='localhost', password=DatabaseInfo.db_password(),
-                          port=5432)
-
-            con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-            cur = con.cursor()
-            cur.execute('CREATE DATABASE ' + DatabaseInfo.db_name())
-            cur.close()
-            con.close()
-        except:
-            print("Database already exist")
-
     @staticmethod
     def connect():
         db.connect()

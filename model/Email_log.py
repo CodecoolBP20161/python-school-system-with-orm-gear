@@ -13,10 +13,11 @@ class EmailLog(BaseModel):
     @classmethod
     def create_email_log(cls, subject, message, type, date, full_name, email):
         EmailLog.create(subject=subject,
-                         message=message,
-                         type=type,
-                         date=date,
-                         full_name=full_name,
-                         email=email)
+                        message=message,
+                        type=type,
+                        date=date,
+                        full_name=full_name,
+                        email=email)
 
-
+    def save_log(self):
+        self.save()

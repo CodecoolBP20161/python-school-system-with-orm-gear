@@ -3,7 +3,7 @@ from datetime import *
 from peewee import CharField, TextField, DateTimeField
 from model.City import City
 from model.Person import Person
-from model.Email_log import Email_log
+from model.Email_log import EmailLog
 from model.Send_email.emails import Email
 from model.Send_email.message import Message
 
@@ -62,11 +62,11 @@ class Applicant(Person):
         from controller.validation import Validation
         errors = {}
         if Validation.first_name_validation(self.first_name):
-            errors['first_name'] = 'Invalid First Name'
+            errors['first_name'] = 'Invalid'
         if Validation.last_name_validation(self.last_name):
-            errors['last_name'] = 'Invalid Last Name'
+            errors['last_name'] = 'Invalid'
         if Validation.email_exists(self.email):
-            errors['email'] = 'E-mail already in use'
+            errors['email'] = 'already in use'
         return errors
 
     @classmethod
@@ -78,7 +78,7 @@ class Applicant(Person):
             sent_email.send_mail()
             # print(message_dict['subject'])
 #todo: to the email log to send from it the email, facade or decorator new class???
-            Email_log.create_email_log(message_dict['subject'], message_dict['body'], "new applicant",
+            EmailLog.create_email_log(message_dict['subject'], message_dict['body'], "new applicant",
                                        datetime.utcnow(), applicant.full_name, applicant.email)
 
     def get_applicant_details_for_interview(self):
@@ -90,16 +90,21 @@ class Applicant(Person):
                 InterviewSlot).join(InterviewSlotMentor).join(Mentor).where(self.id == Applicant.id):
             details["mentors"].append(mentor.full_name)
             details["time"] = mentor.interviewslot.time
+            details["detail"] = mentor.interviewslot.detail
         return details
-#todo: some problem precess is sending emails again and again don't know who has received email
+
     @classmethod
     def send_applicant_interview_email(cls):
         for applicant in cls.filter("status", "processing"):
             details = applicant.get_applicant_details_for_interview()
-            message_dict = Message(applicant.first_name, details["time"],
-                                   details["mentors"][0],details["mentors"][1])
-            message_dict = message_dict.applicant_interview()
-            sent_email = Email(applicant.email, **message_dict)
-            sent_email.send_mail()
-            Email_log.create_email_log(message_dict['subject'], message_dict['body'], "applicant's interview",
-                                       datetime.utcnow(), applicant.full_name, applicant.email)
+            if not details["detail"]:
+                message_dict = Message(applicant.first_name, details["time"],
+                                       details["mentors"][0],details["mentors"][1])
+                message_dict = message_dict.applicant_interview()
+                sent_email = Email(applicant.email, **message_dict)
+                sent_email.send_mail()
+                EmailLog.create_email_log(message_dict['subject'], message_dict['body'], "applicant's interview",
+                                           datetime.utcnow(), applicant.full_name, applicant.email)
+
+
+

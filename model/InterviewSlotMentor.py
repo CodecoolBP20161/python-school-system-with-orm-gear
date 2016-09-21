@@ -2,7 +2,7 @@ from model.BaseModel import BaseModel
 from model.Mentor import Mentor
 from model.InterviewSlot import InterviewSlot
 from peewee import ForeignKeyField
-from model.Email_log import Email_log
+from model.Email_log import EmailLog
 from model.Send_email.emails import Email
 from model.Send_email.message import Message
 from datetime import *
@@ -34,6 +34,6 @@ class InterviewSlotMentor(BaseModel):
             sent_email = Email(interview.mentor.email, **message_dict)
             sent_email.send_mail()
             interview.update_send_email("email sent")
-            Email_log.create_email_log(message_dict['subject'], message_dict['body'], "mentors's interview",
+            EmailLog.create_email_log(message_dict['subject'], message_dict['body'], "mentors's interview",
                                        datetime.utcnow(), interview.mentor.full_name, interview.mentor.email)
 

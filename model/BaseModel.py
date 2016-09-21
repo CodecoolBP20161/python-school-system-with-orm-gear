@@ -1,10 +1,10 @@
 from peewee import *
 
-from initialize.Database_info import Database_info
+from initialize.Database_info import DatabaseInfo
 
-db = PostgresqlDatabase(Database_info.db_name(), user=Database_info.db_user_name())
-# db = PostgresqlDatabase(Database_info.db_name(),
-#                         **{'user': Database_info.db_user_name(), 'host': 'localhost', 'port': 5432,
+db = PostgresqlDatabase(DatabaseInfo.db_name(), user=DatabaseInfo.db_user_name())
+# db = PostgresqlDatabase(DatabaseInfo.db_name(),
+#                         **{'user': DatabaseInfo.db_user_name(), 'host': 'localhost', 'port': 5432,
 #                            'password': '753951'})
 
 

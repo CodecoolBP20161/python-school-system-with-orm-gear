@@ -2,31 +2,40 @@ import os.path
 import getpass
 import json
 
-#todo: create one class from user and read_from_text there are a lot of same elements
-#todo: from 3 json file get it to one json
-class Read_from_text:
 
+class UserDataJson:
+    user_data = None
     exist = os.path.isfile("db_user.json")
 
     @classmethod
     def create_file(cls):
         if not cls.exist:
-            user = input("Please enter your database username: ")
+            db_user = input("Please enter your database username: ")
             db_name = input("Please enter your database name:")
-            pwd = getpass.getpass(prompt="Enter your password:")
+            db_pwd = getpass.getpass(prompt="Enter your password:")
+            email_user = input("Please enter the central email address: ")
+            email_pwd = getpass.getpass(prompt="Enter your password:")
 
             my_dict = {
-                'user': user,
-                'db_name': db_name,
-                'pwd': pwd
+                'database': {
+                    'user': db_user,
+                    'db_name': db_name,
+                    'pwd': db_pwd
+                },
+                'user': {
+                    'user': email_user,
+                    'pwd': email_pwd
+                }
             }
 
             with open('db_user.json', 'w') as outfile:
                 json.dump(my_dict, outfile)
+                outfile.close()
 
         else:
             my_dict = cls.get_file()
 
+        cls.user_data = my_dict
         return my_dict
 
     @classmethod
@@ -34,5 +43,6 @@ class Read_from_text:
         if cls.exist:
             with open('db_user.json') as json_data:
                 user_data = json.load(json_data)
-
+                cls.user_data = user_data
         return user_data
+

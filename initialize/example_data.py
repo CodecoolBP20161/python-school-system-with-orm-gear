@@ -14,7 +14,7 @@ from model.Mentor import Mentor
 import random
 
 
-class Example_data:
+class ExampleData:
     applicant_dict = [{"first_name": "Zita", "last_name": "Para", "email": "girhes.cc.2016@gmail.com", "city": "Eger"},
                       {"first_name": "Elek", "last_name": "Remek", "email": "remekelek@gmail.com", "city": "Budapest"},
                       {"first_name": "Elek", "last_name": "Beviz", "email": "bevize@gmail.com", "city": "Szentendre"},
@@ -93,4 +93,4 @@ class Example_data:
             print('_______________________________________\n')
         cls.interview_slot_mentor()
 
-# Example_data.insert()
+# ExampleData.insert()

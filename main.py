@@ -1,9 +1,10 @@
 from app import app
 from initialize.build import Build
-from initialize.example_data import Example_data
+from initialize.example_data import ExampleData
 from model.Applicant import Applicant
 from model.InterviewSlot import InterviewSlot
 from model.InterviewSlotMentor import InterviewSlotMentor
+import sys
 
 
 class Main:
@@ -26,10 +27,14 @@ class Main:
 
 if __name__ == '__main__':
     # Build.drop()
-    Build.create()
+    try:
+        Build.create()
+    except:
+        print("Please create your Postgres database")
+        sys.exit()
     applicant = Applicant.select()
     if len(applicant) == 0:
-        Example_data.insert()
+        ExampleData.insert()
     Main.register()
     # app.run()
     app.run(debug=True)

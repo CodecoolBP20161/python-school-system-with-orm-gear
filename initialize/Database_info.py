@@ -1,16 +1,16 @@
-from initialize.read_from_text import Read_from_text
+from initialize.read_from_text import UserDataJson
 
-class Database_info:
-    db_info = Read_from_text.create_file()
+class DatabaseInfo:
+    db_info = UserDataJson.create_file()
 
     @classmethod
     def db_user_name(cls):
-        return cls.db_info['user']
+        return cls.db_info['database']['user']
 
     @classmethod
     def db_name(cls):
-        return cls.db_info['db_name']
+        return cls.db_info['database']['db_name']
 
     @classmethod
     def db_password(cls):
-        return cls.db_info['pwd']
+        return cls.db_info['database']['pwd']

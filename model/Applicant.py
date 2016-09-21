@@ -92,7 +92,7 @@ class Applicant(Person):
             details["time"] = mentor.interviewslot.time
             details["detail"] = mentor.interviewslot.detail
         return details
-#todo: some problem precess is sending emails again and again don't know who has received email
+
     @classmethod
     def send_applicant_interview_email(cls):
         for applicant in cls.filter("status", "processing"):

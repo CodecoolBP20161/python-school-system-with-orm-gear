@@ -91,3 +91,4 @@ ENV/
 user.txt
 .idea/
 user.json
+db_user.json

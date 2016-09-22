@@ -6,118 +6,151 @@
         {{ super() }}
     {% endblock %}
     {% block menu %}
-    <p align="center">
-        <table align="center" width="100%">
-            <tr>
-                <th width="33%">
-                    <h1><p align="center"><a href="{{url_for('index')}}" style="text-decoration: none">Home</a></p></h1>
-                </th>
-                <th width="33%">
-                    <h1><p align="center"><a href="{{url_for('admin_page.email_log')}}" style="text-decoration: none">E-mail Log</a></p></h1>
-                </th>
-                <th width="33%">
-                    <h1><p align="center"><a href="{{url_for('admin_page.admin_filter_interviews')}}" style="text-decoration: none">Interview Filter</a></p></h1>
-                </th>
-            </tr>
-        </table>
-    </p>
-    {% endblock %}
-    {% block body %}
-<p><h1 align="center">Application filter</h1>
 
-<!--<p><form action="/story" method="get"><button>Add a new User Story</button></form></p>-->
-<form method="post">
-<h2>Filters:</h2>
-<table type="filter" style="border:1px solid black;" width="100%">
-    <tr>
-	      <th width ="10%" type="filter"><label for="status"><h3 align="left">Status</h3></label></th>
-        <td width ="10%" type="filter" align="center">
-          <select type="filter" id="status" name = 'status'>
-            <option value="">------</option>
-            {%for status in statuses%}
-            <option value="{{status.status}}">{{status.status}}</option>
-            {%endfor%}
-          </select>
-        </td>
-        <th width ="10%" type="filter"><label for="school"><h3 align="left">School:</h3></label></th>
-        <td type="filter" align="center">
-          <select type="filter" id="school" name = 'school'>
-            <option value="">------</option>
-            {%for school in schools%}
-            <option value="{{school.school}}">{{school.school}}</option>
-            {%endfor%}
-          </select>
-        </td>
-        <th width ="10%" type="filter"><label for="city"><h3 align="left">Location:</h3></label></th>
-        <td type="filter" align="center">
-          <select type="filter" id="city" name = 'city'>
-            <option value="">------</option>
-            {%for city in cities%}
-            <option value="{{city.city}}">{{city.city}}</option>
-            {%endfor%}
-          </select>
-        </td>
-          <th width ="10%" type="filter"><label for="mentor"><h3 align="left">Mentor's first name:</h3></label></td>
-          <td type="filter" align="center">
-          <select type="filtermentor" id="mentor" name = 'mentor'>
-            <option value="">------</option>
-            {%for mentor in mentors%}
-            <option value="{{mentor.full_name}}">{{mentor.full_name}}</option>
-            {%endfor%}
-          </select>
-        </td>
-    </tr>
-</table>
-<table type="filter2" align="left" width="80%">
-        <th type="filter2" width ="10%"><label><h3 align="left">Registration Time:</h3></label></th>
-        <td type="filter2" width ="40%" align="left">from:<input  type='date' name='time_from'></td>
-        <td type="filter2" width ="40%" aign="center">to:<input  type='date' name='time_to'></td>
-
-    <tr>
-      <th type="filter2" width ="40%"><label for="name"><h3 align="left">Applicant's first name:</h3></label></th>
-      <td width ="40%" type="filter2" ><input id="name" name='first_name'></td><br>
-      <td width ="40%" type="filter2" ></td>
-    </tr>
-
-      <th type="filter2" width ="40%"><label for="email"><h3 align="left">Applicant's email:</h3></label></th>
-
-      <td width ="40%" type="filter2"  ><input id="email" name='email'></td><br>
-      <td width ="40%" type="filter2" ></td>
-    </td>
-                <!--<input id="time"required type='date' name='time3'><br>-->
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+      <ul class="nav navbar-nav">
+        <li><a href="{{url_for('user_page.index')}}">About Us</a></li>
+        <li><a href="{{url_for('user_page.registration_form')}}">Register</a></li>
+        {% if session.get('username') == 'admin' %}
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin Options<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="{{url_for('admin_page.admin_filter')}}">Application Filter</a></li>
+            <li><a href="{{url_for('admin_page.email_log')}}">E-mail Log</a></li>
+            <li><a href="{{url_for('admin_page.admin_filter_interviews')}}">Interview Filter</a></li>
+          </ul>
+        </li>
+        {% endif %}
+      </ul>
+      {% if session.get('username') %}
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="{{url_for('admin_page.logout')}}">Logout</a>
+        </li>
+      </ul>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+{% endblock %}
+{% block body %}
 
 
+<button class="btn btn-primary btn-lg col-md-offset-1" data-toggle="modal" data-target="#myModal"
+        rel="tooltip" data-placement="right" title="Click to filter">
+Filter Applicants</button>
 
-                </tr>
-                <!--<button type="button">Filter</button>-->
-</table>
-<button type="submit">Filter</button>
+<form method="post" class="form-vertical">
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+       aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel">Applicant Filter</h4>
+        </div>
+
+        <div class="modal-body">
+          <fieldset>
+            <div class="form-group">
+              <label for="name" class="col-md-4 control-label">Applicant's first name</label>
+              <div class="col-md-6 .col-md-offset-3">
+                <input type="text" class="form-control" id="name" placeholder="Applicant's first name" name="first_name">
+              </div>
+
+              <label for="email" class="col-md-4 control-label">Applicant's email</label>
+              <div class="col-md-6 .col-md-offset-3">
+                <input type="text" class="form-control" id="email" placeholder="Applicant's email" name="email">
+              </div>
+
+              <label for="status" class="col-md-4 control-label">Status:</label>
+              <div class="col-md-6 .col-md-offset-3">
+                <select class="form-control" id="status" name ="status">
+                  <option value="">------</option>
+                    {%for status in statuses%}
+                  <option value="{{status.status}}">{{status.status}}</option>
+                    {%endfor%}
+                </select>
+              </div>
+
+              <label for="school" class="col-md-4 control-label">School:</label>
+              <div class="col-md-6 .col-md-offset-3">
+                <select class="form-control" id="school" name="school">
+                  <option value="">------</option>
+                    {%for school in schools%}
+                  <option value="{{school.school}}">{{school.school}}</option>
+                    {%endfor%}
+                </select>
+              </div>
+
+              <label for="city" class="col-md-4 control-label">Location:</label>
+              <div class="col-md-6 .col-md-offset-3">
+                <select class="form-control" id="city" name="city">
+                  <option value="">------</option>
+                    {%for city in cities%}
+                  <option value="{{city.city}}">{{city.city}}</option>
+                    {%endfor%}
+                </select>
+              </div>
+
+              <label for="mentor" class="col-md-4 control-label">Assigned mentor's name:</label>
+              <div class="col-md-6 .col-md-offset-3">
+                <select class="form-control" id="mentor" name="mentor">
+                    <option value="">------</option>
+                    {%for mentor in mentors%}
+                    <option value="{{mentor.full_name}}">{{mentor.full_name}}</option>
+                    {%endfor%}
+                </select>
+              </div>
+
+              <label class="col-md-4 control-label">Select a time period:</label>
+              <div class="col-md-6 .col-md-offset-34">
+                <input type="date" class="form-control"  name="time_from">
+                <input  type='date' class="form-control"  name='time_to'>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary ">Filter</button>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
 </form>
-<table type="filter2" style="border:1px solid black;" width="90%">
+<div class="container">
+<table class="table table-hover ">
+  <thead>
     <tr>
-
-        <th width="25%" align="center" style="border:1px solid black;">Name</th>
-        <th width="15%" align="center" style="border:1px solid black;">School</th>
-        <th width="25%" align="center" style="border:1px solid black;">Email</th>
-        <th width="10%" align="center" style="border:1px solid black;">App. code</th>
-        <th width="10%" align="center" style="border:1px solid black;">City</th>
-        <th width="10%" align="center" style="border:1px solid black;">Status</th>
-        <th width="10%" align="center" style="border:1px solid black;">Reg. time</th>
-
-
-            {% for n in applicant_filter %}
-            <tr>
-                <td align="center" style="border:1px solid black;">{{n.first_name}} {{n.last_name}}</td>
-                <td align="center" style="border:1px solid black;">{{n.school}}</td>
-                <td align="center" style="border:1px solid black;">{{n.email}}</td>
-                <td align="center" style="border:1px solid black;">{{n.code}}</td>
-                <td align="center" style="border:1px solid black;">{{n.city}}</td>
-                <td align="center" style="border:1px solid black;">{{n.status}}</td>
-                <td align="center" style="border:1px solid black;">{{n.registration_time.strftime('%Y-%m-%d %H:%M')}}</td>
-
-
-            </tr>
-            {% endfor %}
+      <th>Name</th>
+      <th>School</th>
+      <th>Email</th>
+      <th>App. code</th>
+      <th>City</th>
+      <th>Status</th>
+      <th>Reg. time</th>
     </tr>
+  </thead>
+
+  <tbody>
+    {% for n in applicant_filter %}
+    <tr>
+      <td>{{n.first_name}} {{n.last_name}}</td>
+      <td>{{n.school}}</td>
+      <td>{{n.email}}</td>
+      <td>{{n.code}}</td>
+      <td>{{n.city}}</td>
+      <td>{{n.status}}</td>
+      <td>{{n.registration_time.strftime('%Y-%m-%d %H:%M')}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
-    {% endblock %}
+</div>
+
+{% endblock %}

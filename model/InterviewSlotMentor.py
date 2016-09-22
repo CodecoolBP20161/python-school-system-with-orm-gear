@@ -8,7 +8,6 @@ from model.Send_email.message import Message
 from datetime import *
 
 
-
 class InterviewSlotMentor(BaseModel):
     mentor = ForeignKeyField(Mentor, related_name='interview_slotmentors', default=None, null=True)
     interview = ForeignKeyField(InterviewSlot, related_name='interview_slotmentors', default=None, null=True)
@@ -31,9 +30,8 @@ class InterviewSlotMentor(BaseModel):
                                    interview.interview.applicant.full_name)
             message_dict = message_dict.mentor_interview()
 
+            log = [message_dict['subject'], message_dict['body'], "mentors's interview",
+                   datetime.utcnow(), interview.mentor.full_name, interview.mentor.email]
             sent_email = Email(interview.mentor.email, **message_dict)
-            sent_email.send_mail()
+            sent_email.send_mail(log)
             interview.update_send_email("email sent")
-            EmailLog.create_email_log(message_dict['subject'], message_dict['body'], "mentors's interview",
-                                       datetime.utcnow(), interview.mentor.full_name, interview.mentor.email)
-

@@ -1,5 +1,6 @@
 import smtplib
 from initialize.read_from_text import UserDataJson
+from model.Send_email.decorator import log_decorator
 
 
 class Email:
@@ -12,7 +13,7 @@ class Email:
         self.user = UserDataJson.user_data['user']['user']
         self.pwd = UserDataJson.user_data['user']['pwd']
 
-
+    @log_decorator
     def send_mail(self):
         # Prepare actual message
         message = """From: %s\nTo: %s\nSubject: %s\n\n%s

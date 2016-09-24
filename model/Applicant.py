@@ -3,7 +3,6 @@ from datetime import *
 from peewee import CharField, TextField, DateTimeField
 from model.City import City
 from model.Person import Person
-from model.Email_log import EmailLog
 from model.Send_email.emails import Email
 from model.Send_email.message import Message
 
@@ -72,13 +71,10 @@ class Applicant(Person):
     @classmethod
     def send_mail_for_new_applicant(cls):
         for applicant in cls.get_assigned_applicants():
-            message_dict = Message(applicant.first_name, applicant.code, applicant.school)
-            message_dict = message_dict.new_applicant()
-            log = [message_dict['subject'], message_dict['body'], "new_applicant", datetime.utcnow(),
-                   applicant.full_name, applicant.email]
-            sent_email = Email(applicant.email, **message_dict)
-            sent_email.send_mail(log)
-            # print(message_dict['subject'])
+            message = Message(applicant.first_name, applicant.code, applicant.school)
+            message = message.new_applicant()
+            sent_email = Email(applicant.email, message['subject'], message['body'])
+            sent_email.send_mail(message, applicant.full_name)
 
     def get_applicant_details_for_interview(self):
         from model.InterviewSlot import InterviewSlot
@@ -97,10 +93,8 @@ class Applicant(Person):
         for applicant in cls.filter("status", "processing"):
             details = applicant.get_applicant_details_for_interview()
             if not details["detail"]:
-                message_dict = Message(applicant.first_name, details["time"],
-                                       details["mentors"][0], details["mentors"][1])
-                message_dict = message_dict.applicant_interview()
-                log = [message_dict['subject'], message_dict['body'], "applicant's interview", datetime.utcnow(),
-                       applicant.full_name, applicant.email]
-                sent_email = Email(applicant.email, **message_dict)
-                sent_email.send_mail(log)
+                message = Message(applicant.first_name, details["time"],
+                                  details["mentors"][0], details["mentors"][1])
+                message = message.applicant_interview()
+                sent_email = Email(applicant.email, message['subject'], message['body'])
+                sent_email.send_mail(message, applicant.full_name)

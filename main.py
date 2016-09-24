@@ -26,7 +26,7 @@ class Main:
         InterviewSlotMentor.send_email_interview_mentors()
 
 if __name__ == '__main__':
-    # Build.drop()
+    Build.drop()
     try:
         Build.create()
     except:

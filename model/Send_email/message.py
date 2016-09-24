@@ -22,7 +22,7 @@ class Message:
                      Best Regards,
                      CodeCool   """.format(self.receiver, self.detail1, self.detail2)
 
-        return {"subject": subject, "body": message}
+        return {"subject": subject, "body": message, "type": "new_applicant"}
 
     def applicant_interview(self):
         subject = "Codecool"
@@ -33,7 +33,7 @@ class Message:
                      Best Regards,
                      Codecool   """.format(self.receiver, self.detail1, self.detail2, self.detail3)
 
-        return {"subject": subject, "body": message}
+        return {"subject": subject, "body": message, "type": "applicant's interview"}
 
     def mentor_interview(self):
         subject = "Codecool interview information"
@@ -44,4 +44,4 @@ class Message:
                          Best Regards,
                          Codecool   """.format(self.receiver, self.detail1, self.detail2, self.detail3)
 
-        return {"subject": subject, "body": message}
+        return {"subject": subject, "body": message, "type": "mentors's interview"}

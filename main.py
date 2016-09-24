@@ -37,4 +37,4 @@ if __name__ == '__main__':
         ExampleData.insert()
     Main.register()
     # app.run()
-    app.run()
+    app.run(debug=True)

@@ -85,11 +85,11 @@ class Applicant(Person):
         from model.InterviewSlotMentor import InterviewSlotMentor
         from model.Mentor import Mentor
         details = {"mentors": []}
-        for mentor in Applicant.select(Applicant, InterviewSlot, InterviewSlotMentor, Mentor).join(
+        for applicant in Applicant.select(Applicant, InterviewSlot, InterviewSlotMentor, Mentor).join(
                 InterviewSlot).join(InterviewSlotMentor).join(Mentor).where(self.id == Applicant.id):
-            details["mentors"].append(mentor.full_name)
-            details["time"] = mentor.interviewslot.time
-            details["detail"] = mentor.interviewslot.detail
+            details["mentors"].append(applicant.interviewslot.interviewslotmentor.mentor.full_name)
+            details["time"] = applicant.interviewslot.time
+            details["detail"] = applicant.interviewslot.detail
         return details
 
     @classmethod
